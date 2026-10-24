@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIZUNA Anime Ingestion - Full Schema</title>
+  <title>KIZUNA Anime Ingestion - Full Schema + YouTube</title>
   <style>
     :root {
       --primary: #4F46E5;
@@ -103,7 +103,6 @@
       min-height: 80px;
     }
 
-    /* Checkbox Grid System */
     .checkbox-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -368,32 +367,29 @@
         <div class="section-title">7. Ratings & Reception</div>
         <span class="sub-label">Public reception and scores across major platforms.</span>
         <div class="grid">
-          <div>
-            <label for="malRating">MyAnimeList Rating (/10)</label>
-            <input type="number" step="0.01" max="10" min="0" id="malRating" placeholder="e.g. 8.75">
-          </div>
-          <div>
-            <label for="anilistRating">AniList Score (/100)</label>
-            <input type="number" max="100" min="0" id="anilistRating" placeholder="e.g. 88">
-          </div>
-          <div>
-            <label for="imdbRating">IMDb Rating (/10)</label>
-            <input type="number" step="0.1" max="10" min="0" id="imdbRating" placeholder="e.g. 9.1">
-          </div>
-          <div>
-            <label for="rtCritic">Rotten Tomatoes Critic (%)</label>
-            <input type="number" max="100" min="0" id="rtCritic" placeholder="e.g. 95">
-          </div>
-          <div>
-            <label for="rtAudience">Rotten Tomatoes Audience (%)</label>
-            <input type="number" max="100" min="0" id="rtAudience" placeholder="e.g. 92">
+          <div><label for="malRating">MyAnimeList Rating (/10)</label><input type="number" step="0.01" max="10" min="0" id="malRating"></div>
+          <div><label for="anilistRating">AniList Score (/100)</label><input type="number" max="100" min="0" id="anilistRating"></div>
+          <div><label for="imdbRating">IMDb Rating (/10)</label><input type="number" step="0.1" max="10" min="0" id="imdbRating"></div>
+          <div><label for="rtCritic">Rotten Tomatoes Critic (%)</label><input type="number" max="100" min="0" id="rtCritic"></div>
+          <div><label for="rtAudience">Rotten Tomatoes Audience (%)</label><input type="number" max="100" min="0" id="rtAudience"></div>
+        </div>
+      </div>
+
+      <!-- 8. MEDIA & TRAILER -->
+      <div class="section" style="border-left: 4px solid var(--primary);">
+        <div class="section-title">8. Media & Trailer</div>
+        <span class="sub-label">Link the official YouTube trailer. KIZUNA will extract the ID and fetch stats automatically.</span>
+        <div class="grid">
+          <div class="full-width">
+            <label for="youtubeUrl">YouTube Trailer URL (or Video ID)</label>
+            <input type="text" id="youtubeUrl" placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ">
           </div>
         </div>
       </div>
 
-      <!-- 8. COMPARABLE TITLES -->
+      <!-- 9. COMPARABLE TITLES -->
       <div class="section">
-        <div class="section-title">8. Comparable Titles</div>
+        <div class="section-title">9. Comparable Titles</div>
         <span class="sub-label">Add exactly three anime for a better match.</span>
         <div class="grid">
           <div class="full-width"><input type="text" id="comp1" placeholder="Title 1 (Required)" required></div>
@@ -406,12 +402,13 @@
     </form>
   </div>
 
-  <!-- FIREBASE INTEGRATION SCRIPT -->
+  <!-- FIREBASE & YOUTUBE INTEGRATION SCRIPT -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
+    // 1. YOUR FIREBASE KEYS
     const firebaseConfig = {
       apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
       authDomain: "kizuna-c70d2.firebaseapp.com",
@@ -422,6 +419,9 @@
       measurementId: "G-66RQE9B093"
     };
 
+    // 2. YOUR YOUTUBE API KEY
+    const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U";
+
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
@@ -431,15 +431,46 @@
       return Array.from(checkboxes).map(cb => cb.value);
     }
 
+    function extractYouTubeId(url) {
+      if (!url) return null;
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : url.trim();
+    }
+
+    async function getYouTubeStats(videoId) {
+      if (!videoId || !YOUTUBE_API_KEY) {
+        return { views: null, likes: null };
+      }
+      try {
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+        const data = await response.json();
+        if (data.items && data.items.length > 0) {
+          return {
+            views: parseInt(data.items[0].statistics.viewCount),
+            likes: parseInt(data.items[0].statistics.likeCount)
+          };
+        }
+      } catch (e) {
+        console.error("Failed to fetch YouTube stats:", e);
+      }
+      return { views: null, likes: null };
+    }
+
     document.getElementById('kizunaForm').addEventListener('submit', async (e) => {
       e.preventDefault(); 
       
       const submitBtn = document.getElementById('submitBtn');
       const originalText = submitBtn.innerText;
-      submitBtn.innerText = "Saving to Database...";
+      submitBtn.innerText = "Fetching YouTube Stats & Saving...";
       submitBtn.disabled = true;
 
       const animeTitle = document.getElementById('title').value.trim();
+
+      // Process YouTube Trailer Data
+      const rawYoutubeUrl = document.getElementById('youtubeUrl').value;
+      const cleanTrailerId = extractYouTubeId(rawYoutubeUrl);
+      const trailerStats = await getYouTubeStats(cleanTrailerId);
 
       const animePayload = {
         identity: {
@@ -484,6 +515,11 @@
           rottenTomatoesCritic: document.getElementById('rtCritic').value ? parseInt(document.getElementById('rtCritic').value) : null,
           rottenTomatoesAudience: document.getElementById('rtAudience').value ? parseInt(document.getElementById('rtAudience').value) : null
         },
+        media: {
+          youtubeTrailerId: cleanTrailerId,
+          trailerViewCount: trailerStats.views,
+          trailerLikeCount: trailerStats.likes
+        },
         comparables: [
           document.getElementById('comp1').value,
           document.getElementById('comp2').value,
@@ -493,24 +529,4 @@
       };
 
       try {
-        const docRef = doc(db, "anime_profiles", animeTitle);
-        await setDoc(docRef, animePayload);
-        
-        console.log("Document successfully written with Title ID: ", animeTitle);
-        submitBtn.innerText = "Success! " + animeTitle + " Saved.";
-        
-        document.getElementById('kizunaForm').reset();
-        
-      } catch (error) {
-        console.error("Error writing to Firebase: ", error);
-        submitBtn.innerText = "Error - Check Console (F12)";
-      } finally {
-        setTimeout(() => {
-          submitBtn.innerText = originalText;
-          submitBtn.disabled = false;
-        }, 3500);
-      }
-    });
-  </script>
-</body>
-</html>
+        const docRef = doc(db, "anime_profiles",
