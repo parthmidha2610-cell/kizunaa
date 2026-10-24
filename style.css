@@ -52,7 +52,6 @@ header{position:relative;display:flex;align-items:center;gap:22px;padding:34px 0
 header h1{font:700 clamp(28px,5vw,46px)/1.15 var(--serif);margin:0;color:var(--gold);letter-spacing:.02em}
 header p{margin:8px 0 0;max-width:56ch;color:var(--muted)}
 .meaning{font:500 14px var(--serif);color:var(--accent);margin-bottom:2px}
-.branch{position:absolute;right:-10px;top:-6px;width:230px;max-width:34vw;pointer-events:none}
 
 /* progress */
 .top{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:4px 0 22px}
@@ -128,5 +127,4 @@ textarea{min-height:100px;resize:vertical}
   .grid{grid-template-columns:1fr}
   header{gap:14px}
   .hanko{width:58px;height:58px;font-size:34px}
-  .branch{width:120px}
-}
+  }

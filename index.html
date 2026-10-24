@@ -3,193 +3,63 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIZUNA | Tell us about your anime</title>
+<title>KIZUNA | Turn Indian fandom into Japan's next growth market</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="home.css">
 </head>
 <body>
+<div class="stage" id="stage" aria-hidden="true"></div>
+<div class="veil" aria-hidden="true"></div>
 <div id="petals" aria-hidden="true"></div>
-<div class="waves" aria-hidden="true"></div>
 
-<div class="wrap">
-  <div class="privacy">
-    <span>Everything you type stays in this browser. Close the tab and it is gone.</span>
-    <button id="clear" type="button">Clear everything</button>
-  </div>
-
-  <header>
+<main class="hero">
+  <div class="hero-in">
     <div class="hanko" aria-hidden="true">絆</div>
-    <div>
-      <div class="meaning">Kizuna means bond</div>
-      <h1>Tell us about your anime</h1>
-      <p>Fill in what you know. Anything you skip lowers the confidence of the result, but it never stops you from continuing.</p>
-    </div>
-    <svg class="branch" viewBox="0 0 240 150" aria-hidden="true">
-      <path d="M238 8C190 30 140 40 84 84S20 128 6 140" stroke="#9A6330" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M170 34C176 54 172 66 160 78M110 64C108 82 98 92 86 98" stroke="#9A6330" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <g fill="#F08DB1"><circle cx="206" cy="22" r="11"/><circle cx="170" cy="36" r="10"/><circle cx="158" cy="80" r="11"/><circle cx="126" cy="58" r="9"/><circle cx="86" cy="100" r="10"/><circle cx="52" cy="112" r="8"/></g>
-      <g fill="#FDE8F1"><circle cx="206" cy="22" r="4"/><circle cx="170" cy="36" r="3.6"/><circle cx="158" cy="80" r="4"/><circle cx="126" cy="58" r="3.2"/><circle cx="86" cy="100" r="3.6"/><circle cx="52" cy="112" r="3"/></g>
-    </svg>
-  </header>
-
-  <div class="top">
-    <div class="meter">
-      <div class="bar"><i id="fill"></i></div>
-      <small id="pct">0 of 7 groups filled</small>
-    </div>
+    <h1>KIZUNA</h1>
+    <p class="sub">Turn Indian fandom into Japan’s next growth market</p>
+    <p class="lead">Tell us about your anime. We show which existing fans are most likely to try it, where in India they are, and how to reach them.</p>
+    <a class="cta" href="input.html">Add your anime</a>
+    <ul class="points">
+      <li>Your inputs stay in your browser</li>
+      <li>Every number shows its source</li>
+      <li>Ranges, never promises</li>
+    </ul>
   </div>
-
-  <div class="layout">
-    <nav class="rail" id="rail" aria-label="Input groups"></nav>
-    <section class="panel" id="panel" aria-live="polite"></section>
-  </div>
-
-  <section class="review" id="review" hidden aria-labelledby="rv">
-    <h2 id="rv">Review before matching</h2>
-    <dl id="rvList"></dl>
-    <p class="note">Next, KIZUNA picks three comparable titles from the catalog: one very famous in India, one in the middle and one less known.</p>
-    <button class="btn primary" type="button" id="go">Find comparable titles</button>
-  </section>
-</div>
+</main>
+<p class="note">Title names are shown as text only for illustration. KIZUNA is not affiliated with any of these shows or their studios.</p>
 
 <script>
-const GENRES=["Action","Adventure","Comedy","Crime","Drama","Fantasy","Horror","Mystery","Psychological","Romance","Sci-fi","Slice of life","Sports","Supernatural","Suspense","Thriller"];
-const THEMES=["Found family","Revenge","Sports rivalry","School life","Mythology","Conspiracy","Coming of age","Survival","Workplace","Friendship","Redemption","Identity"];
-const TONES=["Dark","Comedic","Wholesome","Deadpan","Tense","Melancholic","Epic"];
-const DEMO=["Shonen","Seinen","Shojo","Josei","Kids / Family"];
-const LANGS=["Japanese with subtitles","English dub","Hindi dub","Tamil dub","Telugu dub"];
-
-const GROUPS=[
- {name:"Identity",hint:"What the story is and how it feels.",f:[
-  {k:"title",t:"text",l:"Title",full:1},
-  {k:"story",t:"area",l:"Storyline",full:1},
-  {k:"genres",t:"chips",l:"Genre",o:GENRES,full:1},
-  {k:"sub",t:"text",l:"Sub-genre",opt:1},
-  {k:"themes",t:"chips",l:"Themes and tropes",o:THEMES,full:1},
-  {k:"tone",t:"chips",l:"Tone",o:TONES,single:1,full:1}]},
- {name:"Demographic tag",hint:"The audience the show was made for in Japan.",f:[
-  {k:"demo",t:"chips",l:"Demographic tag",o:DEMO,single:1,full:1},
-  {k:"age",t:"select",l:"Target age band",o:["13 to 17","18 to 24","25 to 34","35 and above","All ages"]}]},
- {name:"Format",hint:"Length and where the story comes from.",f:[
-  {k:"eps",t:"number",l:"Episode count"},
-  {k:"len",t:"number",l:"Minutes per episode"},
-  {k:"src",t:"select",l:"Original or adapted",o:["Original anime","Adapted from manga","Adapted from a novel","Adapted from a game"]},
-  {k:"status",t:"select",l:"Release status",o:["Not released yet","Released in Japan","Already available in India","New season of an existing show"]}]},
- {name:"Production",hint:"A known studio or director often brings its own fans.",f:[
-  {k:"studio",t:"text",l:"Studio"},
-  {k:"director",t:"text",l:"Director"},
-  {k:"composer",t:"text",l:"Composer",opt:1},
-  {k:"cast",t:"text",l:"Lead voice cast",opt:1}]},
- {name:"Content sensitivity",hint:"This affects age ratings and which ad channels will accept the show.",f:[
-  {k:"viol",t:"select",l:"Violence",o:["None","Mild","Moderate","Strong"]},
-  {k:"sex",t:"select",l:"Sexual content",o:["None","Mild","Moderate","Strong"]},
-  {k:"rate",t:"select",l:"Age rating",o:["All ages","PG-13","R-17+","R+ (mild nudity)"]}]},
- {name:"Market readiness",hint:"What a fan in India could actually watch today.",f:[
-  {k:"langs",t:"chips",l:"Languages available",o:LANGS,full:1},
-  {k:"plat",t:"text",l:"Platforms in India",opt:1},
-  {k:"timing",t:"text",l:"Planned release timing",opt:1},
-  {k:"rights",t:"select",l:"Does a partner already hold rights in India?",o:["Not sure","Yes","No"]}]},
- {name:"Comparable titles",hint:"Three to five anime you think yours resembles. KIZUNA also finds its own matches.",f:[
-  {k:"comps",t:"list",l:"Comparable titles",full:1}]}
-];
-
-
-let S={},cur=0;
-const $=id=>document.getElementById(id);
-const el=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a){if(k.startsWith("on"))e[k]=a[k];else e.setAttribute(k,a[k])}c.flat().forEach(x=>e.append(x));return e};
-const has=v=>Array.isArray(v)?v.length>0:v!==undefined&&v!==""&&v!==null;
-const filled=g=>g.f.filter(f=>!f.opt).some(f=>has(S[f.k]));
-
-function field(f){
-  const w=el("div",{class:f.full?"full":""});
-  const isGroup=f.t==="chips"||f.t==="list";
-  const lab=isGroup?el("span",{class:"l"}):el("label",{class:"l",for:"f_"+f.k});
-  lab.append(f.l);
-  if(f.opt)lab.append(el("span",{class:"opt"}," (optional)"));
-  w.append(lab);
-
-  if(f.t==="text"||f.t==="number"){
-    const i=el("input",{type:f.t,id:"f_"+f.k});i.value=S[f.k]??"";
-    i.oninput=()=>{S[f.k]=f.t==="number"&&i.value!==""?+i.value:i.value;refresh()};w.append(i);
-  }else if(f.t==="area"){
-    const i=el("textarea",{id:"f_"+f.k});i.value=S[f.k]??"";
-    i.oninput=()=>{S[f.k]=i.value;refresh()};w.append(i);
-  }else if(f.t==="select"){
-    const i=el("select",{id:"f_"+f.k},el("option",{value:""},"Choose one"),f.o.map(o=>el("option",{value:o},o)));
-    i.value=S[f.k]??"";i.onchange=()=>{S[f.k]=i.value;refresh()};w.append(i);
-  }else if(f.t==="chips"){
-    const box=el("div",{class:"chips",role:"group","aria-label":f.l});
-    f.o.forEach(o=>{
-      const on=f.single?S[f.k]===o:(S[f.k]||[]).includes(o);
-      const b=el("button",{type:"button",class:"chip","aria-pressed":on},o);
-      b.onclick=()=>{
-        if(f.single)S[f.k]=S[f.k]===o?"":o;
-        else{const a=S[f.k]||[];S[f.k]=a.includes(o)?a.filter(x=>x!==o):[...a,o]}
-        render();
-      };
-      box.append(b);
-    });
-    w.append(box);
-  }else if(f.t==="list"){
-    const a=S[f.k]||[];
-    const box=el("div",{class:"chips"});
-    a.forEach(o=>{const b=el("button",{type:"button",class:"chip rm","aria-label":"Remove "+o},o);b.onclick=()=>{S[f.k]=a.filter(x=>x!==o);render()};box.append(b)});
-    w.append(box);
-    const i=el("input",{type:"text",id:"f_"+f.k,placeholder:a.length>=5?"Five is the limit":"Type a title and press Enter",style:"margin-top:10px"});
-    i.disabled=a.length>=5;
-    i.onkeydown=e=>{if(e.key==="Enter"&&i.value.trim()){e.preventDefault();S[f.k]=[...a,i.value.trim()];render();$("f_"+f.k).focus()}};
-    w.append(i,el("div",{class:"note"},a.length<3?"Add at least three for a better match ("+a.length+" so far).":a.length+" added."));
-  }
-  return w;
-}
-
-function render(){
-  const rail=$("rail");rail.replaceChildren();
-  GROUPS.forEach((g,i)=>{
-    const done=filled(g);
-    const b=el("button",{type:"button",class:"pill","aria-current":i===cur},g.name,el("span",{class:"st"+(done?" done":"")},done?"Filled":"Empty"));
-    b.onclick=()=>{cur=i;render()};rail.append(b);
+const TITLES=["Attack on Titan","Demon Slayer","Jujutsu Kaisen","One Piece","Naruto","Death Note","Spy x Family","Chainsaw Man","My Hero Academia","Fullmetal Alchemist: Brotherhood","Dragon Ball Z","Haikyu!!","Blue Lock","Bleach","Hunter x Hunter","Your Name","Spirited Away","Cowboy Bebop","Monster","Psycho-Pass","Tokyo Ghoul","Steins;Gate","One Punch Man","Vinland Saga","Frieren","Solo Leveling","Odd Taxi","Mob Psycho 100","Black Clover","Fire Force"];
+const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
+const stage=document.getElementById("stage");
+for(let r=0;r<5;r++){
+  const row=document.createElement("div");
+  row.className="row"+(r%2?" rev":"");
+  row.style.animationDuration=(70+r*14)+"s";
+  row.style.marginLeft=(-r*70)+"px";
+  const start=(r*6)%TITLES.length;
+  const list=[];
+  for(let i=0;i<TITLES.length;i++)list.push(TITLES[(start+i)%TITLES.length]);
+  /* the list is written twice so the row loops without a gap */
+  [...list,...list].forEach((t,i)=>{
+    const g=GRADS[(i+r*3)%GRADS.length];
+    const c=document.createElement("div");
+    c.className="card";
+    c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
+    const s=document.createElement("span");s.textContent=t;c.append(s);
+    row.append(c);
   });
-  const g=GROUPS[cur],p=$("panel");
-  p.replaceChildren(el("h2",{},g.name),el("p",{class:"hint"},g.hint));
-  const grid=el("div",{class:"grid"});g.f.forEach(f=>grid.append(field(f)));p.append(grid);
-  const last=cur===GROUPS.length-1;
-  const back=el("button",{type:"button",class:"btn",onclick:()=>{cur--;render()}},"Back");
-  back.style.visibility=cur===0?"hidden":"visible";
-  const next=el("button",{type:"button",class:"btn primary",onclick:()=>{last?review():(cur++,render())}},last?"Review details":"Next group");
-  p.append(el("div",{class:"foot"},back,next));
-  meter();
+  stage.append(row);
 }
-function meter(){const n=GROUPS.filter(filled).length;$("fill").style.width=(n/7*100)+"%";$("pct").textContent=n+" of 7 groups filled"}
-function refresh(){
-  meter();
-  document.querySelectorAll(".pill").forEach((b,i)=>{const d=filled(GROUPS[i]),s=b.querySelector(".st");s.textContent=d?"Filled":"Empty";s.className="st"+(d?" done":"")});
+const box=document.getElementById("petals");
+for(let i=0;i<14;i++){
+  const p=document.createElement("span");p.className="petal";
+  const s=8+Math.random()*10;
+  p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";
+  box.append(p);
 }
-function review(){
-  const dl=$("rvList");dl.replaceChildren();
-  GROUPS.forEach(g=>g.f.forEach(f=>{
-    const v=S[f.k];
-    dl.append(el("dt",{},f.l),has(v)?el("dd",{},Array.isArray(v)?v.join(", "):String(v)):el("dd",{class:"miss"},"Not provided"));
-  }));
-  $("review").hidden=false;$("review").scrollIntoView({behavior:"smooth"});
-}
-$("clear").onclick=()=>{S={};cur=0;$("review").hidden=true;render()};
-$("go").onclick=()=>alert("Comparable matching is the next screen. This one only collects the details.");
-
-/* sakura petals */
-(function(){
-  const box=$("petals");
-  for(let i=0;i<16;i++){
-    const p=document.createElement("span");p.className="petal";
-    const s=8+Math.random()*10;
-    p.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;animation-duration:${10+Math.random()*10}s;animation-delay:${-Math.random()*18}s`;
-    box.append(p);
-  }
-})();
-
-render();
 </script>
 </body>
 </html>
