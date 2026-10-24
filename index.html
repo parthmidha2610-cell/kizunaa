@@ -1,147 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KIZUNA</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" >
-    <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIZUNA | Tell us about your anime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h4>श्रीगुरु चरन सरोज रज, निज मनु मुकुरु सुधारि।
-बरनऊं रघुबर बिमल जसु, जो दायकु फल चारि।। 
+<div id="petals" aria-hidden="true"></div>
+<div class="waves" aria-hidden="true"></div>
 
+<div class="wrap">
+  <div class="privacy">
+    <span>Everything you type stays in this browser. Close the tab and it is gone.</span>
+    <button id="clear" type="button">Clear everything</button>
+  </div>
 
-बुद्धिहीन तनु जानिके, सुमिरौं पवन-कुमार।
-बल बुद्धि बिद्या देहु मोहिं, हरहु कलेस बिकार।। 
- 
-चौपाई :
- 
-जय हनुमान ज्ञान गुन सागर।
-जय कपीस तिहुं लोक उजागर।।
- 
-रामदूत अतुलित बल धामा।
-अंजनि-पुत्र पवनसुत नामा।।
- 
-महाबीर बिक्रम बजरंगी।
+  <header>
+    <div class="hanko" aria-hidden="true">絆</div>
+    <div>
+      <div class="meaning">Kizuna means bond</div>
+      <h1>Tell us about your anime</h1>
+      <p>Fill in what you know. Anything you skip lowers the confidence of the result, but it never stops you from continuing.</p>
+    </div>
+    <svg class="branch" viewBox="0 0 240 150" aria-hidden="true">
+      <path d="M238 8C190 30 140 40 84 84S20 128 6 140" stroke="#9A6330" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M170 34C176 54 172 66 160 78M110 64C108 82 98 92 86 98" stroke="#9A6330" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <g fill="#F08DB1"><circle cx="206" cy="22" r="11"/><circle cx="170" cy="36" r="10"/><circle cx="158" cy="80" r="11"/><circle cx="126" cy="58" r="9"/><circle cx="86" cy="100" r="10"/><circle cx="52" cy="112" r="8"/></g>
+      <g fill="#FDE8F1"><circle cx="206" cy="22" r="4"/><circle cx="170" cy="36" r="3.6"/><circle cx="158" cy="80" r="4"/><circle cx="126" cy="58" r="3.2"/><circle cx="86" cy="100" r="3.6"/><circle cx="52" cy="112" r="3"/></g>
+    </svg>
+  </header>
 
-कुमति निवार सुमति के संगी।।
- 
-कंचन बरन बिराज सुबेसा।
-कानन कुंडल कुंचित केसा।।
- 
-हाथ बज्र औ ध्वजा बिराजै।
-कांधे मूंज जनेऊ साजै।
- 
-संकर सुवन केसरीनंदन।
-तेज प्रताप महा जग बन्दन।।
- 
-विद्यावान गुनी अति चातुर।
-राम काज करिबे को आतुर।।
- 
-प्रभु चरित्र सुनिबे को रसिया।
-राम लखन सीता मन बसिया।।
- 
-सूक्ष्म रूप धरि सियहिं दिखावा।
-बिकट रूप धरि लंक जरावा।।
- 
-भीम रूप धरि असुर संहारे।
-रामचंद्र के काज संवारे।।
- 
-लाय सजीवन लखन जियाये।
-श्रीरघुबीर हरषि उर लाये।।
- 
-रघुपति कीन्ही बहुत बड़ाई।
-तुम मम प्रिय भरतहि सम भाई।।
- 
-सहस बदन तुम्हरो जस गावैं।
-अस कहि श्रीपति कंठ लगावैं।।
- 
-सनकादिक ब्रह्मादि मुनीसा।
-नारद सारद सहित अहीसा।।
- 
-जम कुबेर दिगपाल जहां ते।
-कबि कोबिद कहि सके कहां ते।।
- 
-तुम उपकार सुग्रीवहिं कीन्हा।
-राम मिलाय राज पद दीन्हा।।
- 
-तुम्हरो मंत्र बिभीषन माना।
-लंकेस्वर भए सब जग जाना।।
- 
-जुग सहस्र जोजन पर भानू।
-लील्यो ताहि मधुर फल जानू।।
- 
-प्रभु मुद्रिका मेलि मुख माहीं।
-जलधि लांघि गये अचरज नाहीं।।
- 
-दुर्गम काज जगत के जेते।
-सुगम अनुग्रह तुम्हरे तेते।।
- 
-राम दुआरे तुम रखवारे।
-होत न आज्ञा बिनु पैसारे।।
- 
-सब सुख लहै तुम्हारी सरना।
-तुम रक्षक काहू को डर ना।।
- 
-आपन तेज सम्हारो आपै।
-तीनों लोक हांक तें कांपै।।
- 
-भूत पिसाच निकट नहिं आवै।
-महाबीर जब नाम सुनावै।।
- 
-नासै रोग हरै सब पीरा।
-जपत निरंतर हनुमत बीरा।।
- 
-संकट तें हनुमान छुड़ावै।
-मन क्रम बचन ध्यान जो लावै।।
- 
-सब पर राम तपस्वी राजा।
-तिन के काज सकल तुम साजा।
- 
-और मनोरथ जो कोई लावै।
-सोइ अमित जीवन फल पावै।।
- 
-चारों जुग परताप तुम्हारा।
-है परसिद्ध जगत उजियारा।।
- 
-साधु-संत के तुम रखवारे।
-असुर निकंदन राम दुलारे।।
- 
-अष्ट सिद्धि नौ निधि के दाता।
-अस बर दीन जानकी माता।।
+  <div class="top">
+    <div class="meter">
+      <div class="bar"><i id="fill"></i></div>
+      <small id="pct">0 of 7 groups filled</small>
+    </div>
+    <button class="btn" id="demo" type="button">Load Odd Taxi example</button>
+  </div>
 
- 
-राम रसायन तुम्हरे पासा।
-सदा रहो रघुपति के दासा।।
- 
-तुम्हरे भजन राम को पावै।
-जनम-जनम के दुख बिसरावै।।
- 
-अन्तकाल रघुबर पुर जाई।
-जहां जन्म हरि-भक्त कहाई।।
- 
-और देवता चित्त न धरई।
-हनुमत सेइ सर्ब सुख करई।।
- 
-संकट कटै मिटै सब पीरा।
-जो सुमिरै हनुमत बलबीरा।।
- 
-जै जै जै हनुमान गोसाईं।
-कृपा करहु गुरुदेव की नाईं।।
- 
-जो सत बार पाठ कर कोई।
-छूटहि बंदि महा सुख होई।।
- 
-जो यह पढ़ै हनुमान चालीसा।
-होय सिद्धि साखी गौरीसा।।
- 
-तुलसीदास सदा हरि चेरा।
-कीजै नाथ हृदय मंह डेरा।। 
- 
-दोहा :
- 
-पवन तनय संकट हरन, मंगल मूरति रूप।
-राम लखन सीता सहित, हृदय बसहु सुर भूप।।</h4>
+  <div class="layout">
+    <nav class="rail" id="rail" aria-label="Input groups"></nav>
+    <section class="panel" id="panel" aria-live="polite"></section>
+  </div>
+
+  <section class="review" id="review" hidden aria-labelledby="rv">
+    <h2 id="rv">Review before matching</h2>
+    <dl id="rvList"></dl>
+    <p class="note">Next, KIZUNA picks three comparable titles from the catalog: one very famous in India, one in the middle and one less known.</p>
+    <button class="btn primary" type="button" id="go">Find comparable titles</button>
+  </section>
+</div>
+
+<script>
+const GENRES=["Action","Adventure","Comedy","Crime","Drama","Fantasy","Horror","Mystery","Psychological","Romance","Sci-fi","Slice of life","Sports","Supernatural","Suspense","Thriller"];
+const THEMES=["Found family","Revenge","Sports rivalry","School life","Mythology","Conspiracy","Coming of age","Survival","Workplace","Friendship","Redemption","Identity"];
+const TONES=["Dark","Comedic","Wholesome","Deadpan","Tense","Melancholic","Epic"];
+const DEMO=["Shonen","Seinen","Shojo","Josei","Kids / Family"];
+const LANGS=["Japanese with subtitles","English dub","Hindi dub","Tamil dub","Telugu dub"];
+
+const GROUPS=[
+ {name:"Identity",hint:"What the story is and how it feels.",f:[
+  {k:"title",t:"text",l:"Title",full:1},
+  {k:"story",t:"area",l:"Storyline",full:1},
+  {k:"genres",t:"chips",l:"Genre",o:GENRES,full:1},
+  {k:"sub",t:"text",l:"Sub-genre",opt:1},
+  {k:"themes",t:"chips",l:"Themes and tropes",o:THEMES,full:1},
+  {k:"tone",t:"chips",l:"Tone",o:TONES,single:1,full:1}]},
+ {name:"Demographic tag",hint:"The audience the show was made for in Japan.",f:[
+  {k:"demo",t:"chips",l:"Demographic tag",o:DEMO,single:1,full:1},
+  {k:"age",t:"select",l:"Target age band",o:["13 to 17","18 to 24","25 to 34","35 and above","All ages"]}]},
+ {name:"Format",hint:"Length and where the story comes from.",f:[
+  {k:"eps",t:"number",l:"Episode count"},
+  {k:"len",t:"number",l:"Minutes per episode"},
+  {k:"src",t:"select",l:"Original or adapted",o:["Original anime","Adapted from manga","Adapted from a novel","Adapted from a game"]},
+  {k:"status",t:"select",l:"Release status",o:["Not released yet","Released in Japan","Already available in India","New season of an existing show"]}]},
+ {name:"Production",hint:"A known studio or director often brings its own fans.",f:[
+  {k:"studio",t:"text",l:"Studio"},
+  {k:"director",t:"text",l:"Director"},
+  {k:"composer",t:"text",l:"Composer",opt:1},
+  {k:"cast",t:"text",l:"Lead voice cast",opt:1}]},
+ {name:"Content sensitivity",hint:"This affects age ratings and which ad channels will accept the show.",f:[
+  {k:"viol",t:"select",l:"Violence",o:["None","Mild","Moderate","Strong"]},
+  {k:"sex",t:"select",l:"Sexual content",o:["None","Mild","Moderate","Strong"]},
+  {k:"rate",t:"select",l:"Age rating",o:["All ages","PG-13","R-17+","R+ (mild nudity)"]}]},
+ {name:"Market readiness",hint:"What a fan in India could actually watch today.",f:[
+  {k:"langs",t:"chips",l:"Languages available",o:LANGS,full:1},
+  {k:"plat",t:"text",l:"Platforms in India",opt:1},
+  {k:"timing",t:"text",l:"Planned release timing",opt:1},
+  {k:"rights",t:"select",l:"Does a partner already hold rights in India?",o:["Not sure","Yes","No"]}]},
+ {name:"Comparable titles",hint:"Three to five anime you think yours resembles. KIZUNA also finds its own matches.",f:[
+  {k:"comps",t:"list",l:"Comparable titles",full:1}]}
+];
+
+const EXAMPLE={title:"Odd Taxi",story:"A walrus taxi driver is pulled into the case of a missing girl, and his ordinary fares slowly turn out to be connected.",genres:["Drama","Mystery","Suspense"],sub:"Crime",themes:["Conspiracy"],tone:"Deadpan",demo:"Seinen",age:"18 to 24",eps:13,len:23,src:"Original anime",status:"Released in Japan",studio:"OLM, P.I.C.S.",director:"Baku Kinoshita",composer:"",cast:"Natsuki Hanae",viol:"Moderate",sex:"Mild",rate:"PG-13",langs:["Japanese with subtitles","English dub"],plat:"Prime Video (Anime Times channel), India listing to confirm",timing:"",rights:"Not sure",comps:["Death Note","Monster","Psycho-Pass"]};
+
+let S={},cur=0;
+const $=id=>document.getElementById(id);
+const el=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a){if(k.startsWith("on"))e[k]=a[k];else e.setAttribute(k,a[k])}c.flat().forEach(x=>e.append(x));return e};
+const has=v=>Array.isArray(v)?v.length>0:v!==undefined&&v!==""&&v!==null;
+const filled=g=>g.f.filter(f=>!f.opt).some(f=>has(S[f.k]));
+
+function field(f){
+  const w=el("div",{class:f.full?"full":""});
+  const isGroup=f.t==="chips"||f.t==="list";
+  const lab=isGroup?el("span",{class:"l"}):el("label",{class:"l",for:"f_"+f.k});
+  lab.append(f.l);
+  if(f.opt)lab.append(el("span",{class:"opt"}," (optional)"));
+  w.append(lab);
+
+  if(f.t==="text"||f.t==="number"){
+    const i=el("input",{type:f.t,id:"f_"+f.k});i.value=S[f.k]??"";
+    i.oninput=()=>{S[f.k]=f.t==="number"&&i.value!==""?+i.value:i.value;refresh()};w.append(i);
+  }else if(f.t==="area"){
+    const i=el("textarea",{id:"f_"+f.k});i.value=S[f.k]??"";
+    i.oninput=()=>{S[f.k]=i.value;refresh()};w.append(i);
+  }else if(f.t==="select"){
+    const i=el("select",{id:"f_"+f.k},el("option",{value:""},"Choose one"),f.o.map(o=>el("option",{value:o},o)));
+    i.value=S[f.k]??"";i.onchange=()=>{S[f.k]=i.value;refresh()};w.append(i);
+  }else if(f.t==="chips"){
+    const box=el("div",{class:"chips",role:"group","aria-label":f.l});
+    f.o.forEach(o=>{
+      const on=f.single?S[f.k]===o:(S[f.k]||[]).includes(o);
+      const b=el("button",{type:"button",class:"chip","aria-pressed":on},o);
+      b.onclick=()=>{
+        if(f.single)S[f.k]=S[f.k]===o?"":o;
+        else{const a=S[f.k]||[];S[f.k]=a.includes(o)?a.filter(x=>x!==o):[...a,o]}
+        render();
+      };
+      box.append(b);
+    });
+    w.append(box);
+  }else if(f.t==="list"){
+    const a=S[f.k]||[];
+    const box=el("div",{class:"chips"});
+    a.forEach(o=>{const b=el("button",{type:"button",class:"chip rm","aria-label":"Remove "+o},o);b.onclick=()=>{S[f.k]=a.filter(x=>x!==o);render()};box.append(b)});
+    w.append(box);
+    const i=el("input",{type:"text",id:"f_"+f.k,placeholder:a.length>=5?"Five is the limit":"Type a title and press Enter",style:"margin-top:10px"});
+    i.disabled=a.length>=5;
+    i.onkeydown=e=>{if(e.key==="Enter"&&i.value.trim()){e.preventDefault();S[f.k]=[...a,i.value.trim()];render();$("f_"+f.k).focus()}};
+    w.append(i,el("div",{class:"note"},a.length<3?"Add at least three for a better match ("+a.length+" so far).":a.length+" added."));
+  }
+  return w;
+}
+
+function render(){
+  const rail=$("rail");rail.replaceChildren();
+  GROUPS.forEach((g,i)=>{
+    const done=filled(g);
+    const b=el("button",{type:"button",class:"pill","aria-current":i===cur},g.name,el("span",{class:"st"+(done?" done":"")},done?"Filled":"Empty"));
+    b.onclick=()=>{cur=i;render()};rail.append(b);
+  });
+  const g=GROUPS[cur],p=$("panel");
+  p.replaceChildren(el("h2",{},g.name),el("p",{class:"hint"},g.hint));
+  const grid=el("div",{class:"grid"});g.f.forEach(f=>grid.append(field(f)));p.append(grid);
+  const last=cur===GROUPS.length-1;
+  const back=el("button",{type:"button",class:"btn",onclick:()=>{cur--;render()}},"Back");
+  back.style.visibility=cur===0?"hidden":"visible";
+  const next=el("button",{type:"button",class:"btn primary",onclick:()=>{last?review():(cur++,render())}},last?"Review details":"Next group");
+  p.append(el("div",{class:"foot"},back,next));
+  meter();
+}
+function meter(){const n=GROUPS.filter(filled).length;$("fill").style.width=(n/7*100)+"%";$("pct").textContent=n+" of 7 groups filled"}
+function refresh(){
+  meter();
+  document.querySelectorAll(".pill").forEach((b,i)=>{const d=filled(GROUPS[i]),s=b.querySelector(".st");s.textContent=d?"Filled":"Empty";s.className="st"+(d?" done":"")});
+}
+function review(){
+  const dl=$("rvList");dl.replaceChildren();
+  GROUPS.forEach(g=>g.f.forEach(f=>{
+    const v=S[f.k];
+    dl.append(el("dt",{},f.l),has(v)?el("dd",{},Array.isArray(v)?v.join(", "):String(v)):el("dd",{class:"miss"},"Not provided"));
+  }));
+  $("review").hidden=false;$("review").scrollIntoView({behavior:"smooth"});
+}
+$("demo").onclick=()=>{S=JSON.parse(JSON.stringify(EXAMPLE));cur=0;$("review").hidden=true;render()};
+$("clear").onclick=()=>{S={};cur=0;$("review").hidden=true;render()};
+$("go").onclick=()=>alert("Comparable matching is the next screen. This one only collects the details.");
+
+/* sakura petals */
+(function(){
+  const box=$("petals");
+  for(let i=0;i<16;i++){
+    const p=document.createElement("span");p.className="petal";
+    const s=8+Math.random()*10;
+    p.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;animation-duration:${10+Math.random()*10}s;animation-delay:${-Math.random()*18}s`;
+    box.append(p);
+  }
+})();
+
+render();
+</script>
 </body>
 </html>
