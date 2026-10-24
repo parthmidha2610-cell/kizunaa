@@ -7,12 +7,24 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <div class="stage" id="stage" aria-hidden="true"></div>
 <div class="veil" aria-hidden="true"></div>
 <div id="petals" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Main">
+  <a class="brand" href="index.html" aria-label="KIZUNA home">
+    <span class="seal" aria-hidden="true">絆</span>
+    <span class="word">KIZUNA</span>
+  </a>
+  <div class="links">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="input.html">Add your anime</a>
+  </div>
+</nav>
 
 <main class="hero">
   <div class="hero-in">
@@ -28,10 +40,11 @@
     </ul>
   </div>
 </main>
-<p class="note">Title names are shown as text only for illustration. KIZUNA is not affiliated with any of these shows or their studios.</p>
+<p class="note">Artwork on this page is original to KIZUNA and does not show any existing anime.</p>
 
 <script>
-const TITLES=["Attack on Titan","Demon Slayer","Jujutsu Kaisen","One Piece","Naruto","Death Note","Spy x Family","Chainsaw Man","My Hero Academia","Fullmetal Alchemist: Brotherhood","Dragon Ball Z","Haikyu!!","Blue Lock","Bleach","Hunter x Hunter","Your Name","Spirited Away","Cowboy Bebop","Monster","Psycho-Pass","Tokyo Ghoul","Steins;Gate","One Punch Man","Vinland Saga","Frieren","Solo Leveling","Odd Taxi","Mob Psycho 100","Black Clover","Fire Force"];
+/* Original artwork in the "images" folder. Swap in your own files here if you like. */
+const IMAGES=["images/anime1.svg","images/anime2.svg","images/anime3.svg","images/anime4.svg","images/anime5.svg","images/anime6.svg","images/anime7.svg","images/anime8.svg","images/anime9.svg","images/anime10.svg","images/anime11.svg","images/anime12.svg"];
 const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
 const stage=document.getElementById("stage");
 for(let r=0;r<5;r++){
@@ -39,16 +52,20 @@ for(let r=0;r<5;r++){
   row.className="row"+(r%2?" rev":"");
   row.style.animationDuration=(70+r*14)+"s";
   row.style.marginLeft=(-r*70)+"px";
-  const start=(r*6)%TITLES.length;
+  const start=(r*5)%IMAGES.length;
   const list=[];
-  for(let i=0;i<TITLES.length;i++)list.push(TITLES[(start+i)%TITLES.length]);
+  for(let i=0;i<IMAGES.length;i++)list.push(IMAGES[(start+i)%IMAGES.length]);
   /* the list is written twice so the row loops without a gap */
-  [...list,...list].forEach((t,i)=>{
+  [...list,...list].forEach((src,i)=>{
     const g=GRADS[(i+r*3)%GRADS.length];
     const c=document.createElement("div");
     c.className="card";
     c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
-    const s=document.createElement("span");s.textContent=t;c.append(s);
+    const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
+    const im=document.createElement("img");
+    im.src=src;im.alt="";im.loading="lazy";
+    im.onerror=function(){im.remove()};
+    c.append(im);
     row.append(c);
   });
   stage.append(row);
