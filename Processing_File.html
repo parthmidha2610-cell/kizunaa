@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIZUNA Anime Ingestion</title>
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
+      --bg: #F9FAFB;
+      --surface: #FFFFFF;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .section {
+      background: var(--surface);
+      padding: 24px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .submit-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      transition: background-color 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .submit-btn:disabled {
+      background-color: #9CA3AF;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>KIZUNA Data Ingestion</h1>
+    
+    <form id="kizunaForm">
+      
+      <!-- 1. Identity -->
+      <div class="section">
+        <div class="section-title">1. Identity</div>
+        <div class="grid">
+          <div class="full-width">
+            <label for="title">Title</label>
+            <input type="text" id="title" required>
+          </div>
+          <div class="full-width">
+            <label for="storyline">Storyline</label>
+            <textarea id="storyline" required></textarea>
+          </div>
+          <div class="full-width">
+            <label for="genres">Genres (Comma separated)</label>
+            <input type="text" id="genres" placeholder="Action, Fantasy, Drama...">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Format & Demographic -->
+      <div class="section">
+        <div class="section-title">2. Format & Demographic</div>
+        <div class="grid">
+          <div>
+            <label for="demoTag">Demographic Tag</label>
+            <select id="demoTag">
+              <option value="">Select...</option>
+              <option value="Shonen">Shonen</option>
+              <option value="Seinen">Seinen</option>
+              <option value="Shojo">Shojo</option>
+              <option value="Josei">Josei</option>
+              <option value="Kids/Family">Kids / Family</option>
+            </select>
+          </div>
+          <div>
+            <label for="sourceMaterial">Source Material</label>
+            <select id="sourceMaterial">
+              <option value="">Select...</option>
+              <option value="Original">Original anime</option>
+              <option value="Manga">Adapted from manga</option>
+              <option value="Novel">Adapted from a novel</option>
+              <option value="Game">Adapted from a game</option>
+            </select>
+          </div>
+          <div>
+            <label for="episodeCount">Episode Count</label>
+            <input type="number" id="episodeCount">
+          </div>
+          <div>
+            <label for="ageBand">Target Age Band</label>
+            <select id="ageBand">
+              <option value="">Select...</option>
+              <option value="13-17">13 to 17</option>
+              <option value="18-24">18 to 24</option>
+              <option value="25-34">25 to 34</option>
+              <option value="35+">35 and above</option>
+              <option value="All">All ages</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Comparable Titles -->
+      <div class="section">
+        <div class="section-title">3. Comparable Titles</div>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Add up to 5 comparable anime for better matching.</p>
+        <div class="grid">
+          <div class="full-width"><input type="text" id="comp1" placeholder="Comparable Title 1"></div>
+          <div class="full-width"><input type="text" id="comp2" placeholder="Comparable Title 2"></div>
+          <div class="full-width"><input type="text" id="comp3" placeholder="Comparable Title 3"></div>
+          <div class="full-width"><input type="text" id="comp4" placeholder="Comparable Title 4"></div>
+          <div class="full-width"><input type="text" id="comp5" placeholder="Comparable Title 5"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Save to Firebase</button>
+    </form>
+  </div>
+
+  <!-- FIREBASE INTEGRATION SCRIPT -->
+  <script type="module">
+    // 1. Import using the direct web links (CDN)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    // 2. Your exact Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
+      authDomain: "kizuna-c70d2.firebaseapp.com",
+      projectId: "kizuna-c70d2",
+      storageBucket: "kizuna-c70d2.firebasestorage.app",
+      messagingSenderId: "513173983571",
+      appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
+      measurementId: "G-66RQE9B093"
+    };
+
+    // 3. Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    // 4. Form Submission Handler
+    document.getElementById('kizunaForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); 
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.innerText;
+      submitBtn.innerText = "Saving to Database...";
+      submitBtn.disabled = true;
+
+      // Extract comma-separated genres into an array
+      const genresRaw = document.getElementById('genres').value;
+      const genresArray = genresRaw ? genresRaw.split(',').map(g => g.trim()) : [];
+
+      // Extract comparable titles and remove empty inputs
+      const comparablesArray = [
+        document.getElementById('comp1').value,
+        document.getElementById('comp2').value,
+        document.getElementById('comp3').value,
+        document.getElementById('comp4').value,
+        document.getElementById('comp5').value
+      ].filter(val => val.trim() !== "");
+
+      // Construct the JSON Payload
+      const animePayload = {
+        identity: {
+          title: document.getElementById('title').value,
+          storyline: document.getElementById('storyline').value,
+          genres: genresArray
+        },
+        demographic: {
+          tag: document.getElementById('demoTag').value,
+          ageBand: document.getElementById('ageBand').value
+        },
+        format: {
+          originalOrAdapted: document.getElementById('sourceMaterial').value,
+          episodeCount: parseInt(document.getElementById('episodeCount').value) || 0
+        },
+        comparables: comparablesArray,
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        // Send data to Firestore collection named "anime_profiles"
+        const docRef = await addDoc(collection(db, "anime_profiles"), animePayload);
+        
+        console.log("Document successfully written with ID: ", docRef.id);
+        submitBtn.innerText = "Success! Data Saved.";
+        
+        // Reset form for the next entry
+        document.getElementById('kizunaForm').reset();
+        
+      } catch (error) {
+        console.error("Error writing to Firebase: ", error);
+        submitBtn.innerText = "Error - Check Console (F12)";
+      } finally {
+        // Restore button state after 3 seconds
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>
