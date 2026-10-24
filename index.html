@@ -39,7 +39,6 @@
       <div class="bar"><i id="fill"></i></div>
       <small id="pct">0 of 7 groups filled</small>
     </div>
-    <button class="btn" id="demo" type="button">Load Odd Taxi example</button>
   </div>
 
   <div class="layout">
@@ -96,7 +95,6 @@ const GROUPS=[
   {k:"comps",t:"list",l:"Comparable titles",full:1}]}
 ];
 
-const EXAMPLE={title:"Odd Taxi",story:"A walrus taxi driver is pulled into the case of a missing girl, and his ordinary fares slowly turn out to be connected.",genres:["Drama","Mystery","Suspense"],sub:"Crime",themes:["Conspiracy"],tone:"Deadpan",demo:"Seinen",age:"18 to 24",eps:13,len:23,src:"Original anime",status:"Released in Japan",studio:"OLM, P.I.C.S.",director:"Baku Kinoshita",composer:"",cast:"Natsuki Hanae",viol:"Moderate",sex:"Mild",rate:"PG-13",langs:["Japanese with subtitles","English dub"],plat:"Prime Video (Anime Times channel), India listing to confirm",timing:"",rights:"Not sure",comps:["Death Note","Monster","Psycho-Pass"]};
 
 let S={},cur=0;
 const $=id=>document.getElementById(id);
@@ -177,7 +175,6 @@ function review(){
   }));
   $("review").hidden=false;$("review").scrollIntoView({behavior:"smooth"});
 }
-$("demo").onclick=()=>{S=JSON.parse(JSON.stringify(EXAMPLE));cur=0;$("review").hidden=true;render()};
 $("clear").onclick=()=>{S={};cur=0;$("review").hidden=true;render()};
 $("go").onclick=()=>alert("Comparable matching is the next screen. This one only collects the details.");
 
