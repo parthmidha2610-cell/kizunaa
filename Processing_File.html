@@ -363,9 +363,37 @@
         </div>
       </div>
 
-      <!-- 7. COMPARABLE TITLES -->
+      <!-- 7. RATINGS & RECEPTION -->
       <div class="section">
-        <div class="section-title">7. Comparable Titles</div>
+        <div class="section-title">7. Ratings & Reception</div>
+        <span class="sub-label">Public reception and scores across major platforms.</span>
+        <div class="grid">
+          <div>
+            <label for="malRating">MyAnimeList Rating (/10)</label>
+            <input type="number" step="0.01" max="10" min="0" id="malRating" placeholder="e.g. 8.75">
+          </div>
+          <div>
+            <label for="anilistRating">AniList Score (/100)</label>
+            <input type="number" max="100" min="0" id="anilistRating" placeholder="e.g. 88">
+          </div>
+          <div>
+            <label for="imdbRating">IMDb Rating (/10)</label>
+            <input type="number" step="0.1" max="10" min="0" id="imdbRating" placeholder="e.g. 9.1">
+          </div>
+          <div>
+            <label for="rtCritic">Rotten Tomatoes Critic (%)</label>
+            <input type="number" max="100" min="0" id="rtCritic" placeholder="e.g. 95">
+          </div>
+          <div>
+            <label for="rtAudience">Rotten Tomatoes Audience (%)</label>
+            <input type="number" max="100" min="0" id="rtAudience" placeholder="e.g. 92">
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. COMPARABLE TITLES -->
+      <div class="section">
+        <div class="section-title">8. Comparable Titles</div>
         <span class="sub-label">Add exactly three anime for a better match.</span>
         <div class="grid">
           <div class="full-width"><input type="text" id="comp1" placeholder="Title 1 (Required)" required></div>
@@ -398,7 +426,6 @@
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
 
-    // Helper function to get all checked checkboxes for a specific category
     function getCheckedValues(inputName) {
       const checkboxes = document.querySelectorAll(`input[name="${inputName}"]:checked`);
       return Array.from(checkboxes).map(cb => cb.value);
@@ -412,10 +439,8 @@
       submitBtn.innerText = "Saving to Database...";
       submitBtn.disabled = true;
 
-      // Ensure Title is used as the exact Document ID
       const animeTitle = document.getElementById('title').value.trim();
 
-      // Construct the comprehensive JSON Payload based on all fields
       const animePayload = {
         identity: {
           title: animeTitle,
@@ -430,8 +455,8 @@
           targetAgeBand: document.getElementById('ageBand').value
         },
         format: {
-          episodeCount: parseInt(document.getElementById('episodeCount').value) || 0,
-          minutesPerEpisode: parseInt(document.getElementById('minutesPerEpisode').value) || 0,
+          episodeCount: parseInt(document.getElementById('episodeCount').value) || null,
+          minutesPerEpisode: parseInt(document.getElementById('minutesPerEpisode').value) || null,
           originalOrAdapted: document.getElementById('sourceMaterial').value,
           releaseStatus: document.getElementById('releaseStatus').value
         },
@@ -452,6 +477,13 @@
           plannedReleaseTiming: document.getElementById('plannedRelease').value,
           rightsInIndia: document.getElementById('rightsInIndia').value
         },
+        ratings: {
+          myAnimeList: document.getElementById('malRating').value ? parseFloat(document.getElementById('malRating').value) : null,
+          aniList: document.getElementById('anilistRating').value ? parseInt(document.getElementById('anilistRating').value) : null,
+          imdb: document.getElementById('imdbRating').value ? parseFloat(document.getElementById('imdbRating').value) : null,
+          rottenTomatoesCritic: document.getElementById('rtCritic').value ? parseInt(document.getElementById('rtCritic').value) : null,
+          rottenTomatoesAudience: document.getElementById('rtAudience').value ? parseInt(document.getElementById('rtAudience').value) : null
+        },
         comparables: [
           document.getElementById('comp1').value,
           document.getElementById('comp2').value,
@@ -461,14 +493,12 @@
       };
 
       try {
-        // setDoc lets us name the document exactly what the Anime Title is
         const docRef = doc(db, "anime_profiles", animeTitle);
         await setDoc(docRef, animePayload);
         
         console.log("Document successfully written with Title ID: ", animeTitle);
         submitBtn.innerText = "Success! " + animeTitle + " Saved.";
         
-        // Reset form for next entry
         document.getElementById('kizunaForm').reset();
         
       } catch (error) {
