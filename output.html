@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KIZUNA | India Market Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<style>
+  .portfolio{display:flex;gap:22px;align-items:center;flex-wrap:wrap;padding:20px;margin-bottom:24px;border:1px solid rgba(128,128,128,.35);border-radius:14px;background:rgba(128,128,128,.07)}
+  .portfolio .cover{width:120px;max-width:100%;border-radius:10px;object-fit:cover;flex:none}
+  .portfolio .name{flex:1 1 220px;min-width:200px}
+  .portfolio .name .tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:0 0 6px}
+  .portfolio .name h2{margin:0;font-size:clamp(26px,4vw,38px);line-height:1.15;overflow-wrap:anywhere}
+  .portfolio .points{flex:1 1 300px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px;margin:0}
+  .portfolio .pt{padding-left:12px;border-left:3px solid rgba(128,128,128,.5)}
+  .portfolio .pt .k{display:block;font-size:12px;opacity:.65;margin-bottom:2px}
+  .portfolio .pt .v{display:block;font-size:16px;font-weight:500;overflow-wrap:anywhere}
+  @media (max-width:520px){.portfolio .points{grid-template-columns:1fr}}
+  .strategy{display:grid;gap:18px}
+  .sc{padding:20px;border:1px solid rgba(128,128,128,.35);border-radius:14px;background:rgba(128,128,128,.06);border-top:4px solid var(--accent)}
+  .sc-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .sc-head h3{margin:0;font-size:18px}
+  .sc-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+  .kicker{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:4px}
+  .caption{display:block;font-size:12px;opacity:.6;margin-top:12px}
+  /* 1 audience */
+  .aud-hero{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .aud-avatar{width:110px;height:110px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--accent) 18%,transparent);box-shadow:0 0 0 4px var(--accent)}
+  .aud-avatar .emoji{font-size:56px;line-height:1}
+  .aud-text{flex:1 1 280px;min-width:0}
+  .aud-name{font-size:clamp(28px,5vw,42px);font-weight:700;line-height:1.1;color:var(--accent)}
+  .aud-age{display:block;font-size:16px;margin:2px 0 14px}
+  .agewrap{position:relative;padding-bottom:20px}
+  .agetrack{position:relative;height:30px;border-radius:15px;background:rgba(128,128,128,.18);overflow:hidden}
+  .ageband{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:11px;overflow:hidden;white-space:nowrap;opacity:.7;border-left:2px solid rgba(255,255,255,.4)}
+  .ageband.on{background:var(--accent);color:#fff;font-weight:700;opacity:1}
+  .agetick{position:absolute;left:0;right:0;bottom:0;height:16px;font-size:11px;opacity:.6}
+  .agetick span{position:absolute;transform:translateX(-50%)}
+  /* 2 spend */
+  .spend-top{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:18px}
+  .spend-level{flex:1 1 220px}
+  .spend-price{flex:1 1 220px}
+  .lvl{font-size:26px;font-weight:700;color:var(--accent)}
+  .lvl-note{display:block;font-size:14px;opacity:.75;margin-bottom:8px}
+  .lvlbar{height:10px;border-radius:5px;background:rgba(128,128,128,.2);overflow:hidden}
+  .lvlbar i,.mbar i{display:block;height:100%;background:var(--accent);border-radius:5px}
+  .bigprice{font-size:clamp(24px,4vw,34px);font-weight:700}
+  .pwrap{position:relative;padding-bottom:22px;margin:0 14px}
+  .ptrack{position:relative;height:16px;border-radius:8px;background:rgba(128,128,128,.2)}
+  .prange{position:absolute;top:0;bottom:0;border-radius:8px;background:var(--accent)}
+  .ptick{position:absolute;left:0;right:0;bottom:0;height:16px;font-size:11px;opacity:.65}
+  .ptick span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+  /* 3 merch */
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+  .mcard{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:18px 12px;border-radius:12px;border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.06)}
+  .micon{font-size:40px;line-height:1;width:72px;height:72px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:color-mix(in srgb,var(--accent) 16%,transparent)}
+  .mdesc{font-size:13px;opacity:.7}
+  /* 4 platform */
+  .model{margin-bottom:16px}
+  .model-name{display:inline-block;font-size:clamp(20px,3.5vw,26px);font-weight:700;color:#fff;background:var(--accent);padding:4px 14px;border-radius:999px}
+  .s4grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:18px}
+  .plats{display:flex;flex-wrap:wrap;gap:8px}
+  .plat{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--accent);font-size:14px}
+  .meter2{display:grid;grid-template-columns:96px 1fr 40px;align-items:center;gap:10px;margin-bottom:10px;font-size:14px}
+  .mbar{height:12px;border-radius:6px;background:rgba(128,128,128,.2);overflow:hidden}
+  .mval{font-size:12px;opacity:.7;text-align:right}
+  .statbox{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,transparent);margin-bottom:16px}
+  .stat{font-size:clamp(30px,6vw,46px);font-weight:700;color:var(--accent);line-height:1}
+  .statnote{flex:1 1 220px;font-size:14px}
+  .chips2{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chip2{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid rgba(128,128,128,.45)}
+  .strat-text{margin:0;font-size:14px;line-height:1.6;opacity:.85}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .loading,.empty{text-align:center;padding:48px 16px}
+</style>
+</head>
+<body>
+<div id="petals" aria-hidden="true"></div>
+<div class="waves" aria-hidden="true"></div>
+
+<nav class="nav" aria-label="Main">
+  <a class="brand" href="index.html" aria-label="KIZUNA home">
+    <span class="seal" aria-hidden="true">絆</span>
+    <span class="word">KIZUNA</span>
+  </a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="input.html">Add your anime</a>
+    <a href="catalog.html">Catalog</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header>
+    <div class="hanko" aria-hidden="true">絆</div>
+    <div>
+      <div class="meaning">Kizuna means bond</div>
+      <h1>India Market Strategy Blueprint</h1>
+      <p>Your predicted Indian target audience and monetization strategy, built from the details you entered.</p>
+    </div>
+  </header>
+
+  <section class="review" id="report" aria-live="polite">
+    <p class="loading">Generating your report…</p>
+  </section>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
+    authDomain: "kizuna-c70d2.firebaseapp.com",
+    projectId: "kizuna-c70d2",
+    storageBucket: "kizuna-c70d2.firebasestorage.app",
+    messagingSenderId: "513173983571",
+    appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
+    measurementId: "G-66RQE9B093"
+  };
+  const db = getFirestore(initializeApp(firebaseConfig));
+
+  const $ = id => document.getElementById(id);
+  const el = (t, a = {}, ...c) => {
+    const e = document.createElement(t);
+    for (const k in a) e.setAttribute(k, a[k]);
+    c.flat().forEach(x => e.append(x));
+    return e;
+  };
+  const has = v => Array.isArray(v) ? v.length > 0 : v !== undefined && v !== "" && v !== null;
+
+  /* ---------- 1. Load data: Firestore (if ?id=) or this tab's session ---------- */
+  let savedId = new URLSearchParams(location.search).get("id");
+
+  function fromPayload(p) {
+    return {
+      title: p.identity?.title, story: p.identity?.story, genres: p.identity?.genres,
+      themes: p.identity?.themes, tone: p.identity?.tone,
+      demo: p.demographics?.target,
+      eps: p.format?.eps, len: p.format?.len, src: p.format?.src, status: p.format?.status,
+      studio: p.production?.studio, director: p.production?.director,
+      viol: p.sensitivity?.viol, sex: p.sensitivity?.sex, rate: p.sensitivity?.rate,
+      langs: p.market?.langs, plat: p.market?.plat, timing: p.market?.timing, rights: p.market?.rights,
+      coverImageUrl: p.media?.coverImageUrl
+    };
+  }
+
+  async function loadData() {
+    if (savedId) {
+      try {
+        const snap = await getDoc(doc(db, "anime_profiles", savedId));
+        if (snap.exists()) return fromPayload(snap.data());
+      } catch (e) { console.error("Load error:", e); }
+    }
+    try {
+      const raw = sessionStorage.getItem("kizunaReport");
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
+
+  /* ---------- 2. Prediction engine ---------- */
+  function predictAudience(S) {
+    const scores = { kids: 0, genz: 0, millennials: 0 };
+    // Only the structured fields are scored, so words in the title/story don't skew the result
+    const strData = JSON.stringify({
+      genres: S.genres, themes: S.themes, tone: S.tone, demo: S.demo,
+      viol: S.viol, sex: S.sex, rate: S.rate
+    }).toLowerCase();
+
+    if (strData.includes("kids") || strData.includes("family")) scores.kids += 5;
+    if (strData.includes("wholesome")) scores.kids += 3;
+    if (strData.includes("all ages")) scores.kids += 3;
+
+    if (strData.includes("shonen") || strData.includes("shojo")) scores.genz += 5;
+    if (strData.includes("action") || strData.includes("adventure") || strData.includes("sports")) scores.genz += 3;
+    if (strData.includes("coming of age") || strData.includes("school life") || strData.includes("sports rivalry")) scores.genz += 3;
+
+    if (strData.includes("seinen") || strData.includes("josei")) scores.millennials += 5;
+    if (strData.includes("psychological") || strData.includes("thriller") || strData.includes("suspense") || strData.includes("crime")) scores.millennials += 4;
+    if (strData.includes("workplace") || strData.includes("conspiracy")) scores.millennials += 3;
+    if (strData.includes("r-17+") || strData.includes("r+") || strData.includes("strong")) scores.millennials += 4;
+
+    const max = Math.max(scores.kids, scores.genz, scores.millennials);
+    let winner = "genz";
+    if (max === scores.kids && max > 0) winner = "kids";
+    else if (max === scores.millennials && max > 0) winner = "millennials";
+    return winner;
+  }
+
+  const SEGMENTS = {
+    kids: {
+      short: "Kids", icon: "🧒", accent: "#f59e0b", age: [6, 12], ageLabel: "6–12 Years",
+      aud: "Predicted Target: Kids (6–12 Years)",
+      level: 20, levelLabel: "Low", levelNote: "Parent-dependent purchasing",
+      price: [10, 250], priceText: "₹10 – ₹250",
+      merch: [
+        { i: "🍫", n: "FMCG tie-ins", d: "Snacks, candies" },
+        { i: "✏️", n: "Basic stationery", d: "School essentials" },
+        { i: "🧸", n: "Small domestic toys", d: "Locally made" }
+      ],
+      model: "Volume-Driven", volume: 90, margin: 25,
+      platforms: [{ i: "📺", n: "Broadcast TV (co-viewing)" }],
+      stat: "0 imports", statNote: "Avoid imported merchandise completely",
+      chips: ["Local snack brands", "School-supply makers", "Pester power"],
+      strat: "Volume-Driven: Relies heavily on 'pester power' for everyday impulse buys. Studios should license IPs to local snack brands or cheap school-supply makers for massive scale. Co-viewing broadcast TV is essential. Avoid imported merchandise completely."
+    },
+    genz: {
+      short: "Gen Z", icon: "🧑‍🎤", accent: "#8b5cf6", age: [13, 24], ageLabel: "13–24 Years",
+      aud: "Predicted Target: Gen Z (13–24 Years)",
+      level: 45, levelLabel: "Low to Medium", levelNote: "Pocket money / entry-level income",
+      price: [150, 1499], priceText: "₹150 – ₹1,499",
+      merch: [
+        { i: "👕", n: "Print-on-Demand apparel", d: "POD tees and hoodies" },
+        { i: "🧢", n: "Streetwear collabs", d: "Trend-driven drops" },
+        { i: "📱", n: "Mobile covers", d: "Everyday carry" },
+        { i: "🎭", n: "Digital cosplay accessories", d: "Low-cost, shareable" }
+      ],
+      model: "Budget-Capped & Trend-Driven", volume: 70, margin: 40,
+      platforms: [{ i: "▶️", n: "Free YouTube" }, { i: "📱", n: "Ad-supported OTTs (AVOD)" }],
+      stat: "< ₹1,500", statNote: "Sweet spot, reached only with domestic manufacturing",
+      chips: ["Domestic licensing", "Bypass customs duties", "Price-sensitive"],
+      strat: "Budget-Capped & Trend-Driven: Highly sensitive to price jumps. AVOD (Ad-supported Free YouTube/OTTs) is mandatory for massive reach. Merch manufacturing MUST be licensed to domestic Indian partners to bypass heavy customs duties and hit the sub-₹1,500 sweet spot."
+    },
+    millennials: {
+      short: "Millennials", icon: "🧑‍💼", accent: "#0d9488", age: [25, 40], ageLabel: "25–35+ Years",
+      aud: "Predicted Target: Millennials (25–35+ Years)",
+      level: 90, levelLabel: "High", levelNote: "Independent disposable income",
+      price: [2000, 10000], priceText: "₹2,000 – ₹10,000+",
+      merch: [
+        { i: "🗿", n: "Imported scale figures", d: "Authentic collector pieces" },
+        { i: "🧥", n: "Premium limited-edition apparel", d: "Numbered drops" },
+        { i: "📖", n: "Official art books", d: "Studio-grade prints" }
+      ],
+      model: "Margin-Driven", volume: 20, margin: 90,
+      platforms: [{ i: "🎬", n: "Crunchyroll" }, { i: "🍿", n: "Netflix" }, { i: "💳", n: "Premium SVOD" }],
+      stat: "80%+", statNote: "Import duties this audience will still absorb",
+      chips: ["Basic Customs Duty", "SWS", "IGST"],
+      strat: "Margin-Driven: Premium SVOD subscriptions (Crunchyroll, Netflix) work here. This is the ONLY demographic willing to absorb the 80%+ import duties (Basic Customs Duty + SWS + IGST) for authentic, premium Japanese collector's items. Low sales volume, high profit margin."
+    }
+  };
+
+  /* Illustrated strategy layout */
+  const div = (c, ...k) => el("div", { "class": c }, ...k);
+  const span = (c, t) => el("span", { "class": c }, t);
+  const styled = (node, css) => { node.setAttribute("style", css); return node; };
+  const secCard = (num, title, ...body) => div("sc", div("sc-head", span("sc-num", num), el("h3", {}, title)), ...body);
+
+  function renderStrategy(seg) {
+    const wrap = styled(div("strategy"), "--accent:" + seg.accent);
+
+    // 1. Ideal target audience (age track)
+    const agePos = a => (a - 5) / 35 * 100;
+    const track = div("agetrack");
+    Object.values(SEGMENTS).forEach(s => {
+      const band = styled(div("ageband" + (s === seg ? " on" : ""), span("", s.short)),
+        `left:${agePos(s.age[0])}%;width:${agePos(s.age[1] + 1) - agePos(s.age[0])}%`);
+      track.append(band);
+    });
+    const ticks = div("agetick");
+    [5, 10, 20, 30, 40].forEach(t => ticks.append(styled(span("", t === 40 ? "40+" : String(t)), `left:${agePos(t)}%`)));
+    const hero = div("aud-hero",
+      div("aud-avatar", span("emoji", seg.icon)),
+      div("aud-text",
+        span("kicker", "Predicted target"),
+        el("div", { "class": "aud-name" }, seg.short),
+        span("aud-age", seg.ageLabel),
+        div("agewrap", track, ticks)));
+    const c1 = secCard("1", "Ideal Target Audience", hero);
+    c1.setAttribute("aria-label", seg.aud);
+
+    // 2. Spending power & price limits (log scale)
+    const lp = v => Math.min(100, Math.max(0, (Math.log10(v) - 1) / 3 * 100));
+    const pl = lp(seg.price[0]), pr = lp(seg.price[1]);
+    const ptrack = div("ptrack", styled(div("prange"), `left:${pl}%;width:${pr - pl}%`));
+    const pticks = div("ptick");
+    [[10, "₹10"], [100, "₹100"], [1000, "₹1,000"], [10000, "₹10,000+"]].forEach(([v, t]) =>
+      pticks.append(styled(span("", t), `left:${lp(v)}%`)));
+    const c2 = secCard("2", "Spending Power & Price Limits",
+      div("spend-top",
+        div("spend-level",
+          span("kicker", "Spending power"),
+          el("div", { "class": "lvl" }, seg.levelLabel),
+          span("lvl-note", seg.levelNote),
+          div("lvlbar", styled(el("i"), `width:${seg.level}%`))),
+        div("spend-price", span("kicker", "Target price"), el("div", { "class": "bigprice" }, seg.priceText))),
+      div("pwrap", ptrack, pticks),
+      span("caption", "Price band shown on a ₹10 → ₹10,000+ scale."));
+
+    // 3. Merchandise preferences
+    const grid = div("mgrid");
+    seg.merch.forEach(m => grid.append(div("mcard", span("micon", m.i), el("strong", {}, m.n), span("mdesc", m.d))));
+    const c3 = secCard("3", "Merchandise Preferences", grid);
+
+    // 4. Platform & fulfillment strategy
+    const meter = (label, val) => div("meter2", span("mlabel", label), div("mbar", styled(el("i"), `width:${val}%`)), span("mval", val + "%"));
+    const plats = div("plats");
+    seg.platforms.forEach(p => plats.append(div("plat", span("", p.i), p.n)));
+    const chips = div("chips2");
+    seg.chips.forEach(c => chips.append(span("chip2", c)));
+    const c4 = secCard("4", "Platform & Fulfillment Strategy",
+      div("model", span("kicker", "Strategy model"), el("div", { "class": "model-name" }, seg.model)),
+      div("s4grid",
+        div("s4col", span("kicker", "Where they watch"), plats),
+        div("s4col", span("kicker", "Volume vs margin"), meter("Sales volume", seg.volume), meter("Profit margin", seg.margin))),
+      div("statbox", el("div", { "class": "stat" }, seg.stat), div("statnote", seg.statNote, chips)),
+      el("p", { "class": "strat-text" }, seg.strat),
+      span("caption", "Meters are indicative, drawn from KIZUNA’s segment model, not measured data."));
+
+    wrap.append(c1, c2, c3, c4);
+    return wrap;
+  }
+
+  /* ---------- 3. Save from the report page (when not already saved) ---------- */
+  async function saveNow(S) {
+    const payload = {
+      identity: { title: S.title, genres: S.genres || [], story: S.story || "", themes: S.themes || [], tone: S.tone || "" },
+      demographics: { target: S.demo || "" },
+      format: { eps: S.eps || 0, len: S.len || 0, src: S.src || "", status: S.status || "" },
+      production: { studio: S.studio || "", director: S.director || "" },
+      sensitivity: { viol: S.viol || "", sex: S.sex || "", rate: S.rate || "" },
+      market: { langs: S.langs || [], plat: S.plat || "", timing: S.timing || "", rights: S.rights || "" },
+      media: { coverImageUrl: S.coverImageUrl || "" },
+      createdAt: new Date().toISOString()
+    };
+    return (await addDoc(collection(db, "anime_profiles"), payload)).id;
+  }
+
+  /* ---------- 4. Render ---------- */
+  function renderReport(S) {
+    const box = $("report");
+    box.replaceChildren();
+
+    // Portfolio box: name (large) + 4 key points
+    const point = (k, v) => el("div", { "class": "pt" },
+      el("span", { "class": "k" }, k),
+      el("span", { "class": "v" }, has(v) ? v : "Not provided"));
+
+    const toneTheme = [S.tone, has(S.themes) ? S.themes[0] : ""].filter(Boolean).join(" · ");
+
+    const card = el("div", { "class": "portfolio" });
+    if (S.coverImageUrl) {
+      const img = el("img", { "class": "cover", src: S.coverImageUrl, alt: "Cover of " + (S.title || "the anime"), referrerpolicy: "no-referrer" });
+      img.onerror = () => img.remove();
+      card.append(img);
+    }
+    card.append(
+      el("div", { "class": "name" },
+        el("p", { "class": "tag" }, "Anime portfolio"),
+        el("h2", {}, S.title || "Untitled anime")),
+      el("div", { "class": "points" },
+        point("Main genre", has(S.genres) ? S.genres[0] : ""),
+        point("Age rating", S.rate),
+        point("Demographic tag", S.demo),
+        point("Tone / Theme", toneTheme))
+    );
+
+    // Illustrated strategy
+    const strategy = renderStrategy(SEGMENTS[predictAudience(S)]);
+
+    // Actions
+    const actions = el("div", { "class": "actions" });
+    const msg = el("p", { "class": "note", "role": "status", "style": "font-weight:bold;margin-top:10px" });
+
+    if (savedId) {
+      msg.textContent = "✅ This title is saved in the KIZUNA database.";
+      msg.style.color = "#2e7d32";
+    } else {
+      const saveBtn = el("button", { "type": "button", "class": "btn" }, "Save to KIZUNA database");
+      saveBtn.onclick = async () => {
+        saveBtn.disabled = true;
+        msg.style.color = "#666";
+        msg.textContent = "⏳ Saving...";
+        try {
+          savedId = await saveNow(S);
+          history.replaceState(null, "", "output.html?id=" + encodeURIComponent(savedId));
+          msg.style.color = "#2e7d32";
+          msg.textContent = "✅ Saved to the KIZUNA database.";
+          saveBtn.remove();
+        } catch (e) {
+          console.error(e);
+          msg.style.color = "#d32f2f";
+          msg.textContent = "❌ Error: " + e.message;
+          saveBtn.disabled = false;
+        }
+      };
+      actions.append(saveBtn);
+    }
+    const again = el("a", { "class": "btn", "href": "input.html" }, "← Edit details");
+    const cat = el("a", { "class": "btn primary", "href": "catalog.html" }, "View catalog");
+    actions.append(again, cat);
+
+    box.append(card, strategy, actions, msg);
+  }
+
+  const S = await loadData();
+  if (S && S.title) {
+    renderReport(S);
+  } else {
+    $("report").replaceChildren(
+      el("div", { "class": "empty" },
+        el("p", {}, "No anime details found. Please fill in the form first."),
+        el("a", { "class": "btn primary", "href": "input.html" }, "Go to input page"))
+    );
+  }
+
+  // Falling petals
+  const petals = $("petals");
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    const s = 8 + Math.random() * 10;
+    p.style.cssText = `left:${Math.random() * 100}%;width:${s}px;height:${s}px;animation-duration:${10 + Math.random() * 10}s;animation-delay:${-Math.random() * 18}s`;
+    petals.append(p);
+  }
+</script>
+</body>
+</html>

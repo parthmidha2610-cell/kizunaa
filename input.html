@@ -28,7 +28,7 @@
 
 <div class="wrap">
   <div class="privacy">
-    <span>Everything you type stays in this browser. Close the tab and it is gone.</span>
+    <span>Everything you type stays in this browser until you choose to save it. Close the tab and it is gone.</span>
     <button id="clear" type="button">Clear everything</button>
   </div>
 
@@ -54,22 +54,18 @@
   </div>
 
   <section class="review" id="review" hidden aria-labelledby="rv">
-    <h2 id="rv">Review before matching</h2>
+    <h2 id="rv">Review before generating</h2>
     <dl id="rvList"></dl>
     <div class="save">
-      <label class="check"><input type="checkbox" id="consent"> Yes, save this title’s details to KIZUNA’s database. Leave this unticked and nothing leaves your browser.</label>
-      <button class="btn" type="button" id="save">Save to KIZUNA</button>
+      <label class="check"><input type="checkbox" id="consent"> Also save this title’s details to KIZUNA’s database. Leave this unticked and nothing leaves your browser.</label>
       <p class="note" id="saveMsg" role="status" style="font-weight:bold; margin-top: 10px;"></p>
     </div>
-    <p class="note">Next, KIZUNA will process the story, genres, and demographics to predict the ideal Indian target audience and generate a bespoke monetization strategy.</p>
-    <button class="btn primary" type="button" id="go">Predict Indian Target Audience</button>
+    <p class="note">Next, KIZUNA will open the report page, where it processes the story, genres, and demographics to predict the ideal Indian target audience and build a monetization strategy.</p>
+    <button class="btn primary" type="button" id="go">Generate Report</button>
   </section>
-
-  <!-- New Prediction Output Section -->
-  <section class="review" id="predictionResult" hidden aria-labelledby="predTitle"></section>
 </div>
 
-<!-- MAIN UI SCRIPT -->
+<!-- INPUT PAGE SCRIPT -->
 <script>
 const GENRES=["Action","Adventure","Comedy","Crime","Drama","Fantasy","Horror","Mystery","Psychological","Romance","Sci-fi","Slice of life","Sports","Supernatural","Suspense","Thriller"];
 const THEMES=["Found family","Revenge","Sports rivalry","School life","Mythology","Conspiracy","Coming of age","Survival","Workplace","Friendship","Redemption","Identity"];
@@ -80,6 +76,7 @@ const LANGS=["Japanese with subtitles","English dub","Hindi dub","Tamil dub","Te
 const GROUPS=[
  {name:"Identity",hint:"What the story is and how it feels.",f:[
   {k:"title",t:"text",l:"Title",full:1},
+  {k:"coverImageUrl",t:"text",l:"Cover Image URL (e.g. from MyAnimeList)",opt:1,full:1},
   {k:"story",t:"area",l:"Storyline",full:1},
   {k:"genres",t:"chips",l:"Genre",o:GENRES,full:1},
   {k:"sub",t:"text",l:"Sub-genre",opt:1},
@@ -108,11 +105,17 @@ const GROUPS=[
   {k:"rights",t:"select",l:"Does a partner already hold rights in India?",o:["Not sure","Yes","No"]}]}
 ];
 
+const STORE_KEY="kizunaDraft";
 let S={},cur=0;
+
+// Restore a draft if the user comes back from the report page (same tab only)
+try{const d=sessionStorage.getItem(STORE_KEY);if(d)S=JSON.parse(d)||{}}catch(e){}
+
 const $=id=>document.getElementById(id);
 const el=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a){if(k.startsWith("on"))e[k]=a[k];else e.setAttribute(k,a[k])}c.flat().forEach(x=>e.append(x));return e};
 const has=v=>Array.isArray(v)?v.length>0:v!==undefined&&v!==""&&v!==null;
 const filled=g=>g.f.filter(f=>!f.opt).some(f=>has(S[f.k]));
+const persist=()=>{try{sessionStorage.setItem(STORE_KEY,JSON.stringify(S))}catch(e){}};
 
 function field(f){
   const w=el("div",{"class":f.full?"full":""});
@@ -124,13 +127,13 @@ function field(f){
 
   if(f.t==="text"||f.t==="number"){
     const i=el("input",{"type":f.t,"id":"f_"+f.k});i.value=S[f.k]??"";
-    i.oninput=function(){S[f.k]=f.t==="number"&&i.value!==""?+i.value:i.value;refresh()};w.append(i);
+    i.oninput=function(){S[f.k]=f.t==="number"&&i.value!==""?+i.value:i.value;persist();refresh()};w.append(i);
   }else if(f.t==="area"){
     const i=el("textarea",{"id":"f_"+f.k});i.value=S[f.k]??"";
-    i.oninput=function(){S[f.k]=i.value;refresh()};w.append(i);
+    i.oninput=function(){S[f.k]=i.value;persist();refresh()};w.append(i);
   }else if(f.t==="select"){
     const i=el("select",{"id":"f_"+f.k},el("option",{"value":""},"Choose one"),f.o.map(o=>el("option",{"value":o},o)));
-    i.value=S[f.k]??"";i.onchange=function(){S[f.k]=i.value;refresh()};w.append(i);
+    i.value=S[f.k]??"";i.onchange=function(){S[f.k]=i.value;persist();refresh()};w.append(i);
   }else if(f.t==="chips"){
     const box=el("div",{"class":"chips","role":"group","aria-label":f.l});
     f.o.forEach(o=>{
@@ -139,7 +142,7 @@ function field(f){
       b.onclick=function(){
         if(f.single)S[f.k]=S[f.k]===o?"":o;
         else{const a=S[f.k]||[];S[f.k]=a.includes(o)?a.filter(x=>x!==o):[...a,o]}
-        render();
+        persist();render();
       };
       box.append(b);
     });
@@ -160,12 +163,12 @@ function render(){
   const grid=el("div",{"class":"grid"});g.f.forEach(f=>grid.append(field(f)));p.append(grid);
   const last=cur===GROUPS.length-1;
   const back=el("button",{"type":"button","class":"btn"});
-  back.textContent = "Back";
-  back.onclick = function(){cur--;render()};
+  back.textContent="Back";
+  back.onclick=function(){cur--;render()};
   back.style.visibility=cur===0?"hidden":"visible";
   const next=el("button",{"type":"button","class":"btn primary"});
-  next.textContent = last?"Review details":"Next group";
-  next.onclick = function(){last?review():(cur++,render())};
+  next.textContent=last?"Review details":"Next group";
+  next.onclick=function(){last?review():(cur++,render())};
   p.append(el("div",{"class":"foot"},back,next));
   meter();
 }
@@ -183,80 +186,42 @@ function review(){
   $("review").hidden=false;$("review").scrollIntoView({behavior:"smooth"});
 }
 
-/* Prediction Engine Logic */
-function predictAudience() {
-  let scores = { kids: 0, genz: 0, millennials: 0 };
-  const strData = JSON.stringify(S).toLowerCase();
+$("clear").onclick=function(){
+  S={};cur=0;
+  try{sessionStorage.removeItem(STORE_KEY);sessionStorage.removeItem("kizunaReport")}catch(e){}
+  $("review").hidden=true;render();
+};
 
-  if (strData.includes("kids") || strData.includes("family")) scores.kids += 5;
-  if (strData.includes("wholesome")) scores.kids += 3;
-  if (strData.includes("all ages")) scores.kids += 3;
-
-  if (strData.includes("shonen") || strData.includes("shojo")) scores.genz += 5;
-  if (strData.includes("action") || strData.includes("adventure") || strData.includes("sports")) scores.genz += 3;
-  if (strData.includes("coming of age") || strData.includes("school life") || strData.includes("sports rivalry")) scores.genz += 3;
-
-  if (strData.includes("seinen") || strData.includes("josei")) scores.millennials += 5;
-  if (strData.includes("psychological") || strData.includes("thriller") || strData.includes("suspense") || strData.includes("crime")) scores.millennials += 4;
-  if (strData.includes("workplace") || strData.includes("conspiracy")) scores.millennials += 3;
-  if (strData.includes("r-17+") || strData.includes("r+") || strData.includes("strong")) scores.millennials += 4;
-
-  let max = Math.max(scores.kids, scores.genz, scores.millennials);
-  let winner = "genz";
-  if (max === scores.kids && max > 0) winner = "kids";
-  else if (max === scores.millennials && max > 0) winner = "millennials";
-
-  renderPrediction(winner);
-}
-
-function renderPrediction(winner) {
-  const p = $("predictionResult");
-  p.replaceChildren();
-
-  const title = el("h2", {"id": "predTitle"}, "India Market Strategy Blueprint");
-  const hint = el("p", {"class": "hint"}, "Based on the story, themes, and demographics provided, KIZUNA has predicted the ideal Indian target audience and generated a bespoke monetization strategy:");
-
-  let audStr, spendStr, merchStr, stratStr;
-  if (winner === "kids") {
-    audStr = "Predicted Target: Kids (6–12 Years)"; spendStr = "Low (Parent-dependent purchasing). Target price: ₹10 – ₹250."; merchStr = "FMCG tie-ins (snacks, candies), basic stationery, small domestic toys."; stratStr = "Volume-Driven: Relies heavily on 'pester power' for everyday impulse buys. Studios should license IPs to local snack brands or cheap school-supply makers for massive scale. Co-viewing broadcast TV is essential. Avoid imported merchandise completely.";
-  } else if (winner === "millennials") {
-    audStr = "Predicted Target: Millennials (25–35+ Years)"; spendStr = "High (Independent disposable income). Target price: ₹2,000 – ₹10,000+."; merchStr = "Imported scale figures, premium limited-edition apparel, official art books."; stratStr = "Margin-Driven: Premium SVOD subscriptions (Crunchyroll, Netflix) work here. This is the ONLY demographic willing to absorb the 80%+ import duties (Basic Customs Duty + SWS + IGST) for authentic, premium Japanese collector's items. Low sales volume, high profit margin.";
-  } else {
-    audStr = "Predicted Target: Gen Z (13–24 Years)"; spendStr = "Low to Medium (Pocket money / Entry-level income). Target price: ₹150 – ₹1,499."; merchStr = "Print-on-Demand (POD) apparel, streetwear collaborations, mobile covers, digital cosplay accessories."; stratStr = "Budget-Capped & Trend-Driven: Highly sensitive to price jumps. AVOD (Ad-supported Free YouTube/OTTs) is mandatory for massive reach. Merch manufacturing MUST be licensed to domestic Indian partners to bypass heavy customs duties and hit the sub-₹1,500 sweet spot.";
+/* Generate: hand the data to output.html (optionally saving to the database first) */
+$("go").onclick=async function(){
+  const msg=$("saveMsg"),btn=this;
+  if(!S.title){
+    msg.style.color="#d32f2f";
+    msg.textContent="⚠️ Please enter a title in the Identity group first.";
+    return;
   }
-
-  const dl = el("dl", {"id": "stratList"});
-  dl.append(
-    el("dt", {}, "Ideal Target Audience"), el("dd", {}, audStr),
-    el("dt", {}, "Spending Power & Price Limits"), el("dd", {}, spendStr),
-    el("dt", {}, "Merchandise Preferences"), el("dd", {}, merchStr),
-    el("dt", {}, "Platform & Fulfillment Strategy"), el("dd", {}, stratStr)
-  );
-  
-  const catalogBtn = el("button", {
-    "type": "button", 
-    "class": "btn primary", 
-    "style": "margin-top: 24px; width: 100%; font-size: 16px;"
-  }, "📊 Save & Go to AI Catalog");
-  
-  // Triggers the globally exposed save function from the Firebase module
-  catalogBtn.onclick = function() {
-    if (window.saveAndNavigate) {
-      window.saveAndNavigate(this);
-    } else {
-      alert("Firebase module not loaded yet.");
+  persist();
+  let id="";
+  if($("consent").checked){
+    btn.disabled=true;
+    msg.style.color="#666";
+    msg.textContent="⏳ Saving to KIZUNA database...";
+    try{
+      if(!window.kizunaSave)throw new Error("Database module did not load.");
+      id=await window.kizunaSave(S);
+      msg.style.color="#2e7d32";
+      msg.textContent="✅ Saved! Opening report...";
+    }catch(err){
+      console.error(err);
+      msg.style.color="#d32f2f";
+      msg.textContent="❌ Could not save ("+err.message+"). Opening the report without saving...";
+      await new Promise(r=>setTimeout(r,1200));
     }
-  };
+  }
+  try{sessionStorage.setItem("kizunaReport",JSON.stringify(S))}catch(e){}
+  window.location.href="output.html"+(id?"?id="+encodeURIComponent(id):"");
+};
 
-  p.append(title, hint, dl, catalogBtn);
-  p.hidden = false;
-  p.scrollIntoView({behavior: "smooth"});
-}
-
-$("clear").onclick=function(){S={};cur=0;$("review").hidden=true;$("predictionResult").hidden=true;render()};
-$("go").onclick = predictAudience;
-
-/* sakura petals */
 (function(){
   const box=$("petals");
   for(let i=0;i<16;i++){
@@ -267,12 +232,10 @@ $("go").onclick = predictAudience;
   }
 })();
 
-// Make Data accessible to the module
-window.getKizunaData = function() { return S; };
 render();
 </script>
 
-<!-- FIREBASE UPLOAD SCRIPT -->
+<!-- FIREBASE SAVE (only used when the consent box is ticked) -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
@@ -287,16 +250,9 @@ render();
     measurementId: "G-66RQE9B093"
   };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  const db = getFirestore(initializeApp(firebaseConfig));
 
-  // Reusable core save logic that maps data perfectly for catalog.html
-  async function performSave() {
-    const data = window.getKizunaData();
-    if (!data.title) {
-      throw new Error("Anime Title is missing. Please enter a title in the Identity section.");
-    }
-
+  window.kizunaSave = async function(data) {
     const payload = {
       identity: {
         title: data.title,
@@ -310,51 +266,11 @@ render();
       production: { studio: data.studio || "", director: data.director || "" },
       sensitivity: { viol: data.viol || "", sex: data.sex || "", rate: data.rate || "" },
       market: { langs: data.langs || [], plat: data.plat || "", timing: data.timing || "", rights: data.rights || "" },
-      media: { coverImageUrl: "" }, // Leaves space for future image uploads
+      media: { coverImageUrl: data.coverImageUrl || "" },
       createdAt: new Date().toISOString()
     };
-
-    await addDoc(collection(db, "anime_profiles"), payload);
-  }
-
-  // Bound to the "Save & Go to AI Catalog" button in prediction results
-  window.saveAndNavigate = async function(btnElement) {
-    btnElement.innerText = "⏳ Saving to Database...";
-    btnElement.disabled = true;
-    try {
-      await performSave();
-      btnElement.innerText = "✅ Saved! Redirecting...";
-      setTimeout(() => { window.location.href = "catalog.html"; }, 800);
-    } catch (error) {
-      console.error("Upload error:", error);
-      alert(error.message);
-      btnElement.innerText = "📊 Save & Go to AI Catalog";
-      btnElement.disabled = false;
-    }
-  };
-
-  // Bound to the standard "Save to KIZUNA" button before prediction
-  document.getElementById('save').onclick = async function() {
-    const msg = document.getElementById('saveMsg');
-    const consent = document.getElementById('consent');
-    
-    if (!consent.checked) {
-      msg.innerText = "⚠️ Please tick the consent box to save.";
-      msg.style.color = "#d32f2f";
-      return;
-    }
-    
-    msg.innerText = "⏳ Uploading to KIZUNA database...";
-    msg.style.color = "#666";
-    
-    try {
-      await performSave();
-      msg.innerText = "✅ Successfully saved to database!";
-      msg.style.color = "#2e7d32";
-    } catch (error) {
-      msg.innerText = "❌ Error: " + error.message;
-      msg.style.color = "#d32f2f";
-    }
+    const ref = await addDoc(collection(db, "anime_profiles"), payload);
+    return ref.id;
   };
 </script>
 </body>
