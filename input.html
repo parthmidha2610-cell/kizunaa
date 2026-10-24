@@ -7,15 +7,27 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="petals" aria-hidden="true"></div>
 <div class="waves" aria-hidden="true"></div>
 
+<nav class="nav" aria-label="Main">
+  <a class="brand" href="index.html" aria-label="KIZUNA home">
+    <span class="seal" aria-hidden="true">絆</span>
+    <span class="word">KIZUNA</span>
+  </a>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="input.html" aria-current="page">Add your anime</a>
+  </div>
+</nav>
+
 <div class="wrap">
   <div class="privacy">
-    <span><a href="index.html" style="color:inherit">KIZUNA home</a> · Everything you type stays in this browser. Close the tab and it is gone.</span>
+    <span>Everything you type stays in this browser. Close the tab and it is gone.</span>
     <button id="clear" type="button">Clear everything</button>
   </div>
 
@@ -43,6 +55,11 @@
   <section class="review" id="review" hidden aria-labelledby="rv">
     <h2 id="rv">Review before matching</h2>
     <dl id="rvList"></dl>
+    <div class="save">
+      <label class="check"><input type="checkbox" id="consent"> Yes, save this title’s details to KIZUNA’s database. Leave this unticked and nothing leaves your browser.</label>
+      <button class="btn" type="button" id="save">Save to KIZUNA</button>
+      <p class="note" id="saveMsg" role="status"></p>
+    </div>
     <p class="note">Next, KIZUNA picks three comparable titles from the catalog: one very famous in India, one in the middle and one less known.</p>
     <button class="btn primary" type="button" id="go">Find comparable titles</button>
   </section>
@@ -183,7 +200,9 @@ $("go").onclick=()=>alert("Comparable matching is the next screen. This one only
   }
 })();
 
+window.getKizunaData=()=>S;
 render();
 </script>
+<script type="module" src="db.js"></script>
 </body>
 </html>
