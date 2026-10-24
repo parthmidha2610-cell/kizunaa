@@ -16,15 +16,17 @@
   .portfolio .name .tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin:0 0 6px}
   .portfolio .name h2{margin:0;font-size:clamp(26px,4vw,38px);line-height:1.15;overflow-wrap:anywhere}
   .portfolio .points{flex:1 1 300px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 20px;margin:0}
-  .portfolio .pt{padding-left:12px;border-left:3px solid rgba(128,128,128,.5)}
+  .portfolio .pt{padding-left:12px;border-left:3px solid var(--accent)}
   .portfolio .pt .k{display:block;font-size:12px;opacity:.65;margin-bottom:2px}
   .portfolio .pt .v{display:block;font-size:16px;font-weight:500;overflow-wrap:anywhere}
   @media (max-width:520px){.portfolio .points{grid-template-columns:1fr}}
+  :root{--accent:#b23a48;--on-accent:#fff}
   .strategy{display:grid;gap:18px}
+  .sc-head h3,.aud-name,.lvl,.bigprice,.stat,.model-name,.portfolio .name h2{font-family:var(--head-font,inherit)}
   .sc{padding:20px;border:1px solid rgba(128,128,128,.35);border-radius:14px;background:rgba(128,128,128,.06);border-top:4px solid var(--accent)}
   .sc-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
   .sc-head h3{margin:0;font-size:18px}
-  .sc-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+  .sc-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent,#fff);display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
   .kicker{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;margin-bottom:4px}
   .caption{display:block;font-size:12px;opacity:.6;margin-top:12px}
   /* 1 audience */
@@ -37,7 +39,7 @@
   .agewrap{position:relative;padding-bottom:20px}
   .agetrack{position:relative;height:30px;border-radius:15px;background:rgba(128,128,128,.18);overflow:hidden}
   .ageband{position:absolute;top:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:11px;overflow:hidden;white-space:nowrap;opacity:.7;border-left:2px solid rgba(255,255,255,.4)}
-  .ageband.on{background:var(--accent);color:#fff;font-weight:700;opacity:1}
+  .ageband.on{background:var(--accent);color:var(--on-accent,#fff);font-weight:700;opacity:1}
   .agetick{position:absolute;left:0;right:0;bottom:0;height:16px;font-size:11px;opacity:.6}
   .agetick span{position:absolute;transform:translateX(-50%)}
   /* 2 spend */
@@ -61,7 +63,7 @@
   .mdesc{font-size:13px;opacity:.7}
   /* 4 platform */
   .model{margin-bottom:16px}
-  .model-name{display:inline-block;font-size:clamp(20px,3.5vw,26px);font-weight:700;color:#fff;background:var(--accent);padding:4px 14px;border-radius:999px}
+  .model-name{display:inline-block;font-size:clamp(20px,3.5vw,26px);font-weight:700;color:var(--on-accent,#fff);background:var(--accent);padding:4px 14px;border-radius:999px}
   .s4grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:18px}
   .plats{display:flex;flex-wrap:wrap;gap:8px}
   .plat{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;border:1px solid var(--accent);font-size:14px}
@@ -244,6 +246,26 @@
     }
   };
 
+  /* Pick up the site's own colours and heading font from style.css */
+  function applySiteTheme() {
+    const root = document.documentElement.style;
+    const probe = el("button", { "class": "btn primary", "type": "button", "style": "position:absolute;visibility:hidden;pointer-events:none" }, "x");
+    document.body.append(probe);
+    const cs = getComputedStyle(probe);
+    const clear = c => !c || c === "transparent" || /,\s*0\)$/.test(c);
+    const first = c => (c.match(/rgba?\([^)]+\)/) || [""])[0];
+    let accent = cs.backgroundColor;
+    if (clear(accent)) accent = first(cs.backgroundImage);
+    if (clear(accent)) accent = cs.borderTopColor;
+    if (clear(accent)) accent = cs.color;
+    if (!clear(accent)) root.setProperty("--accent", accent);
+    const on = cs.color;
+    if (!clear(on) && on !== accent) root.setProperty("--on-accent", on);
+    probe.remove();
+    const h = document.querySelector("h1");
+    if (h) root.setProperty("--head-font", getComputedStyle(h).fontFamily);
+  }
+
   /* Illustrated strategy layout */
   const div = (c, ...k) => el("div", { "class": c }, ...k);
   const span = (c, t) => el("span", { "class": c }, t);
@@ -251,7 +273,7 @@
   const secCard = (num, title, ...body) => div("sc", div("sc-head", span("sc-num", num), el("h3", {}, title)), ...body);
 
   function renderStrategy(seg) {
-    const wrap = styled(div("strategy"), "--accent:" + seg.accent);
+    const wrap = div("strategy");
 
     // 1. Ideal target audience (age track)
     const agePos = a => (a - 5) / 35 * 100;
@@ -397,6 +419,7 @@
     box.append(card, strategy, actions, msg);
   }
 
+  applySiteTheme();
   const S = await loadData();
   if (S && S.title) {
     renderReport(S);
