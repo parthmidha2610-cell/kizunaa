@@ -35,7 +35,26 @@
     <a class="cta" href="input.html">Add your anime</a>
   </div>
 </main>
+<section class="section" id="how">
+  <div class="in-wrap">
+    <div class="meaning">Kizuna means bond</div>
+    <h2>How it works</h2>
+    <p class="lede">Four steps from your anime to a plan for reaching Indian fans.</p>
+    <div class="how-panel">
+    <ol class="steps" id="steps">
+      <li class="step"><div class="dot">1</div><h3>Enter your title</h3><p>Fill in seven short groups: story, audience, format, production, content, market and similar shows.</p></li>
+      <li class="step"><div class="dot">2</div><h3>Find the fans</h3><p>KIZUNA compares your title with similar shows and maps where Indian interest is strongest.</p></li>
+      <li class="step"><div class="dot">3</div><h3>Get your plan</h3><p>See channels, city tiers and creators, with a budget that starts small and grows.</p></li>
+      <li class="step"><div class="dot">4</div><h3>Check the evidence</h3><p>Click any number to see its source, date and type.</p></li>
+    </ol>
+    </div>
+    <div class="go"><a class="cta" href="input.html">Start with step 1</a></div>
+  </div>
+  <div class="waves" aria-hidden="true"></div>
+</section>
 
+
+<<<<<<< HEAD
 <!-- FIREBASE INTEGRATION SCRIPT -->
 <!-- Notice we added type="module" here! -->
 <script type="module">
@@ -145,6 +164,49 @@
   // Execute both functions when the page loads
   loadDynamicStage();
   loadPetals();
+=======
+<script>
+document.documentElement.classList.add("js");
+const navEl=document.querySelector(".nav");
+const onScroll=()=>navEl.classList.toggle("solid",window.scrollY>40);
+onScroll();addEventListener("scroll",onScroll,{passive:true});
+const stepsEl=document.getElementById("steps");
+if("IntersectionObserver" in window){new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){stepsEl.classList.add("in");o.disconnect()}})},{threshold:.35}).observe(stepsEl)}else{stepsEl.classList.add("in")}
+/* Original artwork in the "images" folder. Swap in your own files here if you like. */
+const IMAGES=["images/anime1.svg","images/anime2.svg","images/anime3.svg","images/anime4.svg","images/anime5.svg","images/anime6.svg","images/anime7.svg","images/anime8.svg","images/anime9.svg","images/anime10.svg","images/anime11.svg","images/anime12.svg"];
+const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
+const stage=document.getElementById("stage");
+for(let r=0;r<5;r++){
+  const row=document.createElement("div");
+  row.className="row"+(r%2?" rev":"");
+  row.style.animationDuration=(70+r*14)+"s";
+  row.style.marginLeft=(-r*70)+"px";
+  const start=(r*5)%IMAGES.length;
+  const list=[];
+  for(let i=0;i<IMAGES.length;i++)list.push(IMAGES[(start+i)%IMAGES.length]);
+  /* the list is written twice so the row loops without a gap */
+  [...list,...list].forEach((src,i)=>{
+    const g=GRADS[(i+r*3)%GRADS.length];
+    const c=document.createElement("div");
+    c.className="card";
+    c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
+    const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
+    const im=document.createElement("img");
+    im.src=src;im.alt="";im.loading="lazy";
+    im.onerror=function(){im.remove()};
+    c.append(im);
+    row.append(c);
+  });
+  stage.append(row);
+}
+const box=document.getElementById("petals");
+for(let i=0;i<14;i++){
+  const p=document.createElement("span");p.className="petal";
+  const s=8+Math.random()*10;
+  p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";
+  box.append(p);
+}
+>>>>>>> a5a359a982ffba61334527251d759617e214933d
 </script>
 </body>
 </html>
