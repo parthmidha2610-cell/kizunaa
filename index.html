@@ -36,41 +36,115 @@
   </div>
 </main>
 
-<script>
-/* Original artwork in the "images" folder. Swap in your own files here if you like. */
-const IMAGES=["images/anime1.svg","images/anime2.svg","images/anime3.svg","images/anime4.svg","images/anime5.svg","images/anime6.svg","images/anime7.svg","images/anime8.svg","images/anime9.svg","images/anime10.svg","images/anime11.svg","images/anime12.svg"];
-const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
-const stage=document.getElementById("stage");
-for(let r=0;r<5;r++){
-  const row=document.createElement("div");
-  row.className="row"+(r%2?" rev":"");
-  row.style.animationDuration=(70+r*14)+"s";
-  row.style.marginLeft=(-r*70)+"px";
-  const start=(r*5)%IMAGES.length;
-  const list=[];
-  for(let i=0;i<IMAGES.length;i++)list.push(IMAGES[(start+i)%IMAGES.length]);
-  /* the list is written twice so the row loops without a gap */
-  [...list,...list].forEach((src,i)=>{
-    const g=GRADS[(i+r*3)%GRADS.length];
-    const c=document.createElement("div");
-    c.className="card";
-    c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
-    const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
-    const im=document.createElement("img");
-    im.src=src;im.alt="";im.loading="lazy";
-    im.onerror=function(){im.remove()};
-    c.append(im);
-    row.append(c);
-  });
-  stage.append(row);
-}
-const box=document.getElementById("petals");
-for(let i=0;i<14;i++){
-  const p=document.createElement("span");p.className="petal";
-  const s=8+Math.random()*10;
-  p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";
-  box.append(p);
-}
+<!-- FIREBASE INTEGRATION SCRIPT -->
+<!-- Notice we added type="module" here! -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+  // 1. Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
+    authDomain: "kizuna-c70d2.firebaseapp.com",
+    projectId: "kizuna-c70d2",
+    storageBucket: "kizuna-c70d2.firebasestorage.app",
+    messagingSenderId: "513173983571",
+    appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
+    measurementId: "G-66RQE9B093"
+  };
+
+  // 2. Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 3. Fetch Data and Build the Stage
+  async function loadDynamicStage() {
+    try {
+      // Pull all documents from the "anime_profiles" collection
+      const querySnapshot = await getDocs(collection(db, "anime_profiles"));
+      let dynamicImages = [];
+
+      // Loop through every anime in the database
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        // If the anime has a cover image URL, push it into our array
+        if (data.media && data.media.coverImageUrl) {
+          dynamicImages.push(data.media.coverImageUrl);
+        }
+      });
+
+      // If the database is empty or has no images yet, use a fallback
+      if (dynamicImages.length === 0) {
+        dynamicImages = ["https://via.placeholder.com/300x450?text=No+Anime+Found"];
+      }
+
+      // 4. Build the UI with the fetched images
+      const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
+      const stage=document.getElementById("stage");
+      
+      for(let r=0;r<5;r++){
+        const row=document.createElement("div");
+        row.className="row"+(r%2?" rev":"");
+        row.style.animationDuration=(70+r*14)+"s";
+        row.style.marginLeft=(-r*70)+"px";
+        
+        const start=(r*5)%dynamicImages.length;
+        const list=[];
+        for(let i=0;i<dynamicImages.length;i++){
+            list.push(dynamicImages[(start+i)%dynamicImages.length]);
+        }
+        
+        // Safety mechanism: If you only have 1 or 2 anime in your database, 
+        // the row will be too short. This copies them until the row is full.
+        let displayList = [...list, ...list];
+        while(displayList.length < 15) {
+            displayList = [...displayList, ...list];
+        }
+
+        displayList.forEach((src,i)=>{
+          const g=GRADS[(i+r*3)%GRADS.length];
+          const c=document.createElement("div");
+          c.className="card";
+          c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
+          const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
+          
+          const im=document.createElement("img");
+          im.src=src;
+          im.alt="Anime Cover";
+          im.loading="lazy";
+          
+          // These inline styles ensure that random poster sizes from the internet 
+          // perfectly fill your cards without stretching or looking weird
+          im.style.width = "100%";
+          im.style.height = "100%";
+          im.style.objectFit = "cover";
+          im.style.opacity = "0.9"; 
+
+          im.onerror=function(){im.remove()};
+          c.append(im);
+          row.append(c);
+        });
+        stage.append(row);
+      }
+    } catch (error) {
+      console.error("Error fetching images from Firebase:", error);
+    }
+  }
+
+  // 5. Run the Petal Animation independently
+  function loadPetals() {
+    const box=document.getElementById("petals");
+    for(let i=0;i<14;i++){
+      const p=document.createElement("span");p.className="petal";
+      const s=8+Math.random()*10;
+      p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";
+      box.append(p);
+    }
+  }
+
+  // Execute both functions when the page loads
+  loadDynamicStage();
+  loadPetals();
 </script>
 </body>
 </html>
