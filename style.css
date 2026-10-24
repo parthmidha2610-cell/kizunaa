@@ -1,0 +1,10 @@
+*{
+    margin: 0px;
+    font-family: Arial;
+    border: border-box;
+    background-color: orange;
+}
+
+h4{
+    text-decoration: red;
+}
