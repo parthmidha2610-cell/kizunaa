@@ -43,7 +43,7 @@
   <div class="top">
     <div class="meter">
       <div class="bar"><i id="fill"></i></div>
-      <small id="pct">0 of 7 groups filled</small>
+      <small id="pct">0 of 6 groups filled</small>
     </div>
   </div>
 
@@ -60,9 +60,12 @@
       <button class="btn" type="button" id="save">Save to KIZUNA</button>
       <p class="note" id="saveMsg" role="status"></p>
     </div>
-    <p class="note">Next, KIZUNA picks three comparable titles from the catalog: one very famous in India, one in the middle and one less known.</p>
-    <button class="btn primary" type="button" id="go">Find comparable titles</button>
+    <p class="note">Next, KIZUNA will process the story, genres, and demographics to predict the ideal Indian target audience and generate a bespoke monetization strategy.</p>
+    <button class="btn primary" type="button" id="go">Predict Indian Target Audience</button>
   </section>
+
+  <!-- New Prediction Output Section -->
+  <section class="review" id="predictionResult" hidden aria-labelledby="predTitle"></section>
 </div>
 
 <script>
@@ -81,8 +84,7 @@ const GROUPS=[
   {k:"themes",t:"chips",l:"Themes and tropes",o:THEMES,full:1},
   {k:"tone",t:"chips",l:"Tone",o:TONES,single:1,full:1}]},
  {name:"Demographic tag",hint:"The audience the show was made for in Japan.",f:[
-  {k:"demo",t:"chips",l:"Demographic tag",o:DEMO,single:1,full:1},
-  {k:"age",t:"select",l:"Target age band",o:["13 to 17","18 to 24","25 to 34","35 and above","All ages"]}]},
+  {k:"demo",t:"chips",l:"Demographic tag",o:DEMO,single:1,full:1}]},
  {name:"Format",hint:"Length and where the story comes from.",f:[
   {k:"eps",t:"number",l:"Episode count"},
   {k:"len",t:"number",l:"Minutes per episode"},
@@ -101,11 +103,8 @@ const GROUPS=[
   {k:"langs",t:"chips",l:"Languages available",o:LANGS,full:1},
   {k:"plat",t:"text",l:"Platforms in India",opt:1},
   {k:"timing",t:"text",l:"Planned release timing",opt:1},
-  {k:"rights",t:"select",l:"Does a partner already hold rights in India?",o:["Not sure","Yes","No"]}]},
- {name:"Comparable titles",hint:"Three to five anime you think yours resembles. KIZUNA also finds its own matches.",f:[
-  {k:"comps",t:"list",l:"Comparable titles",full:1}]}
+  {k:"rights",t:"select",l:"Does a partner already hold rights in India?",o:["Not sure","Yes","No"]}]}
 ];
-
 
 let S={},cur=0;
 const $=id=>document.getElementById(id);
@@ -143,15 +142,6 @@ function field(f){
       box.append(b);
     });
     w.append(box);
-  }else if(f.t==="list"){
-    const a=S[f.k]||[];
-    const box=el("div",{class:"chips"});
-    a.forEach(o=>{const b=el("button",{type:"button",class:"chip rm","aria-label":"Remove "+o},o);b.onclick=()=>{S[f.k]=a.filter(x=>x!==o);render()};box.append(b)});
-    w.append(box);
-    const i=el("input",{type:"text",id:"f_"+f.k,placeholder:a.length>=5?"Five is the limit":"Type a title and press Enter",style:"margin-top:10px"});
-    i.disabled=a.length>=5;
-    i.onkeydown=e=>{if(e.key==="Enter"&&i.value.trim()){e.preventDefault();S[f.k]=[...a,i.value.trim()];render();$("f_"+f.k).focus()}};
-    w.append(i,el("div",{class:"note"},a.length<3?"Add at least three for a better match ("+a.length+" so far).":a.length+" added."));
   }
   return w;
 }
@@ -173,7 +163,7 @@ function render(){
   p.append(el("div",{class:"foot"},back,next));
   meter();
 }
-function meter(){const n=GROUPS.filter(filled).length;$("fill").style.width=(n/7*100)+"%";$("pct").textContent=n+" of 7 groups filled"}
+function meter(){const n=GROUPS.filter(filled).length;$("fill").style.width=(n/6*100)+"%";$("pct").textContent=n+" of 6 groups filled"}
 function refresh(){
   meter();
   document.querySelectorAll(".pill").forEach((b,i)=>{const d=filled(GROUPS[i]),s=b.querySelector(".st");s.textContent=d?"Filled":"Empty";s.className="st"+(d?" done":"")});
@@ -186,8 +176,78 @@ function review(){
   }));
   $("review").hidden=false;$("review").scrollIntoView({behavior:"smooth"});
 }
-$("clear").onclick=()=>{S={};cur=0;$("review").hidden=true;render()};
-$("go").onclick=()=>alert("Comparable matching is the next screen. This one only collects the details.");
+
+/* Prediction Engine Logic */
+function predictAudience() {
+  let scores = { kids: 0, genz: 0, millennials: 0 };
+  const strData = JSON.stringify(S).toLowerCase();
+
+  // Kids Scoring Triggers
+  if (strData.includes("kids") || strData.includes("family")) scores.kids += 5;
+  if (strData.includes("wholesome")) scores.kids += 3;
+  if (strData.includes("all ages")) scores.kids += 3;
+
+  // Gen Z Scoring Triggers
+  if (strData.includes("shonen") || strData.includes("shojo")) scores.genz += 5;
+  if (strData.includes("action") || strData.includes("adventure") || strData.includes("sports")) scores.genz += 3;
+  if (strData.includes("coming of age") || strData.includes("school life") || strData.includes("sports rivalry")) scores.genz += 3;
+
+  // Millennials Scoring Triggers
+  if (strData.includes("seinen") || strData.includes("josei")) scores.millennials += 5;
+  if (strData.includes("psychological") || strData.includes("thriller") || strData.includes("suspense") || strData.includes("crime")) scores.millennials += 4;
+  if (strData.includes("workplace") || strData.includes("conspiracy")) scores.millennials += 3;
+  if (strData.includes("r-17+") || strData.includes("r+") || strData.includes("strong")) scores.millennials += 4;
+
+  // Evaluate highest score (Default to GenZ for general anime traits)
+  let max = Math.max(scores.kids, scores.genz, scores.millennials);
+  let winner = "genz";
+  if (max === scores.kids && max > 0) winner = "kids";
+  else if (max === scores.millennials && max > 0) winner = "millennials";
+
+  renderPrediction(winner);
+}
+
+function renderPrediction(winner) {
+  const p = $("predictionResult");
+  p.replaceChildren();
+
+  const title = el("h2", {id: "predTitle"}, "India Market Strategy Blueprint");
+  const hint = el("p", {class: "hint"}, "Based on the story, themes, and demographics provided, KIZUNA has predicted the ideal Indian target audience and generated a bespoke monetization strategy:");
+
+  let audStr, spendStr, merchStr, stratStr;
+
+  if (winner === "kids") {
+    audStr = "Predicted Target: Kids (6–12 Years)";
+    spendStr = "Low (Parent-dependent purchasing). Target price: ₹10 – ₹250.";
+    merchStr = "FMCG tie-ins (snacks, candies), basic stationery, small domestic toys.";
+    stratStr = "Volume-Driven: Relies heavily on 'pester power' for everyday impulse buys. Studios should license IPs to local snack brands or cheap school-supply makers for massive scale. Co-viewing broadcast TV is essential. Avoid imported merchandise completely.";
+  } else if (winner === "millennials") {
+    audStr = "Predicted Target: Millennials (25–35+ Years)";
+    spendStr = "High (Independent disposable income). Target price: ₹2,000 – ₹10,000+.";
+    merchStr = "Imported scale figures, premium limited-edition apparel, official art books.";
+    stratStr = "Margin-Driven: Premium SVOD subscriptions (Crunchyroll, Netflix) work here. This is the ONLY demographic willing to absorb the 80%+ import duties (Basic Customs Duty + SWS + IGST) for authentic, premium Japanese collector's items. Low sales volume, high profit margin.";
+  } else {
+    audStr = "Predicted Target: Gen Z (13–24 Years)";
+    spendStr = "Low to Medium (Pocket money / Entry-level income). Target price: ₹150 – ₹1,499.";
+    merchStr = "Print-on-Demand (POD) apparel, streetwear collaborations, mobile covers, digital cosplay accessories.";
+    stratStr = "Budget-Capped & Trend-Driven: Highly sensitive to price jumps. AVOD (Ad-supported Free YouTube/OTTs) is mandatory for massive reach. Merch manufacturing MUST be licensed to domestic Indian partners to bypass heavy customs duties and hit the sub-₹1,500 sweet spot.";
+  }
+
+  const dl = el("dl", {id: "stratList"});
+  dl.append(
+    el("dt", {}, "Ideal Target Audience"), el("dd", {}, audStr),
+    el("dt", {}, "Spending Power & Price Limits"), el("dd", {}, spendStr),
+    el("dt", {}, "Merchandise Preferences"), el("dd", {}, merchStr),
+    el("dt", {}, "Platform & Fulfillment Strategy"), el("dd", {}, stratStr)
+  );
+
+  p.append(title, hint, dl);
+  p.hidden = false;
+  p.scrollIntoView({behavior: "smooth"});
+}
+
+$("clear").onclick=()=>{S={};cur=0;$("review").hidden=true;$("predictionResult").hidden=true;render()};
+$("go").onclick = predictAudience;
 
 /* sakura petals */
 (function(){
