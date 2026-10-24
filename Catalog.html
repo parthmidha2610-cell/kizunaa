@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIZUNA | AI Market Intelligence</title>
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
+      --bg: #F3F4F6;
+      --surface: #FFFFFF;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --border: #E5E7EB;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    
+    body { background-color: var(--bg); color: var(--text-main); }
+
+    /* Simple Navbar */
+    .nav {
+      background: var(--surface);
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .nav .brand { font-weight: 700; font-size: 20px; color: var(--primary); text-decoration: none; }
+    .nav .links a { margin-left: 20px; text-decoration: none; color: var(--text-muted); font-weight: 500; }
+    .nav .links a:hover { color: var(--primary); }
+
+    /* Page Header & Search */
+    .header { padding: 40px 40px 20px 40px; }
+    .header h1 { font-size: 28px; margin-bottom: 16px; }
+    .search-bar {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-bar:focus { border-color: var(--primary); }
+
+    /* Grid Layout */
+    .catalog-container {
+      padding: 20px 40px 60px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* Anime Card Styling */
+    .anime-card {
+      background: var(--surface);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .anime-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    .card-image { width: 100%; height: 300px; object-fit: cover; background-color: #E5E7EB; }
+    .card-content { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+    
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { background: #EEF2FF; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    
+    /* Match Button */
+    .match-btn {
+      margin-top: 16px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+    }
+    .match-btn:hover { background-color: var(--primary-hover); }
+
+    /* Modal / Popup UI */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none; justify-content: center; align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white; padding: 30px; border-radius: 12px;
+      width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+    
+    .match-result-card {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px; border: 1px solid var(--border);
+      border-radius: 8px; margin-bottom: 12px;
+      background: #F9FAFB;
+    }
+    .match-details { flex-grow: 1; }
+    
+    /* Loading Animation inside Modal */
+    .loader-container { text-align: center; padding: 30px; color: var(--primary); font-weight: 600; }
+    .spinner {
+      border: 4px solid rgba(79, 70, 229, 0.2);
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Market Data Buttons */
+    .action-row { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .trends-btn {
+      display: inline-block; font-size: 12px; padding: 6px 12px;
+      background: #E5E7EB; color: var(--text-main); text-decoration: none;
+      border-radius: 4px; font-weight: 600; transition: background 0.2s;
+    }
+    .trends-btn:hover { background: #D1D5DB; }
+    .yt-btn { background: #FEE2E2; color: #DC2626; }
+    .yt-btn:hover { background: #FECACA; }
+
+    #loading { padding: 40px; text-align: center; font-size: 18px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="brand" href="index.html">KIZUNA</a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="Processing_File.html">Add Anime</a>
+      <a href="catalog.html" style="color: var(--primary);">Catalog</a>
+    </div>
+  </nav>
+
+  <div class="header">
+    <h1>AI Market Intelligence Catalog</h1>
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search saved anime...">
+  </div>
+
+  <div id="loading">Connecting to Firebase...</div>
+  <div class="catalog-container" id="catalogGrid"></div>
+
+  <!-- MATCHING ENGINE MODAL -->
+  <div class="modal-overlay" id="matchModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">AI is Analyzing...</h2>
+        <button class="close-btn" onclick="document.getElementById('matchModal').style.display='none'">&times;</button>
+      </div>
+      <p id="modalSubtitle" style="margin-bottom: 20px; color: #6B7280; font-size: 14px;">
+        Pinging Gemini AI to pull comparable titles from outside the database.
+      </p>
+      
+      <!-- Container for Results or Loading Spinner -->
+      <div id="matchResultsList"></div>
+    </div>
+  </div>
+
+  <!-- FIREBASE & AI SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+    // API Keys
+    const GEMINI_API_KEY = "AIzaSyCCZkT8lhbxJNuF8_Z0y3z9pwT6H6nqie8"; 
+    const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U"; 
+
+    // Firebase Config (Your database)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
+      authDomain: "kizuna-c70d2.firebaseapp.com",
+      projectId: "kizuna-c70d2",
+      storageBucket: "kizuna-c70d2.firebasestorage.app",
+      messagingSenderId: "513173983571",
+      appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
+      measurementId: "G-66RQE9B093"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let allAnime = [];
+
+    function formatNumber(num) {
+      if (!num) return "0";
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+      return num.toString();
+    }
+
+    // 1. Fetch from your Firebase database to build the cards
+    async function fetchAnimeCatalog() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "anime_profiles"));
+        document.getElementById("loading").style.display = "none";
+        querySnapshot.forEach((doc) => {
+          allAnime.push({ id: doc.id, ...doc.data() });
+        });
+        renderGrid(allAnime);
+      } catch (error) {
+        console.error("Error fetching catalog:", error);
+      }
+    }
+
+    function renderGrid(animeArray) {
+      const grid = document.getElementById("catalogGrid");
+      grid.innerHTML = ""; 
+
+      animeArray.forEach(anime => {
+        const coverUrl = (anime.media && anime.media.coverImageUrl) ? anime.media.coverImageUrl : "https://via.placeholder.com/300x450/111827/FFFFFF?text=No+Image";
+        const title = anime.identity?.title || "Unknown Title";
+        const genres = (anime.identity && anime.identity.genres) ? anime.identity.genres.slice(0, 3) : [];
+        let genreHtml = genres.map(g => `<span class="tag">${g}</span>`).join('');
+
+        const cardHtml = `
+          <div class="anime-card">
+            <img src="${coverUrl}" class="card-image" onerror="this.src='https://via.placeholder.com/300x450/111827/FFFFFF?text=Blocked'">
+            <div class="card-content">
+              <div class="tags">${genreHtml}</div>
+              <h2 class="card-title">${title}</h2>
+              <button class="match-btn" onclick="window.runAIEngine('${title}')">
+                🤖 Ask AI for Market Matches
+              </button>
+            </div>
+          </div>
+        `;
+        grid.innerHTML += cardHtml;
+      });
+    }
+
+    /* =====================================================================
+       ENGINE 3: THE AI ENRICHMENT ENGINE (WITH SAFE PARSING)
+       ===================================================================== */
+    
+    window.runAIEngine = async function(targetAnimeTitle) {
+      const modal = document.getElementById('matchModal');
+      const resultsContainer = document.getElementById('matchResultsList');
+      document.getElementById('modalTitle').innerText = `AI Analysis: ${targetAnimeTitle}`;
+      document.getElementById('modalSubtitle').innerText = "1. AI is thinking... 2. Scraping YouTube APIs...";
+      
+      resultsContainer.innerHTML = `
+        <div class="loader-container">
+          <div class="spinner"></div>
+          <div>Brainstorming global anime comparables for ${targetAnimeTitle}...</div>
+        </div>
+      `;
+      modal.style.display = 'flex';
+
+      try {
+        // STEP 1: Ask Gemini AI for 3 titles
+        console.log("Asking Gemini AI...");
+        const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ 
+                text: `Return ONLY a valid JSON array of exactly 3 string titles of anime that are most similar to "${targetAnimeTitle}" in terms of themes, genres, and audience appeal. Example: ["Naruto", "Bleach", "One Piece"]. No markdown formatting, no explanations.` 
+            }] }]
+          })
+        });
+        
+        const aiData = await aiResponse.json();
+        console.log("Gemini Raw Response:", aiData);
+
+        if (aiData.error) {
+          throw new Error(`Google API Error (${aiData.error.code}):${aiData.error.message}`);
+        }
+        if (!aiData.candidates || aiData.candidates.length === 0) {
+          throw new Error("Gemini AI returned an empty response. It may have triggered a safety filter.");
+        }
+
+        const rawText = aiData.candidates[0].content.parts[0].text;
+        
+        // Smart JSON Array Extraction (Safely extracts [...] even if the AI adds minor surrounding text)
+        const jsonMatch = rawText.match(/\[[\s\S]*\]/);
+        if (!jsonMatch) {
+          throw new Error("Failed to parse JSON array from AI response.");
+        }
+        
+        const comparableTitles = JSON.parse(jsonMatch[0]); 
+        console.log("AI Picked:", comparableTitles);
+
+        // STEP 2 & 3: Ping YouTube API for each title
+        let enrichedComparables = [];
+        document.getElementById('modalSubtitle').innerText = `AI Picked: ${comparableTitles.join(', ')}. Fetching Views...`;
+
+        for (let title of comparableTitles) {
+          const ytSearch = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title + " anime official trailer")}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`); const searchData = await ytSearch.json();  let videoId = ""; let views = 0;  if (searchData.items && searchData.items.length > 0) { videoId = searchData.items[0].id.videoId;  const ytStats = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`); const statsData = await ytStats.json(); if (statsData.items && statsData.items.length > 0) { views = parseInt(statsData.items[0].statistics.viewCount); } }  const trendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(title)}`;
+          const ytLink = videoId ? `https://youtube.com/watch?v=${videoId}` : `https://youtube.com/results?search_query=${encodeURIComponent(title + ' anime')}`;
+
+          enrichedComparables.push({ title, views, trendsUrl, ytLink });
+        }
+
+        // STEP 4: Render to Screen
+        document.getElementById('modalSubtitle').innerText = "Market Data successfully acquired!";
+        resultsContainer.innerHTML = "";
+
+        enrichedComparables.forEach(comp => {
+          resultsContainer.innerHTML += `
+            <div class="match-result-card">
+              <div class="match-details">
+                <div style
