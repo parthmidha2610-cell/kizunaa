@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIZUNA Anime Ingestion - Full Schema + YouTube</title>
+  <title>KIZUNA Anime Ingestion - Database Builder</title>
   <style>
     :root {
       --primary: #4F46E5;
@@ -387,17 +387,6 @@
         </div>
       </div>
 
-      <!-- 9. COMPARABLE TITLES -->
-      <div class="section">
-        <div class="section-title">9. Comparable Titles</div>
-        <span class="sub-label">Add exactly three anime for a better match.</span>
-        <div class="grid">
-          <div class="full-width"><input type="text" id="comp1" placeholder="Title 1 (Required)" required></div>
-          <div class="full-width"><input type="text" id="comp2" placeholder="Title 2 (Required)" required></div>
-          <div class="full-width"><input type="text" id="comp3" placeholder="Title 3 (Required)" required></div>
-        </div>
-      </div>
-
       <button type="submit" class="submit-btn" id="submitBtn">Save Anime to Firebase</button>
     </form>
   </div>
@@ -462,7 +451,7 @@
       
       const submitBtn = document.getElementById('submitBtn');
       const originalText = submitBtn.innerText;
-      submitBtn.innerText = "Fetching YouTube Stats & Saving...";
+      submitBtn.innerText = "Connecting to Firebase...";
       submitBtn.disabled = true;
 
       const animeTitle = document.getElementById('title').value.trim();
@@ -520,13 +509,29 @@
           trailerViewCount: trailerStats.views,
           trailerLikeCount: trailerStats.likes
         },
-        comparables: [
-          document.getElementById('comp1').value,
-          document.getElementById('comp2').value,
-          document.getElementById('comp3').value
-        ].filter(val => val.trim() !== ""),
         updatedAt: new Date().toISOString()
       };
 
       try {
-        const docRef = doc(db, "anime_profiles",
+        console.log("Attempting to write to database...");
+        const docRef = doc(db, "anime_profiles", animeTitle);
+        await setDoc(docRef, animePayload);
+        
+        console.log("SUCCESS! Document saved:", animeTitle);
+        submitBtn.innerText = "Success! Saved.";
+        document.getElementById('kizunaForm').reset();
+        
+      } catch (error) {
+        console.error("FIREBASE ERROR: ", error.code, error.message);
+        submitBtn.innerText = "Error - Check Console (F12)";
+        alert("Failed to connect to Firebase! Check the console (F12) for the exact error.");
+      } finally {
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.disabled = false;
+        }, 3500);
+      }
+    });
+  </script>
+</body>
+</html>
