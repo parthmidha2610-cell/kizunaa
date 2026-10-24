@@ -179,7 +179,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // API Keys
+    // API Keys (Note: In production, do not hardcode secret keys in the frontend)
     const GEMINI_API_KEY = "AIzaSyCCZkT8lhbxJNuF8_Z0y3z9pwT6H6nqie8"; 
     const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U"; 
 
@@ -302,7 +302,22 @@
         document.getElementById('modalSubtitle').innerText = `AI Picked: ${comparableTitles.join(', ')}. Fetching Views...`;
 
         for (let title of comparableTitles) {
-          const ytSearch = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title + " anime official trailer")}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`); const searchData = await ytSearch.json();  let videoId = ""; let views = 0;  if (searchData.items && searchData.items.length > 0) { videoId = searchData.items[0].id.videoId;  const ytStats = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`); const statsData = await ytStats.json(); if (statsData.items && statsData.items.length > 0) { views = parseInt(statsData.items[0].statistics.viewCount); } }  const trendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(title)}`;
+          const ytSearch = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title + " anime official trailer")}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`); 
+          const searchData = await ytSearch.json();  
+          let videoId = ""; 
+          let views = 0;  
+          
+          if (searchData.items && searchData.items.length > 0) { 
+            videoId = searchData.items[0].id.videoId;  
+            const ytStats = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`); 
+            const statsData = await ytStats.json(); 
+            
+            if (statsData.items && statsData.items.length > 0) { 
+              views = parseInt(statsData.items[0].statistics.viewCount); 
+            } 
+          }  
+          
+          const trendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(title)}`;
           const ytLink = videoId ? `https://youtube.com/watch?v=${videoId}` : `https://youtube.com/results?search_query=${encodeURIComponent(title + ' anime')}`;
 
           enrichedComparables.push({ title, views, trendsUrl, ytLink });
@@ -316,4 +331,39 @@
           resultsContainer.innerHTML += `
             <div class="match-result-card">
               <div class="match-details">
-                <div style
+                <div style="font-size: 16px; font-weight: bold; margin-bottom: 4px;">${comp.title}</div>
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px;">Trailer Views: <strong>${formatNumber(comp.views)}</strong></div>
+                <div class="action-row">
+                  <a href="${comp.trendsUrl}" target="_blank" class="trends-btn">📈 Google Trends</a>
+                  <a href="${comp.ytLink}" target="_blank" class="trends-btn yt-btn">▶️ Watch Trailer</a>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+      } catch (error) {
+        console.error("AI Engine Error:", error);
+        resultsContainer.innerHTML = `
+          <div style="padding: 20px; color: #DC2626; background: #FEE2E2; border-radius: 8px;">
+            <strong>Error:</strong> ${error.message}
+          </div>`;
+      }
+    };
+
+    // Filter Search Functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filtered = allAnime.filter(anime => {
+        const title = anime.identity?.title || "";
+        return title.toLowerCase().includes(searchTerm);
+      });
+      renderGrid(filtered);
+    });
+
+    // Initialize the catalog when the script loads
+    fetchAnimeCatalog();
+
+  </script>
+</body>
+</html>
