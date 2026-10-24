@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIZUNA Anime Ingestion</title>
+  <title>KIZUNA Anime Ingestion - Full Schema</title>
   <style>
     :root {
       --primary: #4F46E5;
@@ -69,12 +69,21 @@
     label {
       display: block;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       margin-bottom: 6px;
-      color: var(--text-muted);
+      margin-top: 12px;
+      color: var(--text-main);
     }
 
-    input, select, textarea {
+    .sub-label {
+      font-size: 12px;
+      font-weight: normal;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input[type="text"], input[type="number"], select, textarea {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid var(--border);
@@ -92,6 +101,29 @@
     textarea {
       resize: vertical;
       min-height: 80px;
+    }
+
+    /* Checkbox Grid System */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: var(--text-main);
+      font-weight: normal;
+    }
+
+    .checkbox-item input {
+      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
     }
 
     .submit-btn {
@@ -124,93 +156,234 @@
     
     <form id="kizunaForm">
       
-      <!-- 1. Identity -->
+      <!-- 1. IDENTITY -->
       <div class="section">
         <div class="section-title">1. Identity</div>
-        <div class="grid">
-          <div class="full-width">
-            <label for="title">Title</label>
-            <input type="text" id="title" required>
-          </div>
-          <div class="full-width">
-            <label for="storyline">Storyline</label>
-            <textarea id="storyline" required></textarea>
-          </div>
-          <div class="full-width">
-            <label for="genres">Genres (Comma separated)</label>
-            <input type="text" id="genres" placeholder="Action, Fantasy, Drama...">
-          </div>
+        <span class="sub-label">What the story is and how it feels.</span>
+        
+        <label for="title">Title (Required - This becomes the Firebase Document ID)</label>
+        <input type="text" id="title" required>
+        
+        <label for="storyline">Storyline</label>
+        <textarea id="storyline" required></textarea>
+
+        <label>Genre</label>
+        <div class="checkbox-grid" id="genreGroup">
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Action"> Action</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Adventure"> Adventure</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Comedy"> Comedy</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Crime"> Crime</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Drama"> Drama</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Fantasy"> Fantasy</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Horror"> Horror</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Mystery"> Mystery</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Psychological"> Psychological</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Romance"> Romance</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Sci-fi"> Sci-fi</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Slice of life"> Slice of life</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Sports"> Sports</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Supernatural"> Supernatural</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Suspense"> Suspense</label>
+          <label class="checkbox-item"><input type="checkbox" name="genre" value="Thriller"> Thriller</label>
+        </div>
+
+        <label for="subGenre">Sub-genre (optional)</label>
+        <input type="text" id="subGenre">
+
+        <label>Themes and Tropes</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Found family"> Found family</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Revenge"> Revenge</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Sports rivalry"> Sports rivalry</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="School life"> School life</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Mythology"> Mythology</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Conspiracy"> Conspiracy</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Coming of age"> Coming of age</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Survival"> Survival</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Workplace"> Workplace</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Friendship"> Friendship</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Redemption"> Redemption</label>
+          <label class="checkbox-item"><input type="checkbox" name="theme" value="Identity"> Identity</label>
+        </div>
+
+        <label>Tone</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Dark"> Dark</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Comedic"> Comedic</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Wholesome"> Wholesome</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Deadpan"> Deadpan</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Tense"> Tense</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Melancholic"> Melancholic</label>
+          <label class="checkbox-item"><input type="checkbox" name="tone" value="Epic"> Epic</label>
         </div>
       </div>
 
-      <!-- 2. Format & Demographic -->
+      <!-- 2. DEMOGRAPHIC -->
       <div class="section">
-        <div class="section-title">2. Format & Demographic</div>
+        <div class="section-title">2. Demographic</div>
+        <span class="sub-label">The audience the show was made for in Japan.</span>
         <div class="grid">
           <div>
             <label for="demoTag">Demographic Tag</label>
             <select id="demoTag">
-              <option value="">Select...</option>
+              <option value="">Choose one...</option>
               <option value="Shonen">Shonen</option>
               <option value="Seinen">Seinen</option>
               <option value="Shojo">Shojo</option>
               <option value="Josei">Josei</option>
-              <option value="Kids/Family">Kids / Family</option>
+              <option value="Kids / Family">Kids / Family</option>
             </select>
           </div>
           <div>
-            <label for="sourceMaterial">Source Material</label>
-            <select id="sourceMaterial">
-              <option value="">Select...</option>
-              <option value="Original">Original anime</option>
-              <option value="Manga">Adapted from manga</option>
-              <option value="Novel">Adapted from a novel</option>
-              <option value="Game">Adapted from a game</option>
+            <label for="ageBand">Target Age Band</label>
+            <select id="ageBand">
+              <option value="">Choose one...</option>
+              <option value="13 to 17">13 to 17</option>
+              <option value="18 to 24">18 to 24</option>
+              <option value="25 to 34">25 to 34</option>
+              <option value="35 and above">35 and above</option>
+              <option value="All ages">All ages</option>
             </select>
           </div>
+        </div>
+      </div>
+
+      <!-- 3. FORMAT -->
+      <div class="section">
+        <div class="section-title">3. Format</div>
+        <span class="sub-label">Length and where the story comes from.</span>
+        <div class="grid">
           <div>
             <label for="episodeCount">Episode Count</label>
             <input type="number" id="episodeCount">
           </div>
           <div>
-            <label for="ageBand">Target Age Band</label>
-            <select id="ageBand">
-              <option value="">Select...</option>
-              <option value="13-17">13 to 17</option>
-              <option value="18-24">18 to 24</option>
-              <option value="25-34">25 to 34</option>
-              <option value="35+">35 and above</option>
-              <option value="All">All ages</option>
+            <label for="minutesPerEpisode">Minutes per Episode</label>
+            <input type="number" id="minutesPerEpisode">
+          </div>
+          <div>
+            <label for="sourceMaterial">Original or Adapted</label>
+            <select id="sourceMaterial">
+              <option value="">Choose one...</option>
+              <option value="Original anime">Original anime</option>
+              <option value="Adapted from manga">Adapted from manga</option>
+              <option value="Adapted from a novel">Adapted from a novel</option>
+              <option value="Adapted from a game">Adapted from a game</option>
+            </select>
+          </div>
+          <div>
+            <label for="releaseStatus">Release Status</label>
+            <select id="releaseStatus">
+              <option value="">Choose one...</option>
+              <option value="Not released yet">Not released yet</option>
+              <option value="Released in Japan">Released in Japan</option>
+              <option value="Already available in India">Already available in India</option>
+              <option value="New season of an existing show">New season of an existing show</option>
             </select>
           </div>
         </div>
       </div>
 
-      <!-- 3. Comparable Titles -->
+      <!-- 4. PRODUCTION -->
       <div class="section">
-        <div class="section-title">3. Comparable Titles</div>
-        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">Add up to 5 comparable anime for better matching.</p>
+        <div class="section-title">4. Production</div>
+        <span class="sub-label">A known studio or director often brings its own fans.</span>
         <div class="grid">
-          <div class="full-width"><input type="text" id="comp1" placeholder="Comparable Title 1"></div>
-          <div class="full-width"><input type="text" id="comp2" placeholder="Comparable Title 2"></div>
-          <div class="full-width"><input type="text" id="comp3" placeholder="Comparable Title 3"></div>
-          <div class="full-width"><input type="text" id="comp4" placeholder="Comparable Title 4"></div>
-          <div class="full-width"><input type="text" id="comp5" placeholder="Comparable Title 5"></div>
+          <div><label for="studio">Studio</label><input type="text" id="studio"></div>
+          <div><label for="director">Director</label><input type="text" id="director"></div>
+          <div><label for="composer">Composer (optional)</label><input type="text" id="composer"></div>
+          <div><label for="leadCast">Lead Voice Cast (optional)</label><input type="text" id="leadCast"></div>
         </div>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn">Save to Firebase</button>
+      <!-- 5. CONTENT SENSITIVITY -->
+      <div class="section">
+        <div class="section-title">5. Content Sensitivity</div>
+        <span class="sub-label">This affects age ratings and which ad channels will accept the show.</span>
+        <div class="grid">
+          <div>
+            <label for="violence">Violence</label>
+            <select id="violence">
+              <option value="">Choose one...</option>
+              <option value="None">None</option>
+              <option value="Mild">Mild</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Strong">Strong</option>
+            </select>
+          </div>
+          <div>
+            <label for="sexualContent">Sexual Content</label>
+            <select id="sexualContent">
+              <option value="">Choose one...</option>
+              <option value="None">None</option>
+              <option value="Mild">Mild</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Strong">Strong</option>
+            </select>
+          </div>
+          <div>
+            <label for="ageRating">Age Rating</label>
+            <select id="ageRating">
+              <option value="">Choose one...</option>
+              <option value="All ages">All ages</option>
+              <option value="PG-13">PG-13</option>
+              <option value="R-17+">R-17+</option>
+              <option value="R+ (mild nudity)">R+ (mild nudity)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. MARKET READINESS -->
+      <div class="section">
+        <div class="section-title">6. Market Readiness</div>
+        <span class="sub-label">What a fan in India could actually watch today.</span>
+        
+        <label>Languages Available</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" name="language" value="Japanese with subtitles"> Japanese with subtitles</label>
+          <label class="checkbox-item"><input type="checkbox" name="language" value="English dub"> English dub</label>
+          <label class="checkbox-item"><input type="checkbox" name="language" value="Hindi dub"> Hindi dub</label>
+          <label class="checkbox-item"><input type="checkbox" name="language" value="Tamil dub"> Tamil dub</label>
+          <label class="checkbox-item"><input type="checkbox" name="language" value="Telugu dub"> Telugu dub</label>
+        </div>
+
+        <div class="grid" style="margin-top: 16px;">
+          <div><label for="platforms">Platforms in India (optional)</label><input type="text" id="platforms"></div>
+          <div><label for="plannedRelease">Planned release timing (optional)</label><input type="text" id="plannedRelease"></div>
+          <div>
+            <label for="rightsInIndia">Does a partner already hold rights in India?</label>
+            <select id="rightsInIndia">
+              <option value="">Choose one...</option>
+              <option value="Not sure">Not sure</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. COMPARABLE TITLES -->
+      <div class="section">
+        <div class="section-title">7. Comparable Titles</div>
+        <span class="sub-label">Add exactly three anime for a better match.</span>
+        <div class="grid">
+          <div class="full-width"><input type="text" id="comp1" placeholder="Title 1 (Required)" required></div>
+          <div class="full-width"><input type="text" id="comp2" placeholder="Title 2 (Required)" required></div>
+          <div class="full-width"><input type="text" id="comp3" placeholder="Title 3 (Required)" required></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Save Anime to Firebase</button>
     </form>
   </div>
 
   <!-- FIREBASE INTEGRATION SCRIPT -->
   <script type="module">
-    // 1. Import using the direct web links (CDN)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-    // 2. Your exact Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
       authDomain: "kizuna-c70d2.firebaseapp.com",
@@ -221,12 +394,16 @@
       measurementId: "G-66RQE9B093"
     };
 
-    // 3. Initialize Firebase and Firestore
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
 
-    // 4. Form Submission Handler
+    // Helper function to get all checked checkboxes for a specific category
+    function getCheckedValues(inputName) {
+      const checkboxes = document.querySelectorAll(`input[name="${inputName}"]:checked`);
+      return Array.from(checkboxes).map(cb => cb.value);
+    }
+
     document.getElementById('kizunaForm').addEventListener('submit', async (e) => {
       e.preventDefault(); 
       
@@ -235,57 +412,73 @@
       submitBtn.innerText = "Saving to Database...";
       submitBtn.disabled = true;
 
-      // Extract comma-separated genres into an array
-      const genresRaw = document.getElementById('genres').value;
-      const genresArray = genresRaw ? genresRaw.split(',').map(g => g.trim()) : [];
+      // Ensure Title is used as the exact Document ID
+      const animeTitle = document.getElementById('title').value.trim();
 
-      // Extract comparable titles and remove empty inputs
-      const comparablesArray = [
-        document.getElementById('comp1').value,
-        document.getElementById('comp2').value,
-        document.getElementById('comp3').value,
-        document.getElementById('comp4').value,
-        document.getElementById('comp5').value
-      ].filter(val => val.trim() !== "");
-
-      // Construct the JSON Payload
+      // Construct the comprehensive JSON Payload based on all fields
       const animePayload = {
         identity: {
-          title: document.getElementById('title').value,
+          title: animeTitle,
           storyline: document.getElementById('storyline').value,
-          genres: genresArray
+          genres: getCheckedValues('genre'),
+          subGenre: document.getElementById('subGenre').value,
+          themesAndTropes: getCheckedValues('theme'),
+          tone: getCheckedValues('tone')
         },
         demographic: {
           tag: document.getElementById('demoTag').value,
-          ageBand: document.getElementById('ageBand').value
+          targetAgeBand: document.getElementById('ageBand').value
         },
         format: {
+          episodeCount: parseInt(document.getElementById('episodeCount').value) || 0,
+          minutesPerEpisode: parseInt(document.getElementById('minutesPerEpisode').value) || 0,
           originalOrAdapted: document.getElementById('sourceMaterial').value,
-          episodeCount: parseInt(document.getElementById('episodeCount').value) || 0
+          releaseStatus: document.getElementById('releaseStatus').value
         },
-        comparables: comparablesArray,
-        createdAt: new Date().toISOString()
+        production: {
+          studio: document.getElementById('studio').value,
+          director: document.getElementById('director').value,
+          composer: document.getElementById('composer').value,
+          leadVoiceCast: document.getElementById('leadCast').value
+        },
+        contentSensitivity: {
+          violence: document.getElementById('violence').value,
+          sexualContent: document.getElementById('sexualContent').value,
+          ageRating: document.getElementById('ageRating').value
+        },
+        marketReadiness: {
+          languagesAvailable: getCheckedValues('language'),
+          platformsInIndia: document.getElementById('platforms').value,
+          plannedReleaseTiming: document.getElementById('plannedRelease').value,
+          rightsInIndia: document.getElementById('rightsInIndia').value
+        },
+        comparables: [
+          document.getElementById('comp1').value,
+          document.getElementById('comp2').value,
+          document.getElementById('comp3').value
+        ].filter(val => val.trim() !== ""),
+        updatedAt: new Date().toISOString()
       };
 
       try {
-        // Send data to Firestore collection named "anime_profiles"
-        const docRef = await addDoc(collection(db, "anime_profiles"), animePayload);
+        // setDoc lets us name the document exactly what the Anime Title is
+        const docRef = doc(db, "anime_profiles", animeTitle);
+        await setDoc(docRef, animePayload);
         
-        console.log("Document successfully written with ID: ", docRef.id);
-        submitBtn.innerText = "Success! Data Saved.";
+        console.log("Document successfully written with Title ID: ", animeTitle);
+        submitBtn.innerText = "Success! " + animeTitle + " Saved.";
         
-        // Reset form for the next entry
+        // Reset form for next entry
         document.getElementById('kizunaForm').reset();
         
       } catch (error) {
         console.error("Error writing to Firebase: ", error);
         submitBtn.innerText = "Error - Check Console (F12)";
       } finally {
-        // Restore button state after 3 seconds
         setTimeout(() => {
           submitBtn.innerText = originalText;
           submitBtn.disabled = false;
-        }, 3000);
+        }, 3500);
       }
     });
   </script>
