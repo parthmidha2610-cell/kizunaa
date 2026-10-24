@@ -90,6 +90,7 @@
       border-radius: 6px;
       font-size: 14px;
       transition: border-color 0.2s;
+      background-color: white;
     }
 
     input:focus, select:focus, textarea:focus {
@@ -123,6 +124,24 @@
       width: 16px;
       height: 16px;
       cursor: pointer;
+    }
+
+    /* Image Preview Box */
+    #imagePreviewContainer {
+      margin-top: 12px;
+      display: none;
+      width: 100%;
+      max-width: 250px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background-color: #f3f4f6;
+    }
+    #imagePreview {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
     }
 
     .submit-btn {
@@ -377,11 +396,23 @@
 
       <!-- 8. MEDIA & TRAILER -->
       <div class="section" style="border-left: 4px solid var(--primary);">
-        <div class="section-title">8. Media & Trailer</div>
-        <span class="sub-label">Link the official YouTube trailer. KIZUNA will extract the ID and fetch stats automatically.</span>
+        <div class="section-title">8. Media: Images & Trailer</div>
+        <span class="sub-label">Paste a public image link and the official YouTube trailer URL.</span>
         <div class="grid">
-          <div class="full-width">
-            <label for="youtubeUrl">YouTube Trailer URL (or Video ID)</label>
+          
+          <!-- IMAGE URL FIELD -->
+          <div>
+            <label for="coverImageUrl">Anime Cover Image URL (Public Link)</label>
+            <input type="text" id="coverImageUrl" placeholder="e.g., https://example.com/poster.jpg">
+            
+            <!-- Image Preview Box -->
+            <div id="imagePreviewContainer">
+              <img id="imagePreview" src="" alt="Image Preview">
+            </div>
+          </div>
+          
+          <div>
+            <label for="youtubeUrl">YouTube Trailer URL</label>
             <input type="text" id="youtubeUrl" placeholder="e.g., https://www.youtube.com/watch?v=dQw4w9WgXcQ">
           </div>
         </div>
@@ -395,6 +426,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+    // We NO LONGER import firebase-storage, avoiding all billing requirements!
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
     // 1. YOUR FIREBASE KEYS
@@ -402,7 +434,7 @@
       apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
       authDomain: "kizuna-c70d2.firebaseapp.com",
       projectId: "kizuna-c70d2",
-      storageBucket: "kizuna-c70d2.firebasestorage.app",
+      storageBucket: "kizuna-c70d2.firebasestorage.app", 
       messagingSenderId: "513173983571",
       appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
       measurementId: "G-66RQE9B093"
@@ -411,9 +443,29 @@
     // 2. YOUR YOUTUBE API KEY
     const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U";
 
+    // 3. Initialize Firebase Services
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
+
+    // Live Image Preview Feature (Triggers when you paste a URL)
+    document.getElementById('coverImageUrl').addEventListener('input', function(e) {
+      const url = e.target.value.trim();
+      const previewContainer = document.getElementById('imagePreviewContainer');
+      const previewImage = document.getElementById('imagePreview');
+      
+      if (url) {
+        previewImage.src = url;
+        previewContainer.style.display = 'block';
+        
+        // Hide preview if the URL is broken
+        previewImage.onerror = function() {
+            previewContainer.style.display = 'none';
+        };
+      } else {
+        previewContainer.style.display = 'none';
+      }
+    });
 
     function getCheckedValues(inputName) {
       const checkboxes = document.querySelectorAll(`input[name="${inputName}"]:checked`);
@@ -451,15 +503,22 @@
       
       const submitBtn = document.getElementById('submitBtn');
       const originalText = submitBtn.innerText;
-      submitBtn.innerText = "Connecting to Firebase...";
-      submitBtn.disabled = true;
-
+      
       const animeTitle = document.getElementById('title').value.trim();
+      if(!animeTitle) {
+          alert("Title is required!");
+          return;
+      }
 
-      // Process YouTube Trailer Data
+      // --- FETCH YOUTUBE STATS ---
+      submitBtn.innerText = "Fetching YouTube Stats...";
+      submitBtn.disabled = true;
       const rawYoutubeUrl = document.getElementById('youtubeUrl').value;
       const cleanTrailerId = extractYouTubeId(rawYoutubeUrl);
       const trailerStats = await getYouTubeStats(cleanTrailerId);
+
+      // --- SAVE EVERYTHING TO FIRESTORE ---
+      submitBtn.innerText = "Saving to Database...";
 
       const animePayload = {
         identity: {
@@ -505,6 +564,7 @@
           rottenTomatoesAudience: document.getElementById('rtAudience').value ? parseInt(document.getElementById('rtAudience').value) : null
         },
         media: {
+          coverImageUrl: document.getElementById('coverImageUrl').value.trim(), // <--- Saves the public URL!
           youtubeTrailerId: cleanTrailerId,
           trailerViewCount: trailerStats.views,
           trailerLikeCount: trailerStats.likes
@@ -513,18 +573,19 @@
       };
 
       try {
-        console.log("Attempting to write to database...");
         const docRef = doc(db, "anime_profiles", animeTitle);
         await setDoc(docRef, animePayload);
         
         console.log("SUCCESS! Document saved:", animeTitle);
         submitBtn.innerText = "Success! Saved.";
+        
+        // Reset everything
         document.getElementById('kizunaForm').reset();
+        document.getElementById('imagePreviewContainer').style.display = 'none';
         
       } catch (error) {
         console.error("FIREBASE ERROR: ", error.code, error.message);
         submitBtn.innerText = "Error - Check Console (F12)";
-        alert("Failed to connect to Firebase! Check the console (F12) for the exact error.");
       } finally {
         setTimeout(() => {
           submitBtn.innerText = originalText;
