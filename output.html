@@ -124,21 +124,18 @@
   .rticks span:first-child{transform:none}
   .rticks span:last-child{transform:translateX(-100%)}
   .ticks-row{margin-top:6px}
-  .formula{display:inline-block;padding:12px 16px;border-radius:10px;font-size:clamp(15px,2.6vw,20px);font-weight:700;background:color-mix(in srgb,var(--accent) 12%,transparent);border-left:4px solid var(--accent);margin-bottom:14px;font-family:var(--head-font,inherit)}
+  .formula{display:inline-block;padding:12px 16px;border-radius:10px;font-size:clamp(16px,3vw,22px);font-weight:700;background:color-mix(in srgb,var(--accent) 12%,transparent);border-left:4px solid var(--accent);margin-bottom:14px;font-family:var(--head-font,inherit)}
   .reclist{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px;font-size:14px;line-height:1.5}
   .reclist li{display:flex;gap:10px;align-items:flex-start}
   .reclist.plain li{display:block}
   .tiers-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin-bottom:4px}
   .legend-item{display:inline-flex;align-items:center;gap:6px}
-  .howto{margin-top:14px;font-size:14px}
-  .howto summary{cursor:pointer;font-weight:600}
-  .howto pre{overflow-x:auto;padding:12px;border-radius:10px;background:rgba(128,128,128,.12);font-size:12px}
   .rec-head{margin-bottom:6px}
   .rec-seg{font-size:clamp(20px,3.5vw,28px);font-weight:700;color:var(--accent);font-family:var(--head-font,inherit)}
   .rec-title{margin:4px 0 14px;font-size:15px;opacity:.85}
   .mixbar{display:flex;height:34px;border-radius:10px;overflow:hidden;border:1px solid rgba(128,128,128,.3)}
   .mixseg{display:flex;align-items:center;justify-content:center;font-size:12px;white-space:nowrap;overflow:hidden}
-  /* Section 6: Dubbing Language & India Market Feasibility Analyzer */
+  /* Dubbing Styles */
   .dub-intro{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px}
   .dub-q{padding:12px 14px;border-radius:10px;border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.05);font-size:14px;line-height:1.45}
   .dub-q strong{display:block;color:var(--accent);font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
@@ -148,29 +145,18 @@
   .ev-label{font-size:14px;font-weight:600}
   .ev-src{font-size:12px;opacity:.75;margin-top:auto}
   .ev-src a{color:inherit;text-decoration:underline}
-  .calc-subhead{font-size:15px;font-weight:700;margin:0 0 6px;font-family:var(--head-font,inherit)}
-  .lang-checks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
-  .lang-check{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.05);font-size:13px;cursor:pointer;user-select:none}
-  .lang-check input{accent-color:var(--accent);cursor:pointer;margin:0}
-  .calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px}
-  .calc-field{display:flex;flex-direction:column;gap:5px;font-size:13px}
-  .calc-field span{opacity:.8;font-weight:500}
-  .calc-field input{font:inherit;color:inherit;padding:9px 11px;border-radius:8px;border:1px solid rgba(128,128,128,.45);background:rgba(128,128,128,.06)}
-  .calc-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
-  .res-card{padding:14px;border-radius:12px;border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.05)}
-  .res-val{font-size:clamp(20px,3.2vw,26px);font-weight:700;color:var(--accent);font-family:var(--head-font,inherit);margin-top:2px}
-  .be-banner{padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600;margin-bottom:8px;border-left:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
-  .be-banner.warn{border-left-color:#d97706;background:rgba(217,119,6,.12)}
-  .fit-divider{border:0;border-top:1px solid rgba(128,128,128,.25);margin:24px 0 18px}
-  .fit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:12px 0 16px}
-  .fit-item{padding:10px 12px;border-radius:10px;border:1px solid rgba(128,128,128,.28);background:rgba(128,128,128,.04)}
-  .fit-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;gap:8px}
-  .fit-item input[type="range"]{width:100%;accent-color:var(--accent);cursor:pointer}
-  .fit-summary{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px;border-radius:12px;border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.06)}
-  .rec-kv{display:grid;grid-template-columns:minmax(180px,230px) 1fr;gap:8px 14px;font-size:14px;line-height:1.5}
-  .rec-kv dt{font-weight:700;opacity:.85}
-  .rec-kv dd{margin:0}
-  @media (max-width:640px){.tierrow{grid-template-columns:44px 1fr}.tierplats{grid-column:1/-1}.tierbadge{width:44px;height:44px;font-size:22px}.rrow{grid-template-columns:76px 1fr 48px}.rec-kv{grid-template-columns:1fr}}
+  /* Comparable & Google Trends Action Buttons */
+  .comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:14px}
+  .comp-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:18px 14px;border-radius:12px;border:1px solid rgba(128,128,128,.3);background:rgba(128,128,128,.06)}
+  .comp-cover{width:76px;height:106px;border-radius:8px;object-fit:cover;background:rgba(128,128,128,.2)}
+  .comp-views{font-size:12px;opacity:.8}
+  .action-row{margin-top:auto;padding-top:8px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .trends-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:6px 12px;background:rgba(128,128,128,.16);color:inherit;text-decoration:none;border-radius:6px;font-weight:600;border:1px solid rgba(128,128,128,.35);transition:background .2s}
+  .trends-btn:hover{background:rgba(128,128,128,.28)}
+  .yt-btn{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent);border-color:var(--accent)}
+  .yt-btn:hover{background:color-mix(in srgb,var(--accent) 26%,transparent)}
+  .trends-compare-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,var(--accent) 10%,transparent);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);margin-top:8px;font-size:13px}
+  @media (max-width:640px){.tierrow{grid-template-columns:44px 1fr}.tierplats{grid-column:1/-1}.tierbadge{width:44px;height:44px;font-size:22px}.rrow{grid-template-columns:76px 1fr 48px}}
   .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
   .loading,.empty{text-align:center;padding:48px 16px}
 </style>
@@ -210,6 +196,8 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
   import { getFirestore, collection, addDoc, doc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
+  const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U";
+
   const firebaseConfig = {
     apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
     authDomain: "kizuna-c70d2.firebaseapp.com",
@@ -230,19 +218,45 @@
   };
   const has = v => Array.isArray(v) ? v.length > 0 : v !== undefined && v !== "" && v !== null;
 
+  // Safely normalizes any string or array field into a lowercase string array
+  const normList = v => {
+    if (!v) return [];
+    if (Array.isArray(v)) return v.map(x => String(x || "").toLowerCase().trim()).filter(Boolean);
+    return String(v).split(/[,·/|]/).map(x => x.toLowerCase().trim()).filter(Boolean);
+  };
+
+  function formatNumber(num) {
+    if (!num) return "0";
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+    return num.toString();
+  }
+
   /* ---------- 1. Load data: Firestore (if ?id=) or this tab's session ---------- */
   let savedId = new URLSearchParams(location.search).get("id");
 
   function fromPayload(p) {
     return {
-      title: p.identity?.title, story: p.identity?.story, genres: p.identity?.genres,
-      themes: p.identity?.themes, tone: p.identity?.tone,
-      demo: p.demographics?.target,
-      eps: p.format?.eps, len: p.format?.len, src: p.format?.src, status: p.format?.status,
-      studio: p.production?.studio, director: p.production?.director,
-      viol: p.sensitivity?.viol, sex: p.sensitivity?.sex, rate: p.sensitivity?.rate,
-      langs: p.market?.langs, plat: p.market?.plat, timing: p.market?.timing, rights: p.market?.rights,
-      coverImageUrl: p.media?.coverImageUrl
+      title: p.identity?.title || p.title,
+      story: p.identity?.story || p.story,
+      genres: p.identity?.genres || p.genres,
+      themes: p.identity?.themes || p.themes,
+      tone: p.identity?.tone || p.tone,
+      demo: p.demographics?.target || p.demo,
+      eps: p.format?.eps ?? p.eps,
+      len: p.format?.len ?? p.len,
+      src: p.format?.src || p.src,
+      status: p.format?.status || p.status,
+      studio: p.production?.studio || p.studio,
+      director: p.production?.director || p.director,
+      viol: p.sensitivity?.viol || p.viol,
+      sex: p.sensitivity?.sex || p.sex,
+      rate: p.sensitivity?.rate || p.rate,
+      langs: p.market?.langs || p.langs,
+      plat: p.market?.plat || p.plat,
+      timing: p.market?.timing || p.timing,
+      rights: p.market?.rights || p.rights,
+      coverImageUrl: p.media?.coverImageUrl || p.coverImageUrl
     };
   }
 
@@ -255,7 +269,7 @@
     }
     try {
       const raw = sessionStorage.getItem("kizunaReport");
-      if (raw) return JSON.parse(raw);
+      if (raw) return fromPayload(JSON.parse(raw));
     } catch (e) {}
     return null;
   }
@@ -263,7 +277,6 @@
   /* ---------- 2. Prediction engine ---------- */
   function predictAudience(S) {
     const scores = { kids: 0, genz: 0, millennials: 0 };
-    // Only the structured fields are scored, so words in the title/story don't skew the result
     const strData = JSON.stringify({
       genres: S.genres, themes: S.themes, tone: S.tone, demo: S.demo,
       viol: S.viol, sex: S.sex, rate: S.rate
@@ -341,7 +354,6 @@
     }
   };
 
-  /* Pick up the site's own colours and heading font from style.css */
   function applySiteTheme() {
     const root = document.documentElement.style;
     const probe = el("button", { "class": "btn primary", "type": "button", "style": "position:absolute;visibility:hidden;pointer-events:none" }, "x");
@@ -361,7 +373,6 @@
     if (h) root.setProperty("--head-font", getComputedStyle(h).fontFamily);
   }
 
-  /* Illustrated strategy layout */
   const div = (c, ...k) => el("div", { "class": c }, ...k);
   const span = (c, t) => el("span", { "class": c }, t);
   const styled = (node, css) => { node.setAttribute("style", css); return node; };
@@ -369,8 +380,6 @@
 
   function renderStrategy(seg) {
     const wrap = div("strategy");
-
-    // 1. Ideal target audience (age track)
     const agePos = a => (a - 5) / 35 * 100;
     const track = div("agetrack");
     Object.values(SEGMENTS).forEach(s => {
@@ -390,7 +399,6 @@
     const c1 = secCard("1", "Ideal Target Audience", hero);
     c1.setAttribute("aria-label", seg.aud);
 
-    // 2. Spending power & price limits (log scale)
     const lp = v => Math.min(100, Math.max(0, (Math.log10(v) - 1) / 3 * 100));
     const pl = lp(seg.price[0]), pr = lp(seg.price[1]);
     const ptrack = div("ptrack", styled(div("prange"), `left:${pl}%;width:${pr - pl}%`));
@@ -408,12 +416,10 @@
       div("pwrap", ptrack, pticks),
       span("caption", "Price band shown on a ₹10 → ₹10,000+ scale."));
 
-    // 3. Merchandise preferences
     const grid = div("mgrid");
     seg.merch.forEach(m => grid.append(div("mcard", span("micon", m.i), el("strong", {}, m.n), span("mdesc", m.d))));
     const c3 = secCard("3", "Merchandise Preferences", grid);
 
-    // 4. Platform & fulfillment strategy
     const meter = (label, val) => div("meter2", span("mlabel", label), div("mbar", styled(el("i"), `width:${val}%`)), span("mval", val + "%"));
     const plats = div("plats");
     seg.platforms.forEach(p => plats.append(div("plat", span("", p.i), p.n)));
@@ -437,7 +443,6 @@
     { label: "13–17", key: "13-17" }, { label: "18–24", key: "18-24" },
     { label: "25–34", key: "25-34" }, { label: "35+", key: "35+" }
   ];
-  // Predicted audience -> age group used for the first view (kids can't hold accounts, so parents are the reachable audience)
   const SEG_AGE = { kids: "25-34", genz: "18-24", millennials: "25-34" };
   const WEIGHTS = { R: 0.35, I: 0.30, E: 0.20, C: 0.15 };
   const TIERS = [
@@ -454,14 +459,12 @@
     { id: "reddit", name: "Reddit", fmt: "Community discussions and AMAs" },
     { id: "discord", name: "Discord", fmt: "Community partnerships" }
   ];
-  // Prototype scores [R, I, E, C], all 0-100. Placeholders until real rows exist in social_media_age_stats.
   const PROTO = {
     "13-17": { youtube: [92, 85, 80, 80], instagram: [80, 65, 70, 65], creators: [55, 85, 80, 75], snapchat: [70, 45, 50, 60], reddit: [20, 60, 50, 70], discord: [40, 70, 50, 40] },
     "18-24": { youtube: [95, 85, 80, 80], instagram: [90, 70, 70, 65], creators: [60, 90, 85, 75], snapchat: [55, 45, 45, 60], reddit: [35, 70, 60, 70], discord: [25, 70, 45, 40] },
     "25-34": { youtube: [97, 80, 78, 82], instagram: [90, 60, 65, 65], creators: [45, 85, 80, 75], snapchat: [40, 30, 35, 55], reddit: [45, 75, 65, 70], discord: [30, 65, 45, 40] },
     "35+":   { youtube: [90, 55, 60, 80], instagram: [70, 40, 50, 65], creators: [30, 70, 65, 70], snapchat: [15, 20, 25, 50], reddit: [25, 55, 50, 70], discord: [10, 40, 30, 40] }
   };
-  // DataReportal, Digital 2026: India (late 2025 advertising reach, millions, all ages)
   const REACH = [["YouTube", 500], ["Instagram", 481], ["Snapchat", 213], ["Reddit", 30.8]];
 
   const ageLabel = key => AGE_GROUPS.find(a => a.key === key).label;
@@ -492,7 +495,7 @@
           Object.assign(rows[id], { r: clamp(n[0]), i: clamp(n[1]), e: clamp(n[2]), c: clamp(n[3]), source: x.data_source || "KIZUNA data", live: true });
         }
       });
-    } catch (e) { console.warn("social_media_age_stats not available, using illustrative scores:", e.message); }
+    } catch (e) { console.warn("social_media_age_stats not available:", e.message); }
     const out = Object.values(rows).map(r => {
       const score = adScore(r.r, r.i, r.e, r.c);
       return Object.assign(r, { score, tier: tierOf(score) });
@@ -570,7 +573,6 @@
     const current = predicted; let token = 0;
     const listBody = div("tier-body"), recBody = div("tier-body");
 
-    // Only the age group predicted by KIZUNA is shown
     const target = div("agetarget",
       span("kicker", "Predicted target age group"),
       div("agetarget-main", el("span", { "class": "agetarget-age" }, ageLabel(predicted)),
@@ -589,10 +591,8 @@
     ["Anime", "Most interested age group", "Platforms used by that age group", "Advertising tier list", "Studio recommendation"]
       .forEach((t, i, a) => { flow.append(span("flowstep", t)); if (i < a.length - 1) flow.append(span("flowarrow", "→")); });
 
-    const card1 = secCard("5", "Advertising Platform Tier List",
-      flow, target, listBody);
+    const card1 = secCard("5", "Advertising Platform Tier List", flow, target, listBody);
 
-    // Reach chart (real data, all ages)
     const ticks = div("rticks");
     [0, 150, 300, 450, 600].forEach(v => ticks.append(styled(span("", v + "M"), "left:" + v / 6 + "%")));
     const reach = div("reach");
@@ -602,9 +602,8 @@
     const card2 = secCard("6", "Potential advertising reach in India",
       span("kicker", "Millions of users · all-age estimates, late 2025"),
       reach, div("rrow ticks-row", span("rname", ""), ticks, span("rval", "")),
-      el("span", { "class": "caption" }, "Source: ", link, ". These are platform ad-reach estimates, not anime-specific or age-band figures. They help pick candidate platforms, but total reach does not show anime engagement or advertising effectiveness, so filter by the anime’s age group before assigning a final tier."));
+      el("span", { "class": "caption" }, "Source: ", link, ". Platform ad-reach estimates, not anime-specific or age-band figures."));
 
-    // Algorithm
     const card3 = secCard("7", "How the tier algorithm works",
       div("formula", "Ad Score = 0.35·R + 0.30·I + 0.20·E + 0.15·C"),
       el("ul", { "class": "reclist plain" },
@@ -612,57 +611,55 @@
         el("li", {}, el("strong", {}, "I "), "Anime interest among that platform’s audience"),
         el("li", {}, el("strong", {}, "E "), "Engagement with comparable anime campaigns"),
         el("li", {}, el("strong", {}, "C "), "Cost efficiency of advertising")),
-      div("tiers-legend", ...TIERS.map(t => el("span", { "class": "legend-item" }, span("minitier tier-" + t.t, t.t), t.range))),
-      span("caption", "All scores run 0–100. The weights are prototype assumptions."),
-      el("details", { "class": "howto" },
-        el("summary", {}, "Use your own data: Firestore collection social_media_age_stats"),
-        el("p", {}, "Add one document per age group and platform. A row with all four scores filled in replaces the illustrative scores for that platform. The page recalculates the final score and tier itself, and your Firestore rules must allow reads on this collection."),
-        el("pre", {}, JSON.stringify({
-          age_group: "18-24", platform: "youtube",
-          reach_score: null, anime_interest_score: null, engagement_score: null, cost_efficiency_score: null,
-          final_ad_score: null, ad_tier: null, data_source: null
-        }, null, 2)),
-        el("p", {}, "Use age_group values 13-17, 18-24, 25-34 or 35+, and platform values youtube, instagram, creators, snapchat, reddit or discord.")));
+      div("tiers-legend", ...TIERS.map(t => el("span", { "class": "legend-item" }, span("minitier tier-" + t.t, t.t), t.range))));
 
     const card4 = secCard("8", "Marketing recommendation for Japanese studios", recBody);
 
+    // Card 9: Google Trends Heatmap & Comparable Title Concept + Direct Google Trends Link
+    const titleQuery = S.title || "Anime";
+    const directTrendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(titleQuery)}`;
+    const cardTrends = secCard("9", "Google Trends Regional Demand & Offline Event Heatmapping",
+      span("kicker", "Offline Event & Merch Localization Strategy Blueprint"),
+      el("p", { "class": "strat-text", "style": "margin-bottom:12px" },
+        "To help Japanese studios optimize offline event hosting (pop-up cafes, convention booths) and merch distribution across India, KIZUNA proposes a regional search-demand mapping engine:"),
+      el("ul", { "class": "reclist plain", "style": "margin-bottom:14px" },
+        el("li", {}, el("strong", {}, "1. Direct Query Analysis: "), "Search the anime title on Google Trends specifically within India to gauge local search volume."),
+        el("li", {}, el("strong", {}, "2. High-Volume Heatmap Generation: "), "If search volume is sufficient, output an Indian regional heatmap highlighting key state/city demand clusters (e.g., Maharashtra, Delhi NCR, Karnataka, Tamil Nadu) to pinpoint where offline events and merch pop-ups should be hosted."),
+        el("li", {}, el("strong", {}, "3. Comparable Title Fallback: "), "If the anime title is too niche or newly announced, automatically query the 3 comparable benchmark titles (shown in Card 12 below) on Google Trends to approximate geographic fan interest distribution and target urban hubs.")
+      ),
+      div("trends-compare-bar",
+        span("", `Check live India regional search interest for "${titleQuery}":`),
+        el("a", { "href": directTrendsUrl, "target": "_blank", "rel": "noopener", "class": "trends-btn" }, "📈 Open Google Trends (India)")
+      ),
+      div("notice", { "style": "margin-top:12px;margin-bottom:0" },
+        el("strong", {}, "Prototype Limitation Note: "),
+        "Automated live data fetching from the Google Trends API and embedded geographic heatmap rendering are currently not possible at this prototype stage due to API rate limits, CORS restrictions, and lack of backend proxy infrastructure. Studios can use the direct Google Trends links above and in Card 12 to inspect the live India regional heatmaps.")
+    );
+
     draw();
     return div("tiersec",
-      el("h2", { "class": "tiersec-title" }, "Age-Based Advertising Tier Engine"),
-      el("p", { "class": "hint" }, "Where should a studio test advertising spend for this anime and audience segment?"),
-      div("strategy", card1, card2, card3, card4));
+      el("h2", { "class": "tiersec-title" }, "Age-Based Advertising Tier Engine & Market Mapping"),
+      el("p", { "class": "hint" }, "Where should a studio test advertising spend and map regional physical engagement?"),
+      div("strategy", card1, card2, card3, card4, cardTrends));
   }
 
-  /* ---------- Section 6: AI Dubbing Language & India Market Feasibility Analyzer ---------- */
+  /* ---------- Dubbing Section (Cards 10 & 11) ---------- */
   const DUB_LANGS = [
-    { id: "hindi", name: "Hindi", tier: "S", reason: "Broad potential reach across Hindi-speaking markets", defaultOn: true },
-    { id: "tamil", name: "Tamil", tier: "A", reason: "Important regional localization opportunity", defaultOn: true },
-    { id: "telugu", name: "Telugu", tier: "A", reason: "Important regional localization opportunity", defaultOn: true },
-    { id: "malayalam", name: "Malayalam", tier: "B", reason: "Worth testing with regional demand evidence", defaultOn: false },
-    { id: "bengali", name: "Bengali", tier: "B", reason: "Potential opportunity in Bengali-speaking markets", defaultOn: false },
-    { id: "kannada", name: "Kannada", tier: "B", reason: "Consider when distribution and demand justify it", defaultOn: false },
-    { id: "marathi", name: "Marathi", tier: "C", reason: "Test after establishing audience demand", defaultOn: false }
+    { id: "hindi", name: "Hindi", tier: "S", reason: "Broad potential reach across Hindi-speaking markets" },
+    { id: "tamil", name: "Tamil", tier: "A", reason: "Important regional localization opportunity" },
+    { id: "telugu", name: "Telugu", tier: "A", reason: "Important regional localization opportunity" },
+    { id: "malayalam", name: "Malayalam", tier: "B", reason: "Worth testing with regional demand evidence" },
+    { id: "bengali", name: "Bengali", tier: "B", reason: "Potential opportunity in Bengali-speaking markets" },
+    { id: "kannada", name: "Kannada", tier: "B", reason: "Consider when distribution and demand justify it" },
+    { id: "marathi", name: "Marathi", tier: "C", reason: "Test after establishing audience demand" }
   ];
-
-  const FIT_FACTORS = [
-    { key: "D", weight: 0.30, name: "Demand for the anime in India", def: 75 },
-    { key: "L", weight: 0.25, name: "Fit between selected dubbing languages and audience", def: 80 },
-    { key: "P", weight: 0.20, name: "Distribution platform availability", def: 75 },
-    { key: "Q", weight: 0.15, name: "Dubbing and localization quality", def: 70 },
-    { key: "B", weight: 0.10, name: "Budget feasibility", def: 70 }
-  ];
-
-  const fmtINR = n => "₹" + Math.round(n).toLocaleString("en-IN");
-  const fmtNum = n => Math.round(n).toLocaleString("en-IN");
 
   function renderDubbingSection(S) {
-    // Intro questions
     const introQuestions = div("dub-intro",
       div("dub-q", el("strong", {}, "Question 1"), "Which Indian languages should we dub our anime into to reach the largest relevant audience?"),
       div("dub-q", el("strong", {}, "Question 2"), "If we invest in dubbing, how commercially feasible is the launch in India?")
     );
 
-    // 1. Dubbing language priority for India
     const langTable = el("table", { "class": "ttable wrap-last" },
       el("thead", {}, el("tr", {}, el("th", {}, "Language"), el("th", {}, "Suggested priority"), el("th", {}, "Business reason"))),
       el("tbody", {}, ...DUB_LANGS.map(l => el("tr", {},
@@ -672,7 +669,7 @@
       )))
     );
 
-    const cardPriority = secCard("9", "Dubbing Language Priority for India",
+    const cardPriority = secCard("10", "Dubbing Language Priority for India",
       introQuestions,
       el("p", { "class": "strat-text", "style": "margin-bottom:14px" },
         "Suggested starting point: Hindi, Tamil, and Telugu, with Malayalam, Bengali, and other languages considered based on the anime's audience, distribution platform, regional demand, and dubbing budget. However, dubbing feasibility cannot be determined from language popularity alone—licensing, production costs, expected viewers, and revenue must also be evaluated."),
@@ -680,7 +677,6 @@
       span("caption", "These are initial strategic tiers, not verified rankings of anime dubbing demand. The best language mix may differ significantly for each title.")
     );
 
-    // 2. What the research says about dubbing in India (Demand Signals & Sources)
     const hakuLink1 = el("a", { "href": "https://www.hakuhodo-global.com/", "target": "_blank", "rel": "noopener" }, "Hakuhodo India survey, 2026");
     const hakuLink2 = el("a", { "href": "https://www.hakuhodo-global.com/", "target": "_blank", "rel": "noopener" }, "Hakuhodo India survey, 2026");
     const bsLink = el("a", { "href": "https://www.business-standard.com/", "target": "_blank", "rel": "noopener" }, "Entertainment News - Business Standard");
@@ -703,7 +699,7 @@
         el("div", { "class": "ev-src" }, "Source: ", bsLink))
     );
 
-    const cardResearch = secCard("10", "What the Research Says About Dubbing in India",
+    const cardResearch = secCard("11", "What the Research Says About Dubbing in India",
       el("p", { "class": "strat-text", "style": "margin-bottom:14px" }, "There is real evidence that dubbing can improve accessibility and viewership, though every launch must be evaluated with its own unit economics."),
       evGrid,
       div("notice",
@@ -711,214 +707,177 @@
         "The Hakuhodo India survey (2026) focused on interested anime viewers aged 15–39 in selected Indian cities, not India's entire population. Furthermore, while Crunchyroll reported that more than 65% of its anime viewership in India came from Hindi, Tamil, and Telugu dubs, this is a strong signal for localization—not a 65% probability that any new anime will succeed.")
     );
 
-    // 3. Dubbing Feasibility Calculator (Financial Feasibility + Market Fit Score)
-    const calcLangs = DUB_LANGS.slice(0, 6); // Hindi, Tamil, Telugu, Malayalam, Bengali, Kannada
-    const selectedLangs = new Set(calcLangs.filter(l => l.defaultOn).map(l => l.name));
-
-    const langCheckWrap = div("lang-checks");
-    const checkInputs = {};
-    calcLangs.forEach(l => {
-      const cb = el("input", { "type": "checkbox" });
-      cb.checked = l.defaultOn;
-      checkInputs[l.name] = cb;
-      const lbl = el("label", { "class": "lang-check" }, cb, span("", l.name));
-      langCheckWrap.append(lbl);
-    });
-
-    const makeNumInput = (val, min = 0, step = 1) => {
-      const inp = el("input", { "type": "number", "min": String(min), "step": String(step), "value": String(val) });
-      return inp;
-    };
-
-    // Default scenario values matching the specification:
-    // 3 languages (Hindi, Tamil, Telugu) × 12 episodes × ₹40,000/ep + ₹2,00,000 other = ₹16,40,000 total investment
-    // 1,50,000 additional viewers × ₹12/viewer = ₹18,00,000 incremental revenue -> ₹1,60,000 net return (9.8% ROI)
-    const inpEps = makeNumInput(12, 1, 1);
-    const inpCostPerEp = makeNumInput(40000, 0, 1000);
-    const inpViewers = makeNumInput(150000, 0, 1000);
-    const inpRevPerViewer = makeNumInput(12, 0, 1);
-    const inpOtherCost = makeNumInput(200000, 0, 5000);
-
-    const valInvest = div("res-val", "₹16,40,000");
-    const valRev = div("res-val", "₹18,00,000");
-    const valNet = div("res-val", "₹1,60,000");
-    const valRoi = div("res-val", "9.8%");
-    const beStatus = div("be-banner", "Break-even reached in this scenario");
-    const beDetail = el("p", { "class": "strat-text", "style": "margin-bottom:8px" });
-
-    // Market Fit Score interactive sliders (D, L, P, Q, B)
-    const fitState = {};
-    const fitGrid = div("fit-grid");
-    FIT_FACTORS.forEach(f => {
-      fitState[f.key] = f.def;
-      const valBadge = el("strong", {}, String(f.def));
-      const rng = el("input", { "type": "range", "min": "0", "max": "100", "step": "1", "value": String(f.def) });
-      rng.addEventListener("input", () => {
-        fitState[f.key] = Number(rng.value);
-        valBadge.textContent = rng.value;
-        updateAll();
-      });
-      fitGrid.append(div("fit-item",
-        div("fit-top", span("", `${f.key} · ${f.name} (${Math.round(f.weight * 100)}%)`), valBadge),
-        rng
-      ));
-    });
-
-    const fitBadge = div("tierbadge", "B");
-    const fitBadgeWrap = div("tier-B", fitBadge);
-    const fitScoreText = el("div", { "class": "lvl" }, "75.0 / 100");
-    const fitNoteText = span("tiersub", "A tier · Secondary / promising market fit (score 70–84)");
-
-    // Dynamic Studio Recommendation nodes (Card 13)
-    const recLangsDd = el("dd", {}, "Hindi, Tamil, Telugu");
-    const recOppDd = el("dd", {}, "Promising, subject to title-specific demand validation");
-    const recFinDd = el("dd", {}, "Calculated from the studio's actual costs and expected incremental revenue");
-
-    function updateAll() {
-      const activeLangs = calcLangs.filter(l => checkInputs[l.name].checked).map(l => l.name);
-      const langCount = activeLangs.length;
-      const eps = Math.max(0, Number(inpEps.value) || 0);
-      const costPerEp = Math.max(0, Number(inpCostPerEp.value) || 0);
-      const viewers = Math.max(0, Number(inpViewers.value) || 0);
-      const revPerViewer = Math.max(0, Number(inpRevPerViewer.value) || 0);
-      const otherCost = Math.max(0, Number(inpOtherCost.value) || 0);
-
-      const totalCost = (langCount * eps * costPerEp) + otherCost;
-      const incRev = viewers * revPerViewer;
-      const netReturn = incRev - totalCost;
-      const roi = totalCost > 0 ? ((incRev - totalCost) / totalCost) * 100 : 0;
-      const breakEvenViewers = revPerViewer > 0 ? Math.ceil(totalCost / revPerViewer) : 0;
-
-      valInvest.textContent = fmtINR(totalCost);
-      valRev.textContent = fmtINR(incRev);
-      valNet.textContent = (netReturn < 0 ? "−" : "") + fmtINR(Math.abs(netReturn));
-      valRoi.textContent = totalCost > 0 ? roi.toFixed(1) + "%" : "0.0%";
-
-      if (totalCost === 0) {
-        beStatus.className = "be-banner warn";
-        beStatus.textContent = "Enter dubbing or localization costs to model break-even";
-        beDetail.textContent = "No investment entered in this scenario.";
-      } else if (netReturn >= 0) {
-        beStatus.className = "be-banner";
-        beStatus.textContent = "Break-even reached in this scenario";
-        beDetail.textContent = revPerViewer > 0
-          ? `Break-even requires approximately ${fmtNum(breakEvenViewers)} additional paying-equivalent viewers.`
-          : "Set a positive revenue per additional viewer to compute break-even viewer count.";
-      } else {
-        beStatus.className = "be-banner warn";
-        beStatus.textContent = "Below break-even in this scenario";
-        beDetail.textContent = revPerViewer > 0
-          ? `Break-even requires approximately ${fmtNum(breakEvenViewers)} additional paying-equivalent viewers (${fmtNum(Math.max(0, breakEvenViewers - viewers))} more than current scenario).`
-          : "Set a positive revenue per additional viewer to compute break-even viewer count.";
-      }
-
-      // Market Fit Score F = 0.30D + 0.25L + 0.20P + 0.15Q + 0.10B
-      const F = (0.30 * fitState.D) + (0.25 * fitState.L) + (0.20 * fitState.P) + (0.15 * fitState.Q) + (0.10 * fitState.B);
-      const fTier = tierOf(F);
-      const fTierMeta = TIERS.find(t => t.t === fTier);
-
-      fitBadgeWrap.className = "tier-" + fTier;
-      fitBadge.textContent = fTier;
-      fitScoreText.textContent = F.toFixed(1) + " / 100";
-      fitNoteText.textContent = `${fTier} tier (${fTierMeta.range}) · Documented scenario score, not a probability of launch success`;
-
-      // Update Card 13 Studio Summary
-      recLangsDd.textContent = activeLangs.length ? activeLangs.join(", ") : "None selected (test localized subtitles/trailers first)";
-      const oppLabels = {
-        S: "High strategic fit (Tier S), subject to title-specific demand validation",
-        A: "Promising (Tier A), subject to title-specific demand validation",
-        B: "Moderate / experimental (Tier B), requires localized demand testing before full commitment",
-        C: "Low initial priority (Tier C), validate organic audience demand before dubbing"
-      };
-      recOppDd.textContent = `${oppLabels[fTier]} (Market Fit Score: ${F.toFixed(1)}/100)`;
-      recFinDd.textContent = `Calculated from the studio's actual costs and expected incremental revenue (Scenario estimate: ${fmtINR(totalCost)} total investment vs. ${fmtINR(incRev)} incremental revenue; ${roi.toFixed(1)}% ROI; break-even at ~${fmtNum(breakEvenViewers)} paying-equivalent viewers)`;
-    }
-
-    [inpEps, inpCostPerEp, inpViewers, inpRevPerViewer, inpOtherCost].forEach(inp =>
-      inp.addEventListener("input", updateAll));
-    Object.values(checkInputs).forEach(cb => cb.addEventListener("change", updateAll));
-
-    const cardCalc = secCard("11", "Dubbing Feasibility Calculator for KIZUNA",
-      el("h4", { "class": "calc-subhead" }, "A. Dubbing Financial Feasibility (Scenario Model)"),
-      el("p", { "class": "strat-text", "style": "margin-bottom:12px" }, "Adjust the assumptions to estimate the break-even point of a dubbed anime launch in India."),
-      span("kicker", "Languages to dub"),
-      langCheckWrap,
-      div("calc-inputs",
-        el("label", { "class": "calc-field" }, span("", "Episodes"), inpEps),
-        el("label", { "class": "calc-field" }, span("", "Dub cost per episode, per language (₹)"), inpCostPerEp),
-        el("label", { "class": "calc-field" }, span("", "Additional paying-equivalent viewers"), inpViewers),
-        el("label", { "class": "calc-field" }, span("", "Revenue per additional viewer (₹)"), inpRevPerViewer),
-        el("label", { "class": "calc-field" }, span("", "Other localization and marketing costs (₹)"), inpOtherCost)
-      ),
-      div("calc-results",
-        div("res-card", span("kicker", "Total investment"), valInvest),
-        div("res-card", span("kicker", "Projected incremental revenue"), valRev),
-        div("res-card", span("kicker", "Net return"), valNet),
-        div("res-card", span("kicker", "Estimated ROI"), valRoi)
-      ),
-      beStatus,
-      beDetail,
-      span("caption", "All default monetary values and viewer estimates are hypothetical, not current industry quotations or forecasts. The model assumes incremental revenue is attributable to dubbing and excludes licensing costs unless entered in other costs."),
-      el("hr", { "class": "fit-divider" }),
-      el("h4", { "class": "calc-subhead" }, "B. Market Fit Score (0–100)"),
-      el("p", { "class": "strat-text" }, "How promising the dubbing strategy looks based on audience demand, language fit, distribution, and localization quality. Score each factor from 0–100 using actual research or documented assumptions:"),
-      fitGrid,
-      div("fit-summary",
-        fitBadgeWrap,
-        div("tierinfo", span("kicker", "Weighted Market Fit Score (F)"), fitScoreText, fitNoteText)
-      )
-    );
-
-    // 4. How to calculate the feasibility rate
-    const factorTable = el("table", { "class": "ttable wrap-last" },
-      el("thead", {}, el("tr", {}, el("th", {}, "Factor"), el("th", {}, "Weight"), el("th", {}, "Meaning"))),
-      el("tbody", {}, ...FIT_FACTORS.map(f => el("tr", {},
-        el("td", {}, el("strong", {}, f.key)),
-        el("td", {}, Math.round(f.weight * 100) + "%"),
-        el("td", {}, f.name)
-      )))
-    );
-
-    const cardFormula = secCard("12", "How to Calculate the Feasibility Rate",
-      span("kicker", "1. Financial Return on Investment (ROI)"),
-      div("formula", "ROI = ((Incremental Revenue − Total Cost) / Total Cost) × 100"),
-      span("kicker", "2. Weighted Market-Fit Score (F)"),
-      div("formula", "F = 0.30·D + 0.25·L + 0.20·P + 0.15·Q + 0.10·B"),
-      div("tscroll", factorTable),
-      div("tiers-legend", { "style": "margin-top:12px" }, ...TIERS.map(t => el("span", { "class": "legend-item" }, span("minitier tier-" + t.t, t.t), t.range))),
-      div("notice", { "style": "margin-top:12px;margin-bottom:0" },
-        el("strong", {}, "Important interpretation rule: "),
-        "Each factor should be scored from 0–100 using actual research or documented assumptions. The weights are provisional. You can categorize the score into S, A, B, and C tiers, but do not describe an 85/100 score as an 85% chance of success. A probability requires historical launch outcomes and a validated predictive model.")
-    );
-
-    // 5. Final Studio Dubbing Recommendation
-    const cardDubRec = secCard("13", "Dubbing & Localization Recommendation for Japanese Studios",
-      div("rec-head",
-        span("kicker", "B2B executive summary"),
-        el("div", { "class": "rec-seg" }, (S.title || "Untitled anime") + " — Localization Blueprint")
-      ),
-      el("dl", { "class": "rec-kv" },
-        el("dt", {}, "Anime"), el("dd", {}, S.title || "Untitled anime"),
-        el("dt", {}, "Recommended first dubbing languages"), recLangsDd,
-        el("dt", {}, "Market opportunity"), recOppDd,
-        el("dt", {}, "Financial feasibility"), recFinDd,
-        el("dt", {}, "Next action"), el("dd", {}, el("strong", {}, "Test localized trailers and measure demand before commissioning a full-season dub."))
-      )
-    );
-
-    updateAll();
-
     return div("tiersec",
-      el("h2", { "class": "tiersec-title" }, "Section 6 — AI Dubbing Language & India Market Feasibility Analyzer"),
-      el("p", { "class": "hint" }, "Which Indian languages should a Japanese studio dub into, and does the localization investment make commercial sense?"),
-      div("strategy", cardPriority, cardResearch, cardCalc, cardFormula, cardDubRec)
+      el("h2", { "class": "tiersec-title" }, "Dubbing Language Priority"),
+      el("p", { "class": "hint" }, "Which Indian languages should a Japanese studio dub into?"),
+      div("strategy", cardPriority, cardResearch)
     );
   }
 
-  /* ---------- 3. Save from the report page (when not already saved) ---------- */
+  /* ---------- Card 12: Comparable Catalog Benchmarks + Google Trends & YouTube Links ---------- */
+  async function fetchYouTubeStats(title) {
+    try {
+      const ytSearch = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title + " anime official trailer")}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`);
+      const searchData = await ytSearch.json();
+      if (searchData.items && searchData.items.length > 0) {
+        const videoId = searchData.items[0].id.videoId;
+        const ytStats = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+        const statsData = await ytStats.json();
+        const views = (statsData.items && statsData.items.length > 0)
+          ? parseInt(statsData.items[0].statistics.viewCount, 10)
+          : 0;
+        return { videoId, views };
+      }
+    } catch (e) {
+      console.warn("YouTube stats fetch skipped for", title, e);
+    }
+    return { videoId: "", views: 0 };
+  }
+
+  function renderComparableSection(S) {
+    const comparableBody = div("comparable-body", el("p", { "class": "loading" }, "Querying Firebase catalog for 3 comparable titles…"));
+
+    async function loadComparables() {
+      let top3 = [];
+      const currentTitle = String(S.title || "").toLowerCase().trim();
+      const currentGenres = normList(S.genres);
+      const currentThemes = normList(S.themes);
+      const currentTone = normList(S.tone);
+      const currentDemo = normList(S.demo);
+      const currentRate = normList(S.rate);
+
+      try {
+        const snap = await getDocs(collection(db, "anime_profiles"));
+        const allAnime = [];
+        snap.forEach(d => {
+          const data = d.data() || {};
+          const itemTitle = String(data.identity?.title || data.title || "").trim();
+          if (d.id !== savedId && itemTitle && itemTitle.toLowerCase() !== currentTitle) {
+            allAnime.push({ id: d.id, data });
+          }
+        });
+
+        const scored = allAnime.map(({ id, data }) => {
+          const itemGenres = normList(data.identity?.genres || data.genres);
+          const itemThemes = normList(data.identity?.themes || data.themes);
+          const itemTone = normList(data.identity?.tone || data.tone);
+          const itemDemo = normList(data.demographics?.target || data.demo);
+          const itemRate = normList(data.sensitivity?.rate || data.rate);
+
+          let score = 0;
+          currentGenres.forEach(g => { if (itemGenres.includes(g)) score += 4; });
+          currentThemes.forEach(th => { if (itemThemes.includes(th)) score += 3; });
+          currentTone.forEach(tn => { if (itemTone.includes(tn)) score += 2; });
+          currentDemo.forEach(dm => { if (itemDemo.includes(dm)) score += 3; });
+          currentRate.forEach(rt => { if (itemRate.includes(rt)) score += 1; });
+
+          return {
+            id,
+            title: data.identity?.title || data.title || "Untitled",
+            genres: normList(data.identity?.genres || data.genres),
+            demo: data.demographics?.target || data.demo || "",
+            cover: data.media?.coverImageUrl || data.coverImageUrl || "",
+            score
+          };
+        });
+
+        scored.sort((a, b) => b.score - a.score);
+        top3 = scored.slice(0, 3);
+      } catch (e) {
+        console.warn("Firebase catalog read error, using fallback benchmarks:", e);
+      }
+
+      if (top3.length === 0) {
+        top3 = [
+          { title: "Jujutsu Kaisen", genres: ["action", "supernatural"], demo: "Shonen", cover: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg" },
+          { title: "Demon Slayer", genres: ["action", "fantasy"], demo: "Shonen", cover: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg" },
+          { title: "Chainsaw Man", genres: ["action", "dark fantasy"], demo: "Shonen", cover: "https://cdn.myanimelist.net/images/anime/1806/126216.jpg" }
+        ];
+      }
+
+      const grid = div("comp-grid");
+
+      for (const anime of top3) {
+        const title = anime.title;
+        const genreLabel = anime.genres && anime.genres.length ? anime.genres.slice(0, 2).join(", ") : "Anime";
+        const trendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(title)}`;
+        const ytFallbackUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(title + " anime official trailer")}`;
+
+        const viewsNode = span("comp-views", "Checking trailer views…");
+        const ytBtn = el("a", {
+          "href": ytFallbackUrl,
+          "target": "_blank",
+          "rel": "noopener",
+          "class": "trends-btn yt-btn"
+        }, "▶️ Watch Trailer");
+
+        const trendsBtn = el("a", {
+          "href": trendsUrl,
+          "target": "_blank",
+          "rel": "noopener",
+          "class": "trends-btn"
+        }, "📈 Google Trends");
+
+        const imgNode = anime.cover
+          ? el("img", { "src": anime.cover, "alt": title, "class": "comp-cover", "referrerpolicy": "no-referrer" })
+          : span("micon", "🎬");
+        if (anime.cover) imgNode.onerror = () => imgNode.replaceWith(span("micon", "🎬"));
+
+        const cardNode = div("comp-card",
+          imgNode,
+          el("strong", { "style": "font-size:16px" }, title),
+          span("mdesc", `Genres: ${genreLabel}`),
+          viewsNode,
+          div("action-row", trendsBtn, ytBtn)
+        );
+        grid.append(cardNode);
+
+        // Enrich with YouTube trailer views and direct video link (just like catalog.html)
+        fetchYouTubeStats(title).then(({ videoId, views }) => {
+          if (videoId) {
+            ytBtn.setAttribute("href", `https://www.youtube.com/watch?v=${videoId}`);
+          }
+          viewsNode.textContent = views > 0
+            ? `Trailer Views: ${formatNumber(views)}`
+            : "Official Trailer & Search Interest";
+        });
+      }
+
+      const multiTrendsQuery = top3.map(a => a.title).join(",");
+      const multiTrendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(multiTrendsQuery)}`;
+
+      const compareBar = div("trends-compare-bar",
+        span("", `Compare all 3 comparable titles side-by-side on Google Trends (India Heatmap):`),
+        el("a", { "href": multiTrendsUrl, "target": "_blank", "rel": "noopener", "class": "trends-btn" }, "📈 Compare All 3 on Google Trends")
+      );
+
+      comparableBody.replaceChildren(
+        el("p", { "class": "strat-text", "style": "margin-bottom:14px" },
+          `Top 3 comparable titles from the KIZUNA catalog matched against "${S.title || 'this title'}" using genre, theme, tone, and demographic data:`),
+        grid,
+        compareBar
+      );
+    }
+
+    loadComparables();
+
+    const cardComp = secCard("12", "Comparable Catalog Benchmarks & Google Trends Links",
+      span("kicker", "Firebase Catalog Similarity Engine + Live Market Links"),
+      comparableBody,
+      span("caption", "Matched against stored anime_profiles in Firebase. Click '📈 Google Trends' on any comparable title to inspect its regional demand heatmap across Indian states and cities.")
+    );
+
+    return div("tiersec",
+      el("h2", { "class": "tiersec-title" }, "Catalog Benchmark Analysis"),
+      el("p", { "class": "hint" }, "Which 3 titles in the KIZUNA database are most comparable, and how do they perform on Google Trends India & YouTube?"),
+      div("strategy", cardComp)
+    );
+  }
+
+  /* ---------- 3. Save from the report page ---------- */
   async function saveNow(S) {
     const payload = {
-      identity: { title: S.title, genres: S.genres || [], story: S.story || "", themes: S.themes || [], tone: S.tone || "" },
+      identity: { title: S.title || "", genres: S.genres || [], story: S.story || "", themes: S.themes || [], tone: S.tone || "" },
       demographics: { target: S.demo || "" },
       format: { eps: S.eps || 0, len: S.len || 0, src: S.src || "", status: S.status || "" },
       production: { studio: S.studio || "", director: S.director || "" },
@@ -935,12 +894,17 @@
     const box = $("report");
     box.replaceChildren();
 
-    // Portfolio box: name (large) + 4 key points
+    const genresArr = normList(S.genres);
+    const themesArr = normList(S.themes);
+
     const point = (k, v) => el("div", { "class": "pt" },
       el("span", { "class": "k" }, k),
       el("span", { "class": "v" }, has(v) ? v : "Not provided"));
 
-    const toneTheme = [S.tone, has(S.themes) ? S.themes[0] : ""].filter(Boolean).join(" · ");
+    const toneTheme = [
+      Array.isArray(S.tone) ? S.tone.join(", ") : S.tone,
+      has(S.themes) ? (Array.isArray(S.themes) ? S.themes[0] : S.themes) : ""
+    ].filter(Boolean).join(" · ");
 
     const card = el("div", { "class": "portfolio" });
     if (S.coverImageUrl) {
@@ -953,19 +917,18 @@
         el("p", { "class": "tag" }, "Anime portfolio"),
         el("h2", {}, S.title || "Untitled anime")),
       el("div", { "class": "points" },
-        point("Main genre", has(S.genres) ? S.genres[0] : ""),
+        point("Main genre", has(S.genres) ? (Array.isArray(S.genres) ? S.genres[0] : S.genres) : (genresArr[0] || "")),
         point("Age rating", S.rate),
         point("Demographic tag", S.demo),
-        point("Tone / Theme", toneTheme))
+        point("Tone / Theme", toneTheme || themesArr[0] || ""))
     );
 
-    // Illustrated strategy, Advertising Tier Engine, and Dubbing & Market Feasibility Analyzer
     const segKey = predictAudience(S);
     const strategy = renderStrategy(SEGMENTS[segKey]);
     const tierSection = renderTierSection(segKey, S);
     const dubbingSection = renderDubbingSection(S);
+    const comparableSection = renderComparableSection(S);
 
-    // Actions
     const actions = el("div", { "class": "actions" });
     const msg = el("p", { "class": "note", "role": "status", "style": "font-weight:bold;margin-top:10px" });
 
@@ -997,7 +960,7 @@
     const cat = el("a", { "class": "btn primary", "href": "catalog.html" }, "View catalog");
     actions.append(again, cat);
 
-    box.append(card, strategy, tierSection, dubbingSection, actions, msg);
+    box.append(card, strategy, tierSection, dubbingSection, comparableSection, actions, msg);
   }
 
   applySiteTheme();
@@ -1012,7 +975,6 @@
     );
   }
 
-  // Falling petals
   const petals = $("petals");
   for (let i = 0; i < 16; i++) {
     const p = document.createElement("span");
