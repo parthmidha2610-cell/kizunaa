@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KIZUNA | Turn Indian fandom into Japan's next growth market</title>
+<meta name="description" content="Tell us about your anime. KIZUNA shows which Indian fans are most likely to try it, where they are, and how to reach them.">
+<meta name="theme-color" content="#1b1217">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="home.css">
+<script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
 <div class="stage" id="stage" aria-hidden="true"></div>
 <div class="veil" aria-hidden="true"></div>
 <div id="petals" aria-hidden="true"></div>
 
-<nav class="nav" aria-label="Main">
-  <a class="brand" href="index.html" aria-label="KIZUNA home">
-    <span class="seal" aria-hidden="true">絆</span>
-    <span class="word">KIZUNA</span>
-  </a>
+<nav class="nav" id="nav" aria-label="Main">
+  <a class="brand" href="index.html" aria-label="KIZUNA home"><span class="seal" aria-hidden="true">絆</span><span class="word">KIZUNA</span></a>
   <div class="links">
     <a href="index.html" aria-current="page">Home</a>
     <a href="input.html">Add your anime</a>
@@ -28,38 +28,67 @@
 
 <main class="hero">
   <div class="hero-in">
-    <div class="hanko" aria-hidden="true">絆</div>
     <h1>KIZUNA</h1>
     <p class="sub">Turn Indian fandom into Japan’s next growth market</p>
     <p class="lead">Tell us about your anime. We show which existing fans are most likely to try it, where in India they are, and how to reach them.</p>
     <a class="cta" href="input.html">Add your anime</a>
   </div>
+  <a class="down" href="#idea" aria-label="See how it works"></a>
 </main>
+
+<section class="dark" id="idea">
+  <div class="in-wrap">
+    <p class="meaning rv">The idea</p>
+    <h2 class="rv">Japan makes the story. India holds the fans.</h2>
+    <p class="lede rv">Many Indian viewers already love anime. KIZUNA links your title to the ones most likely to try it next.</p>
+    <div class="duo">
+      <article class="pane rv"><span class="kan" aria-hidden="true">日本</span><h3>Your anime</h3><p>Story, audience, format, production, content and market, described in seven short groups.</p></article>
+      <div class="join rv" aria-hidden="true"><i></i><b>絆</b><i></i></div>
+      <article class="pane rv"><span class="kan" aria-hidden="true">भारत</span><h3>Indian fans</h3><p>Existing fans of similar shows, in the cities and on the channels where their interest is already strong.</p></article>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="how">
   <div class="in-wrap">
-    <div class="meaning">Kizuna means bond</div>
+    <p class="meaning">Kizuna means bond</p>
     <h2>How it works</h2>
     <p class="lede">Four steps from your anime to a plan for reaching Indian fans.</p>
-    <div class="how-panel">
     <ol class="steps" id="steps">
       <li class="step"><div class="dot">1</div><h3>Enter your title</h3><p>Fill in seven short groups: story, audience, format, production, content, market and similar shows.</p></li>
       <li class="step"><div class="dot">2</div><h3>Find the fans</h3><p>KIZUNA compares your title with similar shows and maps where Indian interest is strongest.</p></li>
       <li class="step"><div class="dot">3</div><h3>Get your plan</h3><p>See channels, city tiers and creators, with a budget that starts small and grows.</p></li>
       <li class="step"><div class="dot">4</div><h3>Check the evidence</h3><p>Click any number to see its source, date and type.</p></li>
     </ol>
-    </div>
-    <div class="go"><a class="cta" href="input.html">Start with step 1</a></div>
+    <a class="cta dark" href="input.html">Start with step 1</a>
   </div>
-  <div class="waves" aria-hidden="true"></div>
 </section>
+<section class="section tint" id="get">
+  <div class="in-wrap">
+    <p class="meaning rv">What you get</p>
+    <h2 class="rv">A plan you can act on</h2>
+    <p class="lede rv">Every result answers one question: who should we reach first, and how?</p>
+    <div class="get-grid">
+      <article class="gcard rv"><span class="k" aria-hidden="true">人</span><h3>Who</h3><p>The existing fans most likely to try your anime, based on shows they already watch.</p></article>
+      <article class="gcard rv"><span class="k" aria-hidden="true">地</span><h3>Where</h3><p>The Indian cities and city tiers where interest is strongest, so spending goes where it counts.</p></article>
+      <article class="gcard rv"><span class="k" aria-hidden="true">道</span><h3>How</h3><p>Channels, creators and a budget that starts small and grows.</p></article>
+    </div>
+    <div class="proof rv"><b>Every number shows its source.</b> Click any figure to see where it came from, the date, and whether it is measured or estimated.</div>
+  </div>
+</section>
+
+<section class="closing">
+  <h2 class="rv">Ready to find your Indian fans?</h2>
+  <p class="rv">Seven short groups. Start with your title.</p>
+  <a class="cta rv" href="input.html">Add your anime</a>
+</section>
+<footer class="foot"><span class="seal" aria-hidden="true">絆</span><span>KIZUNA</span></footer>
 
 <!-- FIREBASE INTEGRATION SCRIPT -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
   import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-  // 1. Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
     authDomain: "kizuna-c70d2.firebaseapp.com",
@@ -69,108 +98,71 @@
     appId: "1:513173983571:web:53b3da640e656eb6b2d1a6",
     measurementId: "G-66RQE9B093"
   };
-
-  // 2. Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 3. Fetch Data and Build the Stage
-  async function loadDynamicStage() {
-    try {
-      console.log("Connecting to Firebase...");
-      
-      // Pull all documents from the "anime_profiles" collection
-      const querySnapshot = await getDocs(collection(db, "anime_profiles"));
-      let dynamicImages = [];
+  const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
 
-      // Loop through every anime in the database
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        // If the anime has a cover image URL, push it into our array
-        if (data.media && data.media.coverImageUrl) {
-          dynamicImages.push(data.media.coverImageUrl);
-        }
-      });
-
-      console.log(`Found ${dynamicImages.length} images in Firebase!`, dynamicImages);
-
-      // If the database is empty or has no images yet, use a fallback
-      if (dynamicImages.length === 0) {
-        dynamicImages = ["https://via.placeholder.com/300x450/4F46E5/FFFFFF?text=No+Images+in+Database"];
+  function buildStage(images){
+    const stage=document.getElementById("stage");
+    for(let r=0;r<5;r++){
+      const row=document.createElement("div");
+      row.className="row"+(r%2?" rev":"");
+      row.style.animationDuration=(70+r*14)+"s";
+      row.style.marginLeft=(-r*70)+"px";
+      const list=[];
+      if(images.length){
+        const start=(r*5)%images.length;
+        for(let i=0;i<images.length;i++) list.push(images[(start+i)%images.length]);
       }
-
-      // 4. Build the UI with the fetched images
-      const GRADS=[["#D6417F","#5b1b3a"],["#7a3b9e","#2a1450"],["#E7769F","#7a2850"],["#c8352d","#4a1218"],["#3b6ea5","#142a4a"],["#d98a3d","#6b3414"],["#2f8f83","#0f3b3a"],["#9a6330","#3a2312"]];
-      const stage=document.getElementById("stage");
-      
-      for(let r=0;r<5;r++){
-        const row=document.createElement("div");
-        row.className="row"+(r%2?" rev":"");
-        row.style.animationDuration=(70+r*14)+"s";
-        row.style.marginLeft=(-r*70)+"px";
-        
-        const start=(r*5)%dynamicImages.length;
-        const list=[];
-        for(let i=0;i<dynamicImages.length;i++){
-            list.push(dynamicImages[(start+i)%dynamicImages.length]);
-        }
-        
-        // Safety mechanism: If you only have 1 or 2 anime in your database, 
-        // the row will be too short. This copies them until the row is full.
-        let displayList = [...list, ...list];
-        while(displayList.length < 15) {
-            displayList = [...displayList, ...list];
-        }
-
-        displayList.forEach((src,i)=>{
-          const g=GRADS[(i+r*3)%GRADS.length];
-          const c=document.createElement("div");
-          c.className="card";
-          c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
-          const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
-          
+      // No images yet: show gradient cards with the 絆 mark only
+      let display=list.length?[...list,...list]:Array(16).fill(null);
+      while(list.length&&display.length<16) display=[...display,...list];
+      if(display.length%2) display.push(display[0]); // keeps the -50% loop seamless
+      display.forEach((src,i)=>{
+        const g=GRADS[(i+r*3)%GRADS.length];
+        const c=document.createElement("div");
+        c.className="card";
+        c.style.background="linear-gradient(160deg,"+g[0]+","+g[1]+")";
+        c.style.animationDelay=(i*0.04)+"s";
+        const m=document.createElement("b");m.className="mark";m.textContent="絆";c.append(m);
+        if(src){
           const im=document.createElement("img");
-          im.src=src;
-          im.alt="Anime Cover";
-          im.loading="lazy";
-          
-          // These inline styles ensure that random poster sizes from the internet 
-          // perfectly fill your cards without stretching or looking weird
-          im.style.width = "100%";
-          im.style.height = "100%";
-          im.style.objectFit = "cover";
-          im.style.opacity = "0.9"; 
-
-          // THE FIX: If the website blocks the image, show a placeholder instead of deleting it
-          im.onerror=function(){
-            this.onerror=null; 
-            this.src="https://via.placeholder.com/300x450/111827/FFFFFF?text=Image+Link+Blocked";
-          };
-          
+          im.src=src;im.alt="";im.loading="lazy";im.style.opacity=".9";
+          // If an image is blocked, remove it so the gradient card stays
+          im.onerror=function(){this.remove()};
           c.append(im);
-          row.append(c);
-        });
-        stage.append(row);
-      }
-    } catch (error) {
-      console.error("Error fetching from Firebase. Is your AdBlocker on?", error);
+        }
+        row.append(c);
+      });
+      stage.append(row);
     }
   }
 
-  // 5. Run the Petal Animation independently
-  function loadPetals() {
-    const box=document.getElementById("petals");
-    for(let i=0;i<14;i++){
-      const p=document.createElement("span");p.className="petal";
-      const s=8+Math.random()*10;
-      p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(10+Math.random()*10)+"s;animation-delay:"+(-Math.random()*18)+"s";
-      box.append(p);
-    }
+  async function loadDynamicStage(){
+    let images=[];
+    try{
+      const snap=await getDocs(collection(db,"anime_profiles"));
+      snap.forEach(d=>{const x=d.data();if(x.media&&x.media.coverImageUrl)images.push(x.media.coverImageUrl)});
+    }catch(e){console.error("Firebase fetch failed (ad blocker or rules?)",e)}
+    buildStage(images);
   }
-
-  // Execute both functions when the page loads
   loadDynamicStage();
-  loadPetals();
+</script>
+
+<script>
+(function(){
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var box=document.getElementById("petals");
+  if(!reduce)for(var i=0;i<7;i++){var p=document.createElement("span");p.className="petal";var s=9+Math.random()*7;
+    p.style.cssText="left:"+Math.random()*100+"%;width:"+s+"px;height:"+s+"px;animation-duration:"+(16+Math.random()*10)+"s;animation-delay:"+(-Math.random()*20)+"s";box.append(p)}
+  var nav=document.getElementById("nav");
+  function f(){nav.classList.toggle("solid",scrollY>40)}
+  addEventListener("scroll",f,{passive:true});f();
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.25});
+  io.observe(document.getElementById("steps"));
+  document.querySelectorAll(".rv").forEach(function(el){io.observe(el)});
+})();
 </script>
 </body>
 </html>
