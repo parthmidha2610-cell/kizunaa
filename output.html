@@ -173,7 +173,7 @@
   <div class="links">
     <a href="index.html">Home</a>
     <a href="input.html">Add your anime</a>
-    <a href="catalog.html">Catalog</a>
+    <a href="Catalog.html">Catalog</a>
   </div>
 </nav>
 
@@ -196,7 +196,6 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
   import { getFirestore, collection, addDoc, doc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 
-  const YOUTUBE_API_KEY = "AIzaSyCtOBbegVwyJln20fsADy7yGKU3FdM_w0U";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCdobRCI4rLnwx5lpd_ASIZeMfDiq433hA",
@@ -715,22 +714,8 @@
   }
 
   /* ---------- Card 12: Comparable Catalog Benchmarks + Google Trends & YouTube Links ---------- */
-  async function fetchYouTubeStats(title) {
-    try {
-      const ytSearch = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(title + " anime official trailer")}&type=video&maxResults=1&key=${YOUTUBE_API_KEY}`);
-      const searchData = await ytSearch.json();
-      if (searchData.items && searchData.items.length > 0) {
-        const videoId = searchData.items[0].id.videoId;
-        const ytStats = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${YOUTUBE_API_KEY}`);
-        const statsData = await ytStats.json();
-        const views = (statsData.items && statsData.items.length > 0)
-          ? parseInt(statsData.items[0].statistics.viewCount, 10)
-          : 0;
-        return { videoId, views };
-      }
-    } catch (e) {
-      console.warn("YouTube stats fetch skipped for", title, e);
-    }
+  // No client-side YouTube API credentials; direct search links remain available.
+  async function fetchYouTubeStats() {
     return { videoId: "", views: 0 };
   }
 
@@ -803,7 +788,7 @@
         const trendsUrl = `https://trends.google.com/trends/explore?geo=IN&q=${encodeURIComponent(title)}`;
         const ytFallbackUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(title + " anime official trailer")}`;
 
-        const viewsNode = span("comp-views", "Checking trailer views…");
+        const viewsNode = span("comp-views", "Open trailer search");
         const ytBtn = el("a", {
           "href": ytFallbackUrl,
           "target": "_blank",
@@ -832,7 +817,7 @@
         );
         grid.append(cardNode);
 
-        // Enrich with YouTube trailer views and direct video link (just like catalog.html)
+        // Search links work without exposing browser API credentials.
         fetchYouTubeStats(title).then(({ videoId, views }) => {
           if (videoId) {
             ytBtn.setAttribute("href", `https://www.youtube.com/watch?v=${videoId}`);
